@@ -1,0 +1,16 @@
+{
+  "identifier": "custom:test_one",
+  "block_settings": {
+    "type": "copy",
+    "block": "minecraft:stone"
+  },
+  "advanced_properties": {
+    "gravity": {
+      "affected_by_gravity": true,
+      "delay": 20
+    }
+  },
+  "placeable_on_water": true,
+  "redstone_power": 10,
+  "waterloggable": true
+}

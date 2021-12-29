@@ -1,0 +1,29 @@
+{
+  "values": [
+    "#minecraft:crops",
+    "#minecraft:flowers",
+    "#minecraft:leaves",
+    "#minecraft:saplings",
+    "minecraft:red_mushroom",
+    "minecraft:brown_mushroom",
+    "minecraft:warped_fungus",
+    "minecraft:crimson_fungus",
+    "minecraft:carved_pumpkin",
+    "minecraft:pumpkin_stem",
+    "minecraft:melon_stem",
+    "minecraft:sugar_cane",
+    "minecraft:grass",
+    "minecraft:tall_grass",
+    "minecraft:fern",
+    "minecraft:large_fern",
+    "minecraft:dead_bush",
+    "minecraft:chorus_plant",
+    "minecraft:chorus_flower",
+    "minecraft:bamboo",
+    "minecraft:bamboo_sapling",
+    "minecraft:sweet_berry_bush",
+    "minecraft:turtle_egg",
+    "minecraft:vine",
+    "minecraft:lily_pad"
+  ]
+}

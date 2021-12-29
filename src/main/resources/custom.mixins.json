@@ -1,0 +1,34 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "creoii.custom.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AbstractBlockMixin",
+    "BeaconBlockEntityMixin",
+    "CactusBlockMixin",
+    "ConduitBlockEntityMixin",
+    "EnchantingTableBlockMixin",
+    "EnchantmentMixin",
+    "EnchantmentScreenHandlerMixin",
+    "EndCrystalItemMixin",
+    "FoxEntityMixin",
+    "HopperBlockEntityMixin",
+    "ItemEntityMixin",
+    "ItemFrameEntityMixin",
+    "ItemMixin",
+    "LivingEntityMixin",
+    "MilkableEntityMixin",
+    "ProjectileEntityMixin",
+    "RequiredTagListRegistryMixin",
+    "SheepEntityMixin",
+    "SweetBerryBushBlockMixin",
+    "TemptGoalMixin",
+    "WorldMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "custom",
+  "version": "${version}",
+  "name": "Custom",
+  "description": "",
+  "authors": [
+    "creoii"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/Custom/icon.png",
+  "environment": "*",
+  "accessWidener": "custom.accesswidener",
+  "entrypoints": {
+    "client": [
+      "creoii.custom.Custom"
+    ],
+    "main": [
+      "creoii.custom.Custom"
+    ]
+  },
+  "mixins": [
+    "custom.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "fabric": "*",
+    "minecraft": "1.18.1"
+  }
+}
