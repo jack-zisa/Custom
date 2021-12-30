@@ -1,4 +1,4 @@
-package creoii.custom.mixin;
+package creoii.custom.mixin.misc;
 
 import com.google.common.collect.ImmutableSet;
 import creoii.custom.util.tags.BiomeTags;

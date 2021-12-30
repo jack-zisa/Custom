@@ -8,6 +8,7 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Type;
 
@@ -35,6 +36,8 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
         this.maxPlayerLevel = maxPlayerLevel;
         this.maxLevel = maxLevel;
         this.blacklist = blacklist;
+
+        Registry.register(Registry.ENCHANTMENT, identifier, this);
     }
 
     @Override

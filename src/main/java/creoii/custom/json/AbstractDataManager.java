@@ -20,7 +20,9 @@ public abstract class AbstractDataManager<T extends CustomObject> {
 
     public AbstractDataManager(String name, Gson gson) {
         try {
-            File data = new File(Main.class.getResource("/data/custom/" + name).toURI());
+            String path = "/data/custom/" + name;
+            if (Main.class.getResource(path) == null) return;
+            File data = new File(Main.class.getResource(path).toURI());
             ImmutableMap.Builder<Identifier, T> builder = ImmutableMap.builder();
 
             if (!data.exists()) data.mkdirs();

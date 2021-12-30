@@ -3,7 +3,6 @@ package creoii.custom.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import creoii.custom.custom.CustomEnchantment;
-import creoii.custom.custom.CustomItem;
 
 import java.io.Reader;
 

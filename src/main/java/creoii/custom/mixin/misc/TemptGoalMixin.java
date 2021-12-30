@@ -1,4 +1,4 @@
-package creoii.custom.mixin;
+package creoii.custom.mixin.misc;
 
 import creoii.custom.util.tags.ItemTags;
 import net.minecraft.entity.EntityType;

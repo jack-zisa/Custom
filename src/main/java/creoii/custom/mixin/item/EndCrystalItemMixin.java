@@ -1,4 +1,4 @@
-package creoii.custom.mixin;
+package creoii.custom.mixin.item;
 
 import creoii.custom.util.tags.BlockTags;
 import net.minecraft.block.Block;

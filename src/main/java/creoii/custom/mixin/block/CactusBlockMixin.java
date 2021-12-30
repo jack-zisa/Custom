@@ -1,4 +1,4 @@
-package creoii.custom.mixin;
+package creoii.custom.mixin.block;
 
 import creoii.custom.util.tags.EntityTypeTags;
 import creoii.custom.util.tags.ItemTags;
