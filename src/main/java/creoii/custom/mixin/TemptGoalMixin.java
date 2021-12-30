@@ -34,6 +34,10 @@ public class TemptGoalMixin {
             cir.setReturnValue(entity.getMainHandStack().isIn(ItemTags.STRIDER_FOOD) || entity.getOffHandStack().isIn(ItemTags.STRIDER_FOOD));
         } else if (this.mob.getType() == EntityType.HORSE) {
             cir.setReturnValue(entity.getMainHandStack().isIn(ItemTags.HORSE_FOOD) || entity.getOffHandStack().isIn(ItemTags.HORSE_FOOD));
+        } else if (this.mob.getType() == EntityType.LLAMA) {
+            cir.setReturnValue(entity.getMainHandStack().isIn(ItemTags.LLAMA_FOOD) || entity.getOffHandStack().isIn(ItemTags.LLAMA_FOOD));
+        } else if (this.mob.getType() == EntityType.PANDA) {
+            cir.setReturnValue(entity.getMainHandStack().isIn(ItemTags.PANDA_FOOD) || entity.getOffHandStack().isIn(ItemTags.PANDA_FOOD));
         }
     }
 }

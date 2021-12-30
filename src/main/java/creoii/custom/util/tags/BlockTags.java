@@ -16,4 +16,5 @@ public class BlockTags {
     public static final Tag<Block> NETHER_PORTAL_FRAMES = TagFactory.BLOCK.create(new Identifier(Custom.MOD_ID, "nether_portal_frames"));
     public static final Tag<Block> CONDUIT_FRAMES = TagFactory.BLOCK.create(new Identifier(Custom.MOD_ID, "conduit_frames"));
     public static final Tag<Block> BEACON_BEAM_IGNORED = TagFactory.BLOCK.create(new Identifier(Custom.MOD_ID, "beacon_beam_ignored"));
+    public static final Tag<Block> NO_DROPS_ON_EXPLOSION = TagFactory.BLOCK.create(new Identifier(Custom.MOD_ID, "no_drops_on_explosion"));
 }

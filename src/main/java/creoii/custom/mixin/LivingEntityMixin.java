@@ -9,6 +9,7 @@ import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
@@ -16,6 +17,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -55,5 +61,11 @@ public abstract class LivingEntityMixin extends Entity {
     @Override
     public boolean isPushedByFluids() {
         return !this.getType().isIn(EntityTypeTags.IMMOVABLE_BY_FLUIDS);
+    }
+
+    @Inject(method = "canWalkOnFluid", at = @At("RETURN"), cancellable = true)
+    private void custom$injectFluidWalkers(Fluid fluid, CallbackInfoReturnable<Boolean> cir) {
+        cir.cancel();
+        cir.setReturnValue(this.getType().isIn(EntityTypeTags.WALKS_ON_FLUIDS));
     }
 }

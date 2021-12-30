@@ -6,6 +6,9 @@ import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
@@ -14,8 +17,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.village.VillagerProfession;
 
 public class StringToObject {
@@ -307,12 +308,51 @@ public class StringToObject {
         return ItemGroup.SEARCH;
     }
 
-    public static Rarity rarity(String str) {
+    public static Rarity itemRarity(String str) {
         return switch (str) {
             case "uncommon" -> Rarity.UNCOMMON;
             case "rare" -> Rarity.RARE;
             case "epic" -> Rarity.EPIC;
             default -> Rarity.COMMON;
+        };
+    }
+
+    public static Enchantment.Rarity enchantmentRarity(String str) {
+        return switch (str) {
+            case "uncommon" -> Enchantment.Rarity.UNCOMMON;
+            case "rare" -> Enchantment.Rarity.RARE;
+            case "very_rare" -> Enchantment.Rarity.VERY_RARE;
+            default -> Enchantment.Rarity.COMMON;
+        };
+    }
+
+    public static EnchantmentTarget enchantmentTarget(String str) {
+        return switch (str) {
+            case "armor" -> EnchantmentTarget.ARMOR;
+            case "armor_feet" -> EnchantmentTarget.ARMOR_FEET;
+            case "armor_legs" -> EnchantmentTarget.ARMOR_LEGS;
+            case "armor_chest" -> EnchantmentTarget.ARMOR_CHEST;
+            case "armor_head" -> EnchantmentTarget.ARMOR_HEAD;
+            case "weapon" -> EnchantmentTarget.WEAPON;
+            case "digger" -> EnchantmentTarget.DIGGER;
+            case "fishing_rod" -> EnchantmentTarget.FISHING_ROD;
+            case "trident" -> EnchantmentTarget.TRIDENT;
+            case "bow" -> EnchantmentTarget.BOW;
+            case "wearable" -> EnchantmentTarget.WEARABLE;
+            case "crossbow" -> EnchantmentTarget.CROSSBOW;
+            case "vanishable" -> EnchantmentTarget.VANISHABLE;
+            default -> EnchantmentTarget.BREAKABLE;
+        };
+    }
+
+    public static EquipmentSlot equipmentSlot(String str) {
+        return switch (str) {
+            case "offhand" -> EquipmentSlot.OFFHAND;
+            case "head" -> EquipmentSlot.HEAD;
+            case "chest" -> EquipmentSlot.CHEST;
+            case "legs" -> EquipmentSlot.LEGS;
+            case "feet" -> EquipmentSlot.FEET;
+            default -> EquipmentSlot.MAINHAND;
         };
     }
 

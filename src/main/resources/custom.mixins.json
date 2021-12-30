@@ -6,6 +6,7 @@
   "mixins": [
     "AbstractBlockMixin",
     "BeaconBlockEntityMixin",
+    "BlockMixin",
     "CactusBlockMixin",
     "ConduitBlockEntityMixin",
     "EnchantingTableBlockMixin",
@@ -19,6 +20,7 @@
     "ItemMixin",
     "LivingEntityMixin",
     "MilkableEntityMixin",
+    "PlayerEntityMixin",
     "ProjectileEntityMixin",
     "RequiredTagListRegistryMixin",
     "SheepEntityMixin",

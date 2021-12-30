@@ -37,7 +37,6 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.world.explosion.Explosion;
 
 import java.lang.reflect.Type;
 import java.util.Random;
@@ -46,27 +45,30 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
     private final Identifier identifier;
     private final AbstractBlock.Settings blockSettings;
     private final Item.Settings itemSettings;
-    private final AdvancedProperties advancedProperties;
     private final boolean placeableOnLiquid;
-    private final boolean dropOnExplosion;
     private final boolean waterloggable;
     private final int redstonePower;
     private final int droppedXp;
     private final int fuelPower;
     private final float fallDamageMultiplier;
+    private final float bounceVelocity;
+    private final float slideVelocity;
     private final RenderLayer renderLayer;
     private final PathNodeType pathNodeType;
     private final OffsetType offsetType;
+    public FallingBlockData gravity;
+    public Shape shape;
     private final int flammability;
     private final int fireSpread;
     private final float compostChance;
 
     public CustomBlock(
-            Identifier identifier, Settings blockSettings, Item.Settings itemSettings, AdvancedProperties advancedProperties,
-            boolean placeableOnLiquid, boolean dropOnExplosion, boolean waterloggable,
+            Identifier identifier, Settings blockSettings, Item.Settings itemSettings,
+            boolean placeableOnLiquid, boolean waterloggable,
             int redstonePower, int droppedXp, int fuelPower,
-            float fallDamageMultiplier,
+            float fallDamageMultiplier, float bounceVelocity, float slideVelocity,
             RenderLayer renderLayer, PathNodeType pathNodeType, OffsetType offsetType,
+            FallingBlockData gravity, Shape shape,
             int flammability, int fireSpread, float compostChance
     ) {
         super(blockSettings);
@@ -75,17 +77,19 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
         this.identifier = identifier;
         this.blockSettings = blockSettings;
         this.itemSettings = itemSettings;
-        this.advancedProperties = advancedProperties;
         this.placeableOnLiquid = placeableOnLiquid;
-        this.dropOnExplosion = dropOnExplosion;
         this.waterloggable = waterloggable;
         this.redstonePower = redstonePower;
         this.droppedXp = droppedXp;
         this.fuelPower = fuelPower;
         this.fallDamageMultiplier = fallDamageMultiplier;
+        this.bounceVelocity = bounceVelocity;
+        this.slideVelocity = slideVelocity;
         this.renderLayer = renderLayer;
         this.pathNodeType = pathNodeType;
         this.offsetType = offsetType;
+        this.gravity = gravity;
+        this.shape = shape;
         this.flammability = flammability;
         this.fireSpread = fireSpread;
         this.compostChance = compostChance;
@@ -109,16 +113,8 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
         return itemSettings;
     }
 
-    public AdvancedProperties getAdvancedProperties() {
-        return advancedProperties;
-    }
-
     public boolean isPlaceableOnLiquid() {
         return placeableOnLiquid;
-    }
-
-    public boolean doesDropOnExplosion() {
-        return dropOnExplosion;
     }
 
     public int getRedstonePower() {
@@ -131,11 +127,6 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
 
     public int getFuelPower() {
         return fuelPower;
-    }
-
-    @Override
-    public boolean shouldDropItemsOnExplosion(Explosion explosion) {
-        return dropOnExplosion;
     }
 
     public RenderLayer getRenderLayer() {
@@ -183,7 +174,7 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
         return super.getOutlineShape(state, world, pos, context);
     }
 
-    private VoxelShape unionAll(AdvancedProperties.Shape[] shapes) {
+    private VoxelShape unionAll(Shape[] shapes) {
         VoxelShape[] voxelShapes = new VoxelShape[shapes.length];
         for (int i = 0; i < shapes.length; ++i) {
             float x = shapes[i].minX;
@@ -214,27 +205,27 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
         if (entity.bypassesLandingEffects()) {
             super.onEntityLand(world, entity);
         } else {
-            BlockUtil.bounce(entity, getAdvancedProperties().bounceVelocity);
+            BlockUtil.bounce(entity, this.bounceVelocity);
         }
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-        if (getAdvancedProperties().gravity.affectedByGravity) world.createAndScheduleBlockTick(pos, this, getAdvancedProperties().gravity.delay);
+        if (this.gravity.affectedByGravity) world.createAndScheduleBlockTick(pos, this, this.gravity.delay);
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (getAdvancedProperties().gravity.affectedByGravity) world.createAndScheduleBlockTick(pos, this, getAdvancedProperties().gravity.delay);
+        if (this.gravity.affectedByGravity) world.createAndScheduleBlockTick(pos, this, this.gravity.delay);
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (getAdvancedProperties().gravity.affectedByGravity) {
+        if (this.gravity.affectedByGravity) {
             if (!canFallThrough(world.getBlockState(pos.down())) || pos.getY() < world.getBottomY()) {
                 return;
             }
@@ -250,7 +241,7 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
 
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (getAdvancedProperties().gravity.affectedByGravity) {
+        if (this.gravity.affectedByGravity) {
             if (random.nextInt(16) == 0 && FallingBlock.canFallThrough(world.getBlockState(pos.down()))) {
                 double d = (double) pos.getX() + random.nextDouble();
                 double e = (double) pos.getY() - 0.05;
@@ -314,30 +305,28 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
                 settings1 = CustomJsonHelper.getItemSettings(JsonHelper.getObject(object, "item_settings"), "item settings");
             } else settings1 = new FabricItemSettings();
 
-            AdvancedProperties advancedProperties;
-            if (object.has("advanced_properties")) {
-                advancedProperties = CustomJsonHelper.getAdvancedProperties(JsonHelper.getObject(object, "advanced_properties"), "block advanced properties");
-            } else advancedProperties = new AdvancedProperties(1f, 1f, null, new AdvancedProperties.Shape(0f, 0f, 0f, 16f, 16f, 16f));
-
             boolean placeableOnLiquid = JsonHelper.getBoolean(object, "placeable_on_liquid", false);
-            boolean dropOnExplosion = JsonHelper.getBoolean(object, "drop_on_explosion", true);
             boolean waterloggable = JsonHelper.getBoolean(object, "waterloggable", false);
             int redstonePower = JsonHelper.getInt(object, "redstone_power", 0);
             int droppedXp = JsonHelper.getInt(object, "dropped_xp", 0);
             int fuelPower = JsonHelper.getInt(object, "fuel_power", 0);
             float fallDamageMultiplier = JsonHelper.getFloat(object, "fall_damage_multiplier", 1f);
+            float bounceVelocity = JsonHelper.getFloat(object, "bounce_velocity", 1f);
+            float slideVelocity = JsonHelper.getFloat(object, "slide_velocity", 1f);
             RenderLayer renderLayer = StringToObject.renderLayer(JsonHelper.getString(object, "render_layer", "solid"));
             PathNodeType pathNodeType = StringToObject.pathNodeType(JsonHelper.getString(object, "pathing_type", "walkable"));
             OffsetType offsetType = StringToObject.offsetType(JsonHelper.getString(object, "offset_type", "none"));
+            FallingBlockData gravity = null;
+            Shape shape = null;
             int flammability = JsonHelper.getInt(object, "flammability", 0);
             int fireSpread = JsonHelper.getInt(object, "fire_spread", 0);
             float compostChance = JsonHelper.getFloat(object, "compost_chance", 0f);
             return new CustomBlock(
-                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), settings, settings1, advancedProperties,
-                    dropOnExplosion, placeableOnLiquid, waterloggable,
+                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), settings, settings1,
+                    placeableOnLiquid, waterloggable,
                     redstonePower, droppedXp, fuelPower,
-                    fallDamageMultiplier,
-                    renderLayer, pathNodeType, offsetType,
+                    fallDamageMultiplier, bounceVelocity, slideVelocity,
+                    renderLayer, pathNodeType, offsetType, gravity, shape,
                     flammability, fireSpread, compostChance
             );
         }
@@ -348,9 +337,7 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
             object.addProperty("identifier", src.getIdentifier().toString());
             object.add("block_settings", context.serialize(src.getBlockSettings()));
             object.add("item_settings", context.serialize(src.getItemSettings()));
-            object.add("advanced_properties", context.serialize(src.getAdvancedProperties()));
             object.addProperty("placeable_on_liquid", src.isPlaceableOnLiquid());
-            object.addProperty("drop_on_explosion", src.doesDropOnExplosion());
             object.addProperty("redstone_powder", src.getRedstonePower());
             object.addProperty("dropped_xp", src.getDroppedXp());
             object.addProperty("fuel_power", src.getFuelPower());
@@ -363,47 +350,33 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
         }
     }
 
-    public static class AdvancedProperties {
-        public float bounceVelocity;
-        public float slideVelocity;
-        public FallingBlockData gravity;
-        public Shape shape;
+    public static class FallingBlockData {
+        public boolean affectedByGravity;
+        public int delay;
+        public int dustColor;
 
-        public AdvancedProperties(float bounceVelocity, float slideVelocity, FallingBlockData gravity, Shape shape) {
-            this.bounceVelocity = bounceVelocity;
-            this.slideVelocity = slideVelocity;
-            this.gravity = gravity;
-            //this.shape = shape;
+        public FallingBlockData(boolean affectedByGravity, int delay, int dustColor) {
+            this.affectedByGravity = affectedByGravity;
+            this.delay = delay;
+            this.dustColor = dustColor;
         }
+    }
 
-        public static class FallingBlockData {
-            public boolean affectedByGravity;
-            public int delay;
-            public int dustColor;
+    public static class Shape {
+        public float minX;
+        public float minY;
+        public float minZ;
+        public float maxX;
+        public float maxY;
+        public float maxZ;
 
-            public FallingBlockData(boolean affectedByGravity, int delay, int dustColor) {
-                this.affectedByGravity = affectedByGravity;
-                this.delay = delay;
-                this.dustColor = dustColor;
-            }
-        }
-
-        public static class Shape {
-            public float minX;
-            public float minY;
-            public float minZ;
-            public float maxX;
-            public float maxY;
-            public float maxZ;
-
-            public Shape(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
-                this.minX = minX;
-                this.minY = minY;
-                this.minZ = minZ;
-                this.maxX = maxX;
-                this.maxY = maxY;
-                this.maxZ = maxZ;
-            }
+        public Shape(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+            this.minX = minX;
+            this.minY = minY;
+            this.minZ = minZ;
+            this.maxX = maxX;
+            this.maxY = maxY;
+            this.maxZ = maxZ;
         }
     }
 }

@@ -27,4 +27,7 @@ public class ItemTags {
     public static final Tag<Item> TURTLE_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "turtle_food"));
     public static final Tag<Item> STRIDER_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "strider_food"));
     public static final Tag<Item> BEE_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "bee_food"));
+    public static final Tag<Item> LLAMA_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "llama_food"));
+    public static final Tag<Item> PANDA_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "panda_food"));
+    public static final Tag<Item> SHIELD_DISABLERS = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "shield_disablers"));
 }
