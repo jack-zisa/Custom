@@ -17,4 +17,5 @@ public class EntityTypeTags {
     public static final Tag<EntityType<?>> CACTUS_IMMUNE = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "cactus_immune"));
     public static final Tag<EntityType<?>> BERRY_BUSH_IMMUNE = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "berry_bush_immune"));
     public static final Tag<EntityType<?>> WALKS_ON_FLUIDS = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "berry_bush_immune"));
+    public static final Tag<EntityType<?>> GOAT_UNRAMMABLE = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "goat_unrammable"));
 }
