@@ -25,7 +25,6 @@ import java.util.Arrays;
 /**
  * TODO:
  * Add shear and elytra enchantment targets
- *
  */
 public class Custom implements ModInitializer, ClientModInitializer {
     public static final String MOD_ID = "custom";
@@ -49,8 +48,6 @@ public class Custom implements ModInitializer, ClientModInitializer {
                     trade.getProfession(), temp1
             );
         }
-
-        System.out.println(Arrays.toString(EnchantmentTarget.values()));
     }
 
     @Override

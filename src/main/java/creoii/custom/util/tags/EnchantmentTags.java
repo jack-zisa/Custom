@@ -9,7 +9,7 @@ import net.minecraft.util.registry.Registry;
 
 public final class EnchantmentTags {
     public static RequiredTagList<Enchantment> REQUIRED_TAGS;
-    public static Tag.Identified<Enchantment> CURSED;
+    //public static Tag.Identified<Enchantment> CURSED;
     public static Tag.Identified<Enchantment> TREASURE;
 
     public static Tag.Identified<Enchantment> enchantment(String name) {
@@ -22,7 +22,7 @@ public final class EnchantmentTags {
 
     static {
         REQUIRED_TAGS = RequiredTagListRegistry.register(Registry.ENCHANTMENT_KEY, "tags/enchantments");
-        CURSED = enchantment("cursed");
+        //CURSED = enchantment("cursed");
         TREASURE = enchantment("treasure");
     }
 }

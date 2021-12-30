@@ -56,8 +56,9 @@ public final class BiomeTags {
         return REQUIRED_TAGS.getGroup();
     }
 
-    static {
-        REQUIRED_TAGS = RequiredTagListRegistry.register(Registry.BIOME_KEY, "tags/biomes");
+    //change to 'static' when reimplementing
+    public static void register() {
+        //REQUIRED_TAGS = RequiredTagListRegistry.register(Registry.BIOME_KEY, "tags/biomes");
         ANIMAL = biome("animal");
         BADLANDS = biome("badlands");
         BEACH = biome("beach");
@@ -65,11 +66,9 @@ public final class BiomeTags {
         COLD = biome("cold");
         DARK_OAK = biome("dark_oak");
         DEEP_OCEAN = biome("deep_ocean");
-        EDGE = biome("edge");
         FOREST = biome("forest");
         FLOWER_FOREST = biome("flower_forest");
         FROZEN = biome("frozen");
-        HILLS = biome("hills");
         ICE = biome("ice");
         ICE_PLAINS = biome("ice_plains");
         INFESTED = biome("infested");

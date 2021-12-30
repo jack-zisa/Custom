@@ -14,11 +14,11 @@ public class ItemTags {
     public static final Tag<Item> UNFRAMEABLE = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "unframeable"));
     public static final Tag<Item> SHEARS_SHEEP = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "shears_sheep"));
     public static final Tag<Item> GLINTED = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "glinted"));
-    public static final Tag<Item> HEAD_WEARABLES = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "head_wearables"));
-    public static final Tag<Item> CHEST_WEARABLES = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "chest_wearables"));
-    public static final Tag<Item> LEGS_WEARABLES = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "legs_wearables"));
-    public static final Tag<Item> FEET_WEARABLES = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "feet_wearables"));
-    public static final Tag<Item> FOX_HOLDABLE = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "fox_holdable"));
+    //public static final Tag<Item> HEAD_WEARABLES = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "head_wearables"));
+    //public static final Tag<Item> CHEST_WEARABLES = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "chest_wearables"));
+    //public static final Tag<Item> LEGS_WEARABLES = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "legs_wearables"));
+    //public static final Tag<Item> FEET_WEARABLES = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "feet_wearables"));
+    public static final Tag<Item> FOX_UNHOLDABLE = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "fox_unholdable"));
     public static final Tag<Item> COW_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "cow_food"));
     public static final Tag<Item> SHEEP_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "sheep_food"));
     public static final Tag<Item> CHICKEN_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "chicken_food"));
@@ -30,4 +30,5 @@ public class ItemTags {
     public static final Tag<Item> LLAMA_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "llama_food"));
     public static final Tag<Item> PANDA_FOOD = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "panda_food"));
     public static final Tag<Item> SHIELD_DISABLERS = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "shield_disablers"));
+    public static final Tag<Item> LIGHTS_CREEPER_FUSE = TagFactory.ITEM.create(new Identifier(Custom.MOD_ID, "lights_creeper_fuse"));
 }

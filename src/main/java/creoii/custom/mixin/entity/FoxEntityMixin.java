@@ -17,6 +17,6 @@ public class FoxEntityMixin {
     static Predicate<ItemEntity> PICKABLE_DROP_FILTER;
 
     static {
-        PICKABLE_DROP_FILTER = item -> !item.cannotPickup() && item.isAlive() && item.getStack().isIn(ItemTags.FOX_HOLDABLE);
+        PICKABLE_DROP_FILTER = item -> !item.cannotPickup() && item.isAlive() && !item.getStack().isIn(ItemTags.FOX_UNHOLDABLE);
     }
 }
