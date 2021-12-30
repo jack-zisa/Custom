@@ -1,0 +1,19 @@
+{
+  "identifier": "custom:test",
+  "rarity": "very_rare",
+  "target": "armor",
+  "equipment_slots": [
+    "head",
+    "chest",
+    "legs",
+    "feet"
+  ],
+  "offered_by_librarians": true,
+  "randomly_selectable": true,
+  "min_player_level": 5,
+  "max_player_level": 30,
+  "max_level": 8,
+  "blacklist": [
+    "minecraft:mending"
+  ]
+}

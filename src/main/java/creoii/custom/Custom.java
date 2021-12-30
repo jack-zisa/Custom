@@ -24,12 +24,6 @@ import net.minecraft.village.TradeOffers;
 
 import java.util.Arrays;
 
-/**
- * custom block shapes, stickiness
- * custom items
- * custom trade serialization
- * move new tags from creo to here
- */
 public class Custom implements ModInitializer, ClientModInitializer {
     public static final String MOD_ID = "custom";
     public static final BlocksManager BLOCKS_MANAGER = new BlocksManager();
