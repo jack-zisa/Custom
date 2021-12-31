@@ -6,13 +6,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class SpawnEntityEffect extends Effect {
@@ -24,23 +28,29 @@ public class SpawnEntityEffect extends Effect {
     }
 
     public static Effect getFromJson(JsonObject object) {
-        EntityType<?> entityType = CustomJsonHelper.getEntityType(object, object.get("entity_type").getAsString());
+        EntityType<?> entityType = Registry.ENTITY_TYPE.get(Identifier.tryParse(object.get("entity_type").getAsString()));
         return new SpawnEntityEffect(entityType);
     }
 
     @Override
     public void runWorld(World world, BlockPos pos) {
-        world.spawnEntity(this.entityType.create(world));
+        if (!world.isClient) {
+            world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, null, pos, SpawnReason.NATURAL, false, false));
+        }
     }
 
     @Override
     public void runBlock(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand) {
-        world.spawnEntity(this.entityType.create(world));
+        if (!world.isClient) {
+            world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, player, pos, SpawnReason.NATURAL, false, false));
+        }
     }
 
     @Override
     public void runItem(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
-        world.spawnEntity(this.entityType.create(world));
+        if (!world.isClient) {
+            world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, player, pos, SpawnReason.NATURAL, false, false));
+        }
     }
 
     @Override

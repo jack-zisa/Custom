@@ -155,12 +155,4 @@ public class CustomJsonHelper {
         }
         throw new JsonSyntaxException("Expected " + name + " to be tool material, was " + JsonHelper.getType(element));
     }
-
-    public static EntityType<?> getEntityType(JsonElement element, String name) {
-        if (element.isJsonPrimitive()) {
-            String string = element.getAsString();
-            return Registry.ENTITY_TYPE.getOrEmpty(new Identifier(string)).orElseThrow(() -> new JsonSyntaxException("Expected " + name + " to be an item, was unknown string '" + string + "'"));
-        }
-        throw new JsonSyntaxException("Missing " + name + ", expected to find an entity type");
-    }
 }

@@ -39,7 +39,7 @@
       "effects": [
         {
           "name": "spawn_entity",
-          "entity_type": "minecraft:lightning_bolt"
+          "entity_type": "minecraft:evoker"
         }
       ]
     }
