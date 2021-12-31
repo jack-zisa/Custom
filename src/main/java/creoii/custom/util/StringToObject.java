@@ -14,6 +14,8 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -367,6 +369,20 @@ public class StringToObject {
             case "turtle" -> SoundEvents.ITEM_ARMOR_EQUIP_TURTLE;
             case "leather" -> SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;
             default -> SoundEvents.ITEM_ARMOR_EQUIP_GENERIC;
+        };
+    }
+
+    public static Hand hand(String str) {
+        return str.equals("offhand") ? Hand.OFF_HAND : Hand.MAIN_HAND;
+    }
+
+    public static ActionResult actionResult(String str, boolean swingHand) {
+        return switch (str) {
+            case "consume_partial" -> ActionResult.CONSUME_PARTIAL;
+            case "success" -> ActionResult.success(swingHand);
+            case "fail" -> ActionResult.FAIL;
+            case "consume" -> ActionResult.CONSUME;
+            default -> ActionResult.PASS;
         };
     }
 }

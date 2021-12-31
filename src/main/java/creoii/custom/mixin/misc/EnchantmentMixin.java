@@ -1,7 +1,5 @@
 package creoii.custom.mixin.misc;
 
-import creoii.custom.util.EnchantmentUtil;
-import creoii.custom.util.tags.EnchantmentTags;
 import net.minecraft.enchantment.Enchantment;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

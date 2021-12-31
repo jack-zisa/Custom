@@ -1,7 +1,11 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.json.CustomObject;
+import creoii.custom.data.CustomObject;
+import creoii.custom.eventsystem.condition.Condition;
+import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.OnPlacedBlockEvent;
+import creoii.custom.eventsystem.event.OnRightClickEvent;
 import creoii.custom.util.BlockUtil;
 import creoii.custom.util.CustomJsonHelper;
 import creoii.custom.util.StringToObject;
@@ -12,8 +16,10 @@ import net.minecraft.block.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -27,8 +33,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
@@ -37,6 +46,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 import java.util.Random;
@@ -56,11 +66,12 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
     private final RenderLayer renderLayer;
     private final PathNodeType pathNodeType;
     private final OffsetType offsetType;
-    public FallingBlockData gravity;
-    public Shape shape;
+    private final FallingBlockData gravity;
+    private final Shape shape;
     private final int flammability;
     private final int fireSpread;
     private final float compostChance;
+    private final Event[] events;
 
     public CustomBlock(
             Identifier identifier, Settings blockSettings, Item.Settings itemSettings,
@@ -69,7 +80,8 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
             float fallDamageMultiplier, float bounceVelocity, float slideVelocity,
             RenderLayer renderLayer, PathNodeType pathNodeType, OffsetType offsetType,
             FallingBlockData gravity, Shape shape,
-            int flammability, int fireSpread, float compostChance
+            int flammability, int fireSpread, float compostChance,
+            Event[] events
     ) {
         super(blockSettings);
         setDefaultState(getDefaultState().with(Properties.WATERLOGGED, false));
@@ -93,6 +105,7 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
         this.flammability = flammability;
         this.fireSpread = fireSpread;
         this.compostChance = compostChance;
+        this.events = events;
 
         Registry.register(Registry.BLOCK, this.getIdentifier(), this);
         Registry.register(Registry.ITEM, this.getIdentifier(), new BlockItem(this, this.getItemSettings()));
@@ -152,6 +165,10 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
 
     public float getCompostChance() {
         return compostChance;
+    }
+
+    public Event[] getEvents() {
+        return events;
     }
 
     @Override
@@ -286,6 +303,29 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        for (Event event : events) {
+            if (event.getName().equals(Event.ON_RIGHT_CLICK)) {
+                if (event.applyBlockEvent(world, state, pos, player, hand)) {
+                    return ((OnRightClickEvent) event).getActionResult();
+                }
+            }
+        }
+        return super.onUse(state, world, pos, player, hand, hit);
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        for (Event event : events) {
+            if (event.getName().equals(Event.ON_PLACED_BLOCK) && placer instanceof PlayerEntity) {
+                event.applyBlockEvent(world, state, pos, (PlayerEntity) placer, placer.getActiveHand());
+            }
+        }
+        super.onPlaced(world, pos, state, placer, itemStack);
+    }
+
+    @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
         builder.add(Properties.WATERLOGGED);
@@ -316,18 +356,32 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
             RenderLayer renderLayer = StringToObject.renderLayer(JsonHelper.getString(object, "render_layer", "solid"));
             PathNodeType pathNodeType = StringToObject.pathNodeType(JsonHelper.getString(object, "pathing_type", "walkable"));
             OffsetType offsetType = StringToObject.offsetType(JsonHelper.getString(object, "offset_type", "none"));
-            FallingBlockData gravity = null;
+            FallingBlockData gravity = CustomJsonHelper.getFallingBlockData(object, "name");
             Shape shape = null;
             int flammability = JsonHelper.getInt(object, "flammability", 0);
             int fireSpread = JsonHelper.getInt(object, "fire_spread", 0);
             float compostChance = JsonHelper.getFloat(object, "compost_chance", 0f);
+            Event[] events;
+            if (JsonHelper.hasArray(object, "events")) {
+                JsonArray array = JsonHelper.getArray(object, "events");
+                events = new Event[array.size()];
+                if (events.length > 0) {
+                    for (int i = 0; i < events.length; ++i) {
+                        if (array.get(i).isJsonObject()) {
+                            JsonObject eventObj = array.get(i).getAsJsonObject();
+                            events[i] = Event.getEvent(eventObj, eventObj.get("name").getAsString());
+                        }
+                    }
+                }
+            } else events = new Event[]{};
             return new CustomBlock(
                     Identifier.tryParse(JsonHelper.getString(object, "identifier")), settings, settings1,
                     placeableOnLiquid, waterloggable,
                     redstonePower, droppedXp, fuelPower,
                     fallDamageMultiplier, bounceVelocity, slideVelocity,
                     renderLayer, pathNodeType, offsetType, gravity, shape,
-                    flammability, fireSpread, compostChance
+                    flammability, fireSpread, compostChance,
+                    events
             );
         }
 
@@ -346,6 +400,7 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
             object.add("offset_type", context.serialize(src.getOffsetType()));
             object.addProperty("flammability", src.getFlammability());
             object.addProperty("compost_chance", src.getCompostChance());
+            object.add("events", context.serialize(src.getEvents()));
             return object;
         }
     }

@@ -10,12 +10,15 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.registry.Registry;
 
 import static creoii.custom.util.StringToObject.*;
 
@@ -151,5 +154,13 @@ public class CustomJsonHelper {
             );
         }
         throw new JsonSyntaxException("Expected " + name + " to be tool material, was " + JsonHelper.getType(element));
+    }
+
+    public static EntityType<?> getEntityType(JsonElement element, String name) {
+        if (element.isJsonPrimitive()) {
+            String string = element.getAsString();
+            return Registry.ENTITY_TYPE.getOrEmpty(new Identifier(string)).orElseThrow(() -> new JsonSyntaxException("Expected " + name + " to be an item, was unknown string '" + string + "'"));
+        }
+        throw new JsonSyntaxException("Missing " + name + ", expected to find an entity type");
     }
 }

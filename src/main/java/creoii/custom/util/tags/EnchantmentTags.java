@@ -21,8 +21,8 @@ public final class EnchantmentTags {
     }
 
     static {
-        REQUIRED_TAGS = RequiredTagListRegistry.register(Registry.ENCHANTMENT_KEY, "tags/enchantments");
+        //REQUIRED_TAGS = RequiredTagListRegistry.register(Registry.ENCHANTMENT_KEY, "tags/enchantments");
         //CURSED = enchantment("cursed");
-        TREASURE = enchantment("treasure");
+        //TREASURE = enchantment("treasure");
     }
 }

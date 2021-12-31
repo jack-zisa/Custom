@@ -1,10 +1,8 @@
 package creoii.custom.util.tags;
 
 import net.minecraft.tag.RequiredTagList;
-import net.minecraft.tag.RequiredTagListRegistry;
 import net.minecraft.tag.Tag;
 import net.minecraft.tag.TagGroup;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
 public final class BiomeTags {

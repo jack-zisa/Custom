@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.json.CustomObject;
+import creoii.custom.data.CustomObject;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 

@@ -1,23 +1,13 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.json.CustomObject;
-import net.minecraft.entity.Entity;
+import creoii.custom.data.CustomObject;
 import net.minecraft.entity.decoration.painting.PaintingMotive;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.village.TradeOffer;
-import net.minecraft.village.TradeOffers;
-import net.minecraft.village.VillagerProfession;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
-import java.util.Random;
-
-import static creoii.custom.util.StringToObject.villagerProfession;
 
 public class CustomPainting extends PaintingMotive implements CustomObject {
     private final Identifier identifier;

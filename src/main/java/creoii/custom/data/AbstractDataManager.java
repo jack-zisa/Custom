@@ -1,4 +1,4 @@
-package creoii.custom.json;
+package creoii.custom.data;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;

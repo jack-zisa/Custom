@@ -27,7 +27,6 @@
     "item.ItemMixin",
     "misc.EnchantmentMixin",
     "misc.EnchantmentScreenHandlerMixin",
-    "misc.RequiredTagListRegistryMixin",
     "misc.TemptGoalMixin",
     "world.WorldMixin"
   ],

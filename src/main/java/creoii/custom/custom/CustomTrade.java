@@ -1,9 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.json.CustomObject;
-import creoii.custom.json.TradesManager;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import creoii.custom.data.CustomObject;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -15,15 +13,15 @@ import net.minecraft.village.VillagerProfession;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.Random;
 
-import static creoii.custom.util.StringToObject.*;
+import static creoii.custom.util.StringToObject.villagerProfession;
 
 public class CustomTrade implements CustomObject, TradeOffers.Factory {
     private final Identifier identifier;
     private final VillagerProfession profession;
-    private int tradeLevel;
+    private boolean isTraderTrade;
+    private final int tradeLevel;
     private final ItemStack sellItem;
     private final int sellCount;
     private final ItemStack firstBuyItem;
@@ -36,12 +34,13 @@ public class CustomTrade implements CustomObject, TradeOffers.Factory {
     private final float priceMultiplier;
     private final int demandBonus;
 
-    public CustomTrade(Identifier identifier, VillagerProfession profession, int tradeLevel,
+    public CustomTrade(Identifier identifier, boolean isTraderTrade, @Nullable VillagerProfession profession, int tradeLevel,
                        ItemStack sellItem, int sellCount,
                        ItemStack firstBuyItem, ItemStack secondBuyItem, int firstPrice, int secondPrice,
                        int maxUses, boolean rewardExp, int merchantExp, float priceMultiplier, int demandBonus
     ) {
         this.identifier = identifier;
+        this.isTraderTrade = isTraderTrade;
         this.profession = profession;
         this.tradeLevel = tradeLevel;
         this.sellItem = sellItem;
@@ -64,11 +63,15 @@ public class CustomTrade implements CustomObject, TradeOffers.Factory {
 
     public CustomTrade get() {
         return new CustomTrade(
-                identifier, profession, tradeLevel,
+                identifier, isTraderTrade, profession, tradeLevel,
                 sellItem, sellCount,
                 firstBuyItem, secondBuyItem, firstPrice, secondPrice,
                 maxUses, rewardExp, merchantExp, priceMultiplier, demandBonus
         );
+    }
+
+    public boolean isTraderTrade() {
+        return isTraderTrade;
     }
 
     public VillagerProfession getProfession() {
@@ -98,7 +101,11 @@ public class CustomTrade implements CustomObject, TradeOffers.Factory {
         @Override
         public CustomTrade deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject object = JsonHelper.asObject(json, "trade");
-            VillagerProfession profession = villagerProfession(JsonHelper.getString(object, "profession", "none"));
+            boolean isTraderTrade = false;
+            String professionStr = JsonHelper.getString(object, "profession", "none");
+            if (professionStr.equals("wandering_trader")) isTraderTrade = true;
+            VillagerProfession profession = null;
+            if (!isTraderTrade) profession = villagerProfession(professionStr);
             int tradeLevel = JsonHelper.getInt(object, "trade_level", 1);
             int sellCount = JsonHelper.getInt(object, "sell_count", 1);
             ItemStack sellItem = new ItemStack(JsonHelper.getItem(object, "sell_item", Items.AIR), sellCount);
@@ -112,7 +119,7 @@ public class CustomTrade implements CustomObject, TradeOffers.Factory {
             float priceMultiplier = JsonHelper.getFloat(object, "price_multiplier", 1f);
             int demandBonus = JsonHelper.getInt(object, "demand_bonus", 0);
             return new CustomTrade(
-                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), profession, tradeLevel,
+                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), isTraderTrade, profession, tradeLevel,
                     sellItem, sellCount,
                     firstBuyItem, secondBuyItem, firstPrice, secondPrice,
                     maxUses, rewardExp, merchantExp, priceMultiplier, demandBonus

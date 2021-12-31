@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.json.CustomObject;
+import creoii.custom.data.CustomObject;
 import creoii.custom.util.StringToObject;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;

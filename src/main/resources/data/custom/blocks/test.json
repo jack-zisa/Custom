@@ -24,5 +24,24 @@
       "max_y": 15.0,
       "max_z": 15.0
     }
-  }
+  },
+  "events": [
+    {
+      "name": "on_right_click",
+      "action_result": "success",
+      "swing_hand": true,
+      "conditions": [
+        {
+          "name": "held_item",
+          "item": "minecraft:stick"
+        }
+      ],
+      "effects": [
+        {
+          "name": "spawn_entity",
+          "entity_type": "minecraft:lightning_bolt"
+        }
+      ]
+    }
+  ]
 }

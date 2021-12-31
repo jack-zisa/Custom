@@ -1,11 +1,10 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.json.CustomObject;
+import creoii.custom.data.CustomObject;
 import creoii.custom.util.CustomJsonHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
@@ -13,8 +12,6 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
-
-import java.lang.reflect.Type;
 
 public class CustomMaterial implements CustomObject {
     private final Identifier identifier;

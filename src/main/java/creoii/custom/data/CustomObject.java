@@ -1,4 +1,4 @@
-package creoii.custom.json;
+package creoii.custom.data;
 
 import net.minecraft.util.Identifier;
 
