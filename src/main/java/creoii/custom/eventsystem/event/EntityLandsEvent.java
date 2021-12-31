@@ -3,36 +3,32 @@ package creoii.custom.eventsystem.event;
 import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
-import creoii.custom.util.StringToObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class OnRightClickEvent extends Event {
-    private final ActionResult actionResult;
+public class EntityLandsEvent extends Event {
+    private Entity entity;
 
-    public OnRightClickEvent(ActionResult actionResult, Condition[] conditions, Effect[] effects) {
-        super(Event.ON_RIGHT_CLICK, conditions, effects);
-        this.actionResult = actionResult;
+    public EntityLandsEvent(Condition[] conditions, Effect[] effects) {
+        super(Event.PLACE_BLOCK, conditions, effects);
     }
 
     public static Event getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        ActionResult actionResult = StringToObject.actionResult(JsonHelper.getString(object, "action_result", "pass"), JsonHelper.getBoolean(object, "swing_hand", true));
-        return new OnRightClickEvent(actionResult, conditions, effects);
+        return new EntityLandsEvent(conditions, effects);
     }
 
-    public ActionResult getActionResult() {
-        return actionResult;
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     @Override
@@ -55,12 +51,17 @@ public class OnRightClickEvent extends Event {
     }
 
     @Override
-    public boolean applyItemEvent(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
+    public boolean applyItemEvent(World world, Item item, BlockPos pos, @Nullable PlayerEntity player, Hand hand) {
         return false;
     }
 
     @Override
-    public boolean applyEntityEvent(Entity entity, PlayerEntity player, Hand hand) {
+    public boolean applyEntityEvent(Entity entity, @Nullable PlayerEntity player, Hand hand) {
+        return false;
+    }
+
+    @Override
+    public boolean applyEnchantmentEvent(Entity user, Entity target, int level) {
         return false;
     }
 }

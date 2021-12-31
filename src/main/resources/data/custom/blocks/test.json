@@ -13,6 +13,11 @@
     "velocity_multiplier": 1.125,
     "jump_velocity_multiplier": 1.5
   },
+  "item_settings": {
+    "item_group": "building_blocks",
+    "rarity": "rare",
+    "fireproof": true
+  },
   "advanced_properties": {
     "bounce_velocity_multiplier": 1.0,
     "slide_velocity_multiplier": 1.0,
@@ -27,18 +32,18 @@
   },
   "events": [
     {
-      "name": "on_right_click",
+      "type": "right_click",
       "action_result": "success",
       "swing_hand": true,
       "conditions": [
         {
-          "name": "held_item",
+          "type": "holding_item",
           "item": "minecraft:stick"
         }
       ],
       "effects": [
         {
-          "name": "spawn_entity",
+          "type": "spawn_entity",
           "entity_type": "minecraft:evoker"
         }
       ]

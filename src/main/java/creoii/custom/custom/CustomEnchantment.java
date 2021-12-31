@@ -2,10 +2,13 @@ package creoii.custom.custom;
 
 import com.google.gson.*;
 import creoii.custom.data.CustomObject;
+import creoii.custom.eventsystem.event.Event;
 import creoii.custom.util.StringToObject;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
@@ -20,13 +23,14 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
     private final int maxPlayerLevel;
     private final int maxLevel;
     private final Identifier[] blacklist;
+    private final Event[] events;
 
     public CustomEnchantment(
             Identifier identifier,
             Rarity rarity, EnchantmentTarget type, EquipmentSlot[] slotTypes,
             boolean offeredByLibrarians, boolean randomlySelectable,
             int minPlayerLevel, int maxPlayerLevel, int maxLevel,
-            Identifier[] blacklist
+            Identifier[] blacklist, Event[] events
     ) {
         super(rarity, type, slotTypes);
         this.identifier = identifier;
@@ -36,6 +40,7 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
         this.maxPlayerLevel = maxPlayerLevel;
         this.maxLevel = maxLevel;
         this.blacklist = blacklist;
+        this.events = events;
 
         Registry.register(Registry.ENCHANTMENT, identifier, this);
     }
@@ -43,6 +48,24 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
     @Override
     public Identifier getIdentifier() {
         return identifier;
+    }
+
+    @Override
+    public void onTargetDamaged(LivingEntity user, Entity target, int level) {
+        super.onTargetDamaged(user, target, level);
+        Event event = Event.findEvent(events, Event.TARGET_DAMAGED);
+        if (event != null) {
+            event.applyEnchantmentEvent(user, target, level);
+        }
+    }
+
+    @Override
+    public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
+        super.onUserDamaged(user, attacker, level);
+        Event event = Event.findEvent(events, Event.TARGET_DAMAGED);
+        if (event != null) {
+            event.applyEnchantmentEvent(user, attacker, level);
+        }
     }
 
     public static class Serializer implements JsonDeserializer<CustomEnchantment>, JsonSerializer<CustomEnchantment> {
@@ -73,10 +96,23 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
                     if (array.get(i).isJsonPrimitive()) blacklist[i] = Identifier.tryParse(array.get(i).getAsString());
                 }
             } else blacklist = new Identifier[]{};
+            Event[] events;
+            if (JsonHelper.hasArray(object, "events")) {
+                JsonArray array = JsonHelper.getArray(object, "events");
+                events = new Event[array.size()];
+                if (events.length > 0) {
+                    for (int i = 0; i < events.length; ++i) {
+                        if (array.get(i).isJsonObject()) {
+                            JsonObject eventObj = array.get(i).getAsJsonObject();
+                            events[i] = Event.getEvent(eventObj, eventObj.get("type").getAsString());
+                        }
+                    }
+                }
+            } else events = new Event[]{};
             return new CustomEnchantment(identifier, rarity, target, slots,
                     offeredByLibrarians, randomlySelectable,
                     minPlayerLevel, maxPlayerLevel, maxLevel,
-                    blacklist
+                    blacklist, events
             );
         }
 

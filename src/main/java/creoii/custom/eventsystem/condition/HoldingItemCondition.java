@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import creoii.custom.util.StringToObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -12,12 +13,12 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class HeldItemCondition extends Condition {
+public class HoldingItemCondition extends Condition {
     private final Item item;
     private final Hand hand;
 
-    public HeldItemCondition(Item item, Hand hand) {
-        super("held_item");
+    public HoldingItemCondition(Item item, Hand hand) {
+        super(Condition.HOLDING_ITEM);
         this.item = item;
         this.hand = hand;
     }
@@ -25,7 +26,7 @@ public class HeldItemCondition extends Condition {
     public static Condition getFromJson(JsonObject object) {
         Item item = JsonHelper.getItem(object, "item", Items.AIR);
         Hand hand = StringToObject.hand(JsonHelper.getString(object, "hand", "mainhand"));
-        return new HeldItemCondition(item, hand);
+        return new HoldingItemCondition(item, hand);
     }
 
     @Override
@@ -46,5 +47,12 @@ public class HeldItemCondition extends Condition {
     @Override
     public boolean testEntity(Entity entity, PlayerEntity player, Hand hand) {
         return player.getStackInHand(this.hand).isOf(item);
+    }
+
+    @Override
+    public boolean testEnchantment(Entity user, Entity target, int level) {
+        if (user instanceof LivingEntity) {
+            return ((LivingEntity) user).getStackInHand(this.hand).isOf(item);
+        } else return false;
     }
 }

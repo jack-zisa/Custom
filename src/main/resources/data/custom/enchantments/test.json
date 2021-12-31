@@ -15,5 +15,16 @@
   "max_level": 8,
   "blacklist": [
     "minecraft:mending"
+  ],
+  "events": [
+    {
+      "type": "target_damaged",
+      "conditions": [
+
+      ],
+      "effects": [
+
+      ]
+    }
   ]
 }

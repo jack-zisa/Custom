@@ -3,6 +3,7 @@ package creoii.custom.custom;
 import com.google.gson.*;
 import creoii.custom.data.CustomObject;
 import net.fabricmc.fabric.impl.item.group.ItemGroupExtensions;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -14,6 +15,7 @@ import java.lang.reflect.Type;
 public class CustomItemGroup implements CustomObject {
     private final Identifier identifier;
     private final ItemStack icon;
+    //private final Item[] defaultItems;
     private final boolean hasScrollbar;
     private final boolean renderName;
 

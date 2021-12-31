@@ -2,10 +2,8 @@ package creoii.custom.util.tags;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.tag.RequiredTagList;
-import net.minecraft.tag.RequiredTagListRegistry;
 import net.minecraft.tag.Tag;
 import net.minecraft.tag.TagGroup;
-import net.minecraft.util.registry.Registry;
 
 public final class EnchantmentTags {
     public static RequiredTagList<Enchantment> REQUIRED_TAGS;

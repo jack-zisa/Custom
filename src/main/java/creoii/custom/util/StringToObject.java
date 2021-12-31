@@ -304,7 +304,6 @@ public class StringToObject {
 
     public static ItemGroup itemGroup(String str) {
         for (ItemGroup group : ItemGroup.GROUPS) {
-            System.out.println(group.getName());
             if (str.equals(group.getName())) return group;
         }
         return ItemGroup.SEARCH;

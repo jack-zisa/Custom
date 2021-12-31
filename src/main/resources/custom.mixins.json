@@ -23,6 +23,7 @@
     "entity.PlayerEntityMixin",
     "entity.ProjectileEntityMixin",
     "entity.SheepEntityMixin",
+    "entity.WolfEntityMixin",
     "item.EndCrystalItemMixin",
     "item.ItemMixin",
     "misc.EnchantmentMixin",

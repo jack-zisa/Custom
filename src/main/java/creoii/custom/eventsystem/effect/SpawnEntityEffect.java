@@ -1,20 +1,15 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.CustomJsonHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -55,6 +50,17 @@ public class SpawnEntityEffect extends Effect {
 
     @Override
     public void runEntity(Entity entity, PlayerEntity player, Hand hand) {
-        entity.getWorld().spawnEntity(this.entityType.create(entity.getWorld()));
+        World world = entity.getWorld();
+        if (!world.isClient) {
+            world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, player, entity.getBlockPos(), SpawnReason.NATURAL, false, false));
+        }
+    }
+
+    @Override
+    public void runEnchantment(Entity user, Entity target, int level) {
+        World world = target.getWorld();
+        if (!world.isClient) {
+            world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, null, target.getBlockPos(), SpawnReason.NATURAL, false, false));
+        }
     }
 }

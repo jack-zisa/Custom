@@ -2,10 +2,9 @@ package creoii.custom.custom;
 
 import com.google.gson.*;
 import creoii.custom.data.CustomObject;
-import creoii.custom.eventsystem.condition.Condition;
+import creoii.custom.eventsystem.event.EntityLandsEvent;
 import creoii.custom.eventsystem.event.Event;
-import creoii.custom.eventsystem.event.OnPlacedBlockEvent;
-import creoii.custom.eventsystem.event.OnRightClickEvent;
+import creoii.custom.eventsystem.event.RightClickEvent;
 import creoii.custom.util.BlockUtil;
 import creoii.custom.util.CustomJsonHelper;
 import creoii.custom.util.StringToObject;
@@ -214,6 +213,11 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
 
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        Event event = Event.findEvent(events, Event.ENTITY_LANDS);
+        if (event != null) {
+            ((EntityLandsEvent) event).setEntity(entity);
+            event.applyBlockEvent(world, state, pos, null, null);
+        }
         entity.handleFallDamage(fallDistance, this.fallDamageMultiplier, DamageSource.FALL);
     }
 
@@ -305,11 +309,10 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
     @Override
     @SuppressWarnings("deprecation")
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        for (Event event : events) {
-            if (event.getName().equals(Event.ON_RIGHT_CLICK)) {
-                if (event.applyBlockEvent(world, state, pos, player, hand)) {
-                    return ((OnRightClickEvent) event).getActionResult();
-                }
+        Event event = Event.findEvent(events, Event.RIGHT_CLICK);
+        if (event != null) {
+            if (event.applyBlockEvent(world, state, pos, player, hand)) {
+                return ((RightClickEvent) event).getActionResult();
             }
         }
         return super.onUse(state, world, pos, player, hand, hit);
@@ -317,10 +320,9 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        for (Event event : events) {
-            if (event.getName().equals(Event.ON_PLACED_BLOCK) && placer instanceof PlayerEntity) {
-                event.applyBlockEvent(world, state, pos, (PlayerEntity) placer, placer.getActiveHand());
-            }
+        Event event = Event.findEvent(events, Event.PLACE_BLOCK);
+        if (event != null) {
+            if (placer instanceof PlayerEntity) event.applyBlockEvent(world, state, pos, (PlayerEntity) placer, placer.getActiveHand());
         }
         super.onPlaced(world, pos, state, placer, itemStack);
     }
@@ -335,15 +337,15 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
         @Override
         public CustomBlock deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject object = JsonHelper.asObject(json, "block");
-            AbstractBlock.Settings settings;
+            AbstractBlock.Settings blockSettings;
             if (object.has("block_settings")) {
-                settings = CustomJsonHelper.getBlockSettings(JsonHelper.getObject(object, "block_settings"), "block settings");
-            } else settings = FabricBlockSettings.copy(Blocks.STONE);
+                blockSettings = CustomJsonHelper.getBlockSettings(JsonHelper.getObject(object, "block_settings"), "block settings");
+            } else blockSettings = FabricBlockSettings.copy(Blocks.STONE);
 
-            Item.Settings settings1;
+            Item.Settings itemSettings;
             if (object.has("item_settings")) {
-                settings1 = CustomJsonHelper.getItemSettings(JsonHelper.getObject(object, "item_settings"), "item settings");
-            } else settings1 = new FabricItemSettings();
+                itemSettings = CustomJsonHelper.getItemSettings(JsonHelper.getObject(object, "item_settings"), "item settings");
+            } else itemSettings = new FabricItemSettings();
 
             boolean placeableOnLiquid = JsonHelper.getBoolean(object, "placeable_on_liquid", false);
             boolean waterloggable = JsonHelper.getBoolean(object, "waterloggable", false);
@@ -369,13 +371,13 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
                     for (int i = 0; i < events.length; ++i) {
                         if (array.get(i).isJsonObject()) {
                             JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = Event.getEvent(eventObj, eventObj.get("name").getAsString());
+                            events[i] = Event.getEvent(eventObj, eventObj.get("type").getAsString());
                         }
                     }
                 }
             } else events = new Event[]{};
             return new CustomBlock(
-                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), settings, settings1,
+                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), blockSettings, itemSettings,
                     placeableOnLiquid, waterloggable,
                     redstonePower, droppedXp, fuelPower,
                     fallDamageMultiplier, bounceVelocity, slideVelocity,

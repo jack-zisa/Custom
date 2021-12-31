@@ -13,15 +13,15 @@ import net.minecraft.world.World;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class OnPlacedBlockEvent extends Event {
-    public OnPlacedBlockEvent(Condition[] conditions, Effect[] effects) {
-        super(Event.ON_PLACED_BLOCK, conditions, effects);
+public class PlaceBlockEvent extends Event {
+    public PlaceBlockEvent(Condition[] conditions, Effect[] effects) {
+        super(Event.PLACE_BLOCK, conditions, effects);
     }
 
     public static Event getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        return new OnPlacedBlockEvent(conditions, effects);
+        return new PlaceBlockEvent(conditions, effects);
     }
 
     @Override
@@ -50,6 +50,11 @@ public class OnPlacedBlockEvent extends Event {
 
     @Override
     public boolean applyEntityEvent(Entity entity, PlayerEntity player, Hand hand) {
+        return false;
+    }
+
+    @Override
+    public boolean applyEnchantmentEvent(Entity user, Entity target, int level) {
         return false;
     }
 }

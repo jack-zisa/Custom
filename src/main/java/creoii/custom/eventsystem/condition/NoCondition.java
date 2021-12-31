@@ -32,4 +32,9 @@ public class NoCondition extends Condition {
     public boolean testEntity(Entity entity, PlayerEntity player, Hand hand) {
         return false;
     }
+
+    @Override
+    public boolean testEnchantment(Entity user, Entity target, int level) {
+        return false;
+    }
 }
