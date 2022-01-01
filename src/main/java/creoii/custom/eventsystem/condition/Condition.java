@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.effect.Effect;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.Hand;
@@ -38,8 +39,7 @@ public abstract class Condition {
         } return null;
     }
 
-    public abstract boolean testWorld(World world, BlockPos pos);
-    public abstract boolean testBlock(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand);
+    public abstract boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand);
     public abstract boolean testItem(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand);
     public abstract boolean testEntity(Entity entity, PlayerEntity player, Hand hand);
     public abstract boolean testEnchantment(Entity user, Entity target, int level);

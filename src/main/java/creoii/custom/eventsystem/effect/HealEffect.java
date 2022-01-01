@@ -25,12 +25,8 @@ public class HealEffect extends Effect {
     }
 
     @Override
-    public void runWorld(World world, BlockPos pos) {
-    }
-
-    @Override
-    public void runBlock(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand) {
-        player.heal(this.amount);
+    public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
+        living.heal(this.amount);
     }
 
     @Override

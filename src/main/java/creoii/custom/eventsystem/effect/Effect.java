@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.event.Event;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.Hand;
@@ -40,8 +41,7 @@ public abstract class Effect {
         } return null;
     }
 
-    public abstract void runWorld(World world, BlockPos pos);
-    public abstract void runBlock(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand);
+    public abstract void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand);
     public abstract void runItem(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand);
     public abstract void runEntity(Entity entity, PlayerEntity player, Hand hand);
     public abstract void runEnchantment(Entity user, Entity target, int level);

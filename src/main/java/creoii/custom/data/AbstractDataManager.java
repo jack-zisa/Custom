@@ -35,7 +35,7 @@ public abstract class AbstractDataManager<T extends CustomObject> {
                         T obj = createCustomObject(reader, gson);
                         builder.put(obj.getIdentifier(), obj);
                     } catch (Exception block) {
-                        LOGGER.error("Couldn't parse block {}", fileName, block);
+                        LOGGER.error("Couldn't parse {}", fileName, block);
                     }
                 }
             }

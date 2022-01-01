@@ -185,9 +185,8 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        //AdvancedProperties.Shape shape = getAdvancedProperties().shape;
-        //return VoxelShapes.cuboid(shape.minX, shape.minY, shape.minZ, shape.maxX, shape.maxY, shape.maxZ);
-        return super.getOutlineShape(state, world, pos, context);
+        return VoxelShapes.cuboid(shape.minX, shape.minY, shape.minZ, shape.maxX, shape.maxY, shape.maxZ);
+        //return super.getOutlineShape(state, world, pos, context);
     }
 
     private VoxelShape unionAll(Shape[] shapes) {
@@ -322,9 +321,28 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         Event event = Event.findEvent(events, Event.PLACE_BLOCK);
         if (event != null) {
-            if (placer instanceof PlayerEntity) event.applyBlockEvent(world, state, pos, (PlayerEntity) placer, placer.getActiveHand());
+            event.applyBlockEvent(world, state, pos, placer, placer.getActiveHand());
         }
         super.onPlaced(world, pos, state, placer, itemStack);
+    }
+
+    @Override
+    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        Event event = Event.findEvent(events, Event.BREAK_BLOCK);
+        if (event != null) {
+            event.applyBlockEvent(world, state, pos, player, player.getActiveHand());
+        }
+        super.onBreak(world, pos, state, player);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        Event event = Event.findEvent(events, Event.ENTITY_COLLISION);
+        if (event != null && entity instanceof LivingEntity living) {
+            event.applyBlockEvent(world, state, pos, living, living.getActiveHand());
+        }
+        super.onEntityCollision(state, world, pos, entity);
     }
 
     @Override
@@ -353,8 +371,8 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
             int droppedXp = JsonHelper.getInt(object, "dropped_xp", 0);
             int fuelPower = JsonHelper.getInt(object, "fuel_power", 0);
             float fallDamageMultiplier = JsonHelper.getFloat(object, "fall_damage_multiplier", 1f);
-            float bounceVelocity = JsonHelper.getFloat(object, "bounce_velocity", 1f);
-            float slideVelocity = JsonHelper.getFloat(object, "slide_velocity", 1f);
+            float bounceVelocity = JsonHelper.getFloat(object, "bounce_velocity_multiplier", 1f);
+            float slideVelocity = JsonHelper.getFloat(object, "slide_velocity_multiplier", 1f);
             RenderLayer renderLayer = StringToObject.renderLayer(JsonHelper.getString(object, "render_layer", "solid"));
             PathNodeType pathNodeType = StringToObject.pathNodeType(JsonHelper.getString(object, "pathing_type", "walkable"));
             OffsetType offsetType = StringToObject.offsetType(JsonHelper.getString(object, "offset_type", "none"));

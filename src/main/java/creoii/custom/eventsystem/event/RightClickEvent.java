@@ -6,6 +6,7 @@ import creoii.custom.eventsystem.effect.Effect;
 import creoii.custom.util.StringToObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ActionResult;
@@ -33,39 +34,5 @@ public class RightClickEvent extends Event {
 
     public ActionResult getActionResult() {
         return actionResult;
-    }
-
-    @Override
-    public boolean applyWorldEvent(World world, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public boolean applyBlockEvent(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand) {
-        AtomicBoolean pass = new AtomicBoolean(true);
-        forEachCondition(condition -> {
-            if (!condition.testBlock(world, state, pos, player, hand)) pass.set(false);
-        });
-
-        if (pass.get()) {
-            forEachEffect(effect -> effect.runBlock(world, state, pos, player, hand));
-        }
-
-        return pass.get();
-    }
-
-    @Override
-    public boolean applyItemEvent(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
-        return false;
-    }
-
-    @Override
-    public boolean applyEntityEvent(Entity entity, PlayerEntity player, Hand hand) {
-        return false;
-    }
-
-    @Override
-    public boolean applyEnchantmentEvent(Entity user, Entity target, int level) {
-        return false;
     }
 }

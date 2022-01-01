@@ -2,6 +2,7 @@ package creoii.custom.eventsystem.condition;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.Hand;
@@ -14,12 +15,7 @@ public class NoCondition extends Condition {
     }
 
     @Override
-    public boolean testWorld(World world, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public boolean testBlock(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand) {
+    public boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
         return false;
     }
 

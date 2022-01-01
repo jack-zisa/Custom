@@ -26,7 +26,19 @@ public class TradesManager extends AbstractDataManager<CustomTrade> {
 
     public TradesManager() {
         super("trades", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomTrade.class, new CustomTrade.Serializer()).create());
-        loadTradeListCache();
+        FARMER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.FARMER);
+        FISHERMAN = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.FISHERMAN);
+        SHEPHERD = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.SHEPHERD);
+        FLETCHER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.FLETCHER);
+        LIBRARIAN = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.LIBRARIAN);
+        CARTOGRAPHER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.CARTOGRAPHER);
+        CLERIC = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.CLERIC);
+        ARMORER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.ARMORER);
+        WEAPONSMITH = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.WEAPONSMITH);
+        TOOLSMITH = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.TOOLSMITH);
+        BUTCHER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.BUTCHER);
+        LEATHERWORKER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.LEATHERWORKER);
+        MASON = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.MASON);
     }
 
     @Override
@@ -52,21 +64,5 @@ public class TradesManager extends AbstractDataManager<CustomTrade> {
             case "wandering_trader" -> TradeOffers.WANDERING_TRADER_TRADES;
             default -> FARMER;
         };
-    }
-
-    private static void loadTradeListCache() {
-        FARMER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.FARMER);
-        FISHERMAN = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.FISHERMAN);
-        SHEPHERD = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.SHEPHERD);
-        FLETCHER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.FLETCHER);
-        LIBRARIAN = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.LIBRARIAN);
-        CARTOGRAPHER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.CARTOGRAPHER);
-        CLERIC = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.CLERIC);
-        ARMORER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.ARMORER);
-        WEAPONSMITH = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.WEAPONSMITH);
-        TOOLSMITH = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.TOOLSMITH);
-        BUTCHER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.BUTCHER);
-        LEATHERWORKER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.LEATHERWORKER);
-        MASON = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.MASON);
     }
 }

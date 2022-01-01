@@ -6,6 +6,7 @@ import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.Hand;
@@ -13,14 +14,17 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public abstract class Event {
     public static final String RIGHT_CLICK = "right_click";
     public static final String PLACE_BLOCK = "place_block";
+    public static final String BREAK_BLOCK = "break_block";
     public static final String TARGET_DAMAGED = "target_damaged";
     public static final String USER_DAMAGED = "user_damaged";
     public static final String ENTITY_LANDS = "entity_lands";
+    public static final String ENTITY_COLLISION = "entity_collision";
 
     private final String type;
     public final Condition[] conditions;
@@ -40,9 +44,11 @@ public abstract class Event {
         return switch (str) {
             case RIGHT_CLICK -> RightClickEvent.getFromJson(object);
             case PLACE_BLOCK -> PlaceBlockEvent.getFromJson(object);
+            case BREAK_BLOCK -> BreakBlockEvent.getFromJson(object);
             case TARGET_DAMAGED -> TargetDamagedEvent.getFromJson(object);
-            case USER_DAMAGED -> PlaceBlockEvent.getFromJson(object);
+            case USER_DAMAGED -> UserDamagedEvent.getFromJson(object);
             case ENTITY_LANDS -> EntityLandsEvent.getFromJson(object);
+            case ENTITY_COLLISION -> EntityCollisionEvent.getFromJson(object);
             default -> new NoEvent();
         };
     }
@@ -94,11 +100,57 @@ public abstract class Event {
         } return null;
     }
 
-    public abstract boolean applyWorldEvent(World world, BlockPos pos);
-    public abstract boolean applyBlockEvent(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand);
-    public abstract boolean applyItemEvent(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand);
-    public abstract boolean applyEntityEvent(Entity entity, PlayerEntity player, Hand hand);
-    public abstract boolean applyEnchantmentEvent(Entity user, Entity target, int level);
+    public boolean applyBlockEvent(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
+        AtomicBoolean pass = new AtomicBoolean(true);
+        forEachCondition(condition -> {
+            if (!condition.testBlock(world, state, pos, living, hand)) pass.set(false);
+        });
+
+        if (pass.get()) {
+            forEachEffect(effect -> effect.runBlock(world, state, pos, living, hand));
+        }
+
+        return pass.get();
+    }
+
+    public boolean applyItemEvent(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
+        AtomicBoolean pass = new AtomicBoolean(true);
+        forEachCondition(condition -> {
+            if (!condition.testItem(world, item, pos, player, hand)) pass.set(false);
+        });
+
+        if (pass.get()) {
+            forEachEffect(effect -> effect.runItem(world, item, pos, player, hand));
+        }
+
+        return pass.get();
+    }
+
+    public boolean applyEntityEvent(Entity entity, PlayerEntity player, Hand hand) {
+        AtomicBoolean pass = new AtomicBoolean(true);
+        forEachCondition(condition -> {
+            if (!condition.testEntity(entity, player, hand)) pass.set(false);
+        });
+
+        if (pass.get()) {
+            forEachEffect(effect -> effect.runEntity(entity, player, hand));
+        }
+
+        return pass.get();
+    }
+
+    public boolean applyEnchantmentEvent(Entity user, Entity target, int level) {
+        AtomicBoolean pass = new AtomicBoolean(true);
+        forEachCondition(condition -> {
+            if (!condition.testEnchantment(user, target, level)) pass.set(false);
+        });
+
+        if (pass.get()) {
+            forEachEffect(effect -> effect.runEnchantment(user, target, level));
+        }
+
+        return pass.get();
+    }
 
     /**
      * Maybe reimplement Types and allow events to specify multiple.

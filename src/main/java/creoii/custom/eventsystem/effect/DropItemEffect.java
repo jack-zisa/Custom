@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,14 +33,7 @@ public class DropItemEffect extends Effect {
     }
 
     @Override
-    public void runWorld(World world, BlockPos pos) {
-        itemEntity = new ItemEntity(world, pos.getX() + .5f, pos.getY() + .5f, pos.getZ() + .5f, new ItemStack(item, amount));
-        itemEntity.setToDefaultPickupDelay();
-        world.spawnEntity(itemEntity);
-    }
-
-    @Override
-    public void runBlock(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand) {
+    public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
         itemEntity = new ItemEntity(world, pos.getX() + .5f, pos.getY() + .5f, pos.getZ() + .5f, new ItemStack(item, amount));
         itemEntity.setToDefaultPickupDelay();
         world.spawnEntity(itemEntity);

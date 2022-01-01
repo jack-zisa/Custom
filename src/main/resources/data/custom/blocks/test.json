@@ -11,24 +11,22 @@
     "emissive": true,
     "slipperiness": 0.98,
     "velocity_multiplier": 1.125,
-    "jump_velocity_multiplier": 1.5
+    "jump_velocity_multiplier": 1.5,
+    "bounce_velocity_multiplier": 1.0,
+    "slide_velocity_multiplier": 1.0
   },
   "item_settings": {
     "item_group": "building_blocks",
     "rarity": "rare",
     "fireproof": true
   },
-  "advanced_properties": {
-    "bounce_velocity_multiplier": 1.0,
-    "slide_velocity_multiplier": 1.0,
-    "shape": {
-      "min_x": 1.0,
-      "min_y": 1.0,
-      "min_z": 1.0,
-      "max_x": 15.0,
-      "max_y": 15.0,
-      "max_z": 15.0
-    }
+  "shape": {
+    "min_x": 1.0,
+    "min_y": 1.0,
+    "min_z": 1.0,
+    "max_x": 15.0,
+    "max_y": 15.0,
+    "max_z": 15.0
   },
   "events": [
     {

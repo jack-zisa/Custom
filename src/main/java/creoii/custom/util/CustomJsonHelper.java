@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.math.BlockPos;
 
 import static creoii.custom.util.StringToObject.*;
 
@@ -152,5 +153,16 @@ public class CustomJsonHelper {
             );
         }
         throw new JsonSyntaxException("Expected " + name + " to be tool material, was " + JsonHelper.getType(element));
+    }
+
+    public static BlockPos getBlockPos(JsonElement element, String name) {
+        if (element.isJsonObject()) {
+            JsonObject object = JsonHelper.asObject(element, "block pos");
+            int x = JsonHelper.getInt(object, "x", 0);
+            int y = JsonHelper.getInt(object, "y", 0);
+            int z = JsonHelper.getInt(object, "z", 0);
+            return new BlockPos(x, y, z);
+        }
+        throw new JsonSyntaxException("Expected " + name + " to be block pos, was " + JsonHelper.getType(element));
     }
 }

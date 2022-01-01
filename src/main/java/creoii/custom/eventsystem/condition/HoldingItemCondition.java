@@ -30,13 +30,8 @@ public class HoldingItemCondition extends Condition {
     }
 
     @Override
-    public boolean testWorld(World world, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public boolean testBlock(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand) {
-        return player.getStackInHand(this.hand).isOf(item);
+    public boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
+        return living.getStackInHand(this.hand).isOf(item);
     }
 
     @Override

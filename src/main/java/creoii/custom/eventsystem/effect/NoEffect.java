@@ -2,6 +2,7 @@ package creoii.custom.eventsystem.effect;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.Hand;
@@ -14,11 +15,7 @@ public class NoEffect extends Effect {
     }
 
     @Override
-    public void runWorld(World world, BlockPos pos) {
-    }
-
-    @Override
-    public void runBlock(World world, BlockState state, BlockPos pos, PlayerEntity player, Hand hand) {
+    public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
     }
 
     @Override

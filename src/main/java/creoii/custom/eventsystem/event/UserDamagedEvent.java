@@ -14,14 +14,14 @@ import net.minecraft.world.World;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class PlaceBlockEvent extends Event {
-    public PlaceBlockEvent(Condition[] conditions, Effect[] effects) {
-        super(Event.PLACE_BLOCK, conditions, effects);
+public class UserDamagedEvent extends Event {
+    public UserDamagedEvent(Condition[] conditions, Effect[] effects) {
+        super(Event.USER_DAMAGED, conditions, effects);
     }
 
     public static Event getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        return new PlaceBlockEvent(conditions, effects);
+        return new UserDamagedEvent(conditions, effects);
     }
 }

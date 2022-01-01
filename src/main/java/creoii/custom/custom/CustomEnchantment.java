@@ -62,7 +62,7 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
     @Override
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
         super.onUserDamaged(user, attacker, level);
-        Event event = Event.findEvent(events, Event.TARGET_DAMAGED);
+        Event event = Event.findEvent(events, Event.USER_DAMAGED);
         if (event != null) {
             event.applyEnchantmentEvent(user, attacker, level);
         }
