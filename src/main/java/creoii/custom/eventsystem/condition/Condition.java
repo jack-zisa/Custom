@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 public abstract class Condition {
     public static final String HOLDING_ITEM = "holding_item";
     public static final String IN_TAG = "in_tag";
+    public static final String RANDOM_CHANCE = "random_chance";
 
     private final String type;
 
@@ -29,6 +30,7 @@ public abstract class Condition {
         return switch (str) {
             case HOLDING_ITEM -> HoldingItemCondition.getFromJson(object);
             case IN_TAG -> InTagCondition.getFromJson(object);
+            case RANDOM_CHANCE -> RandomChanceCondition.getFromJson(object);
             default -> new NoCondition();
         };
     }

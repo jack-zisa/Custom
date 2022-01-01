@@ -4,6 +4,7 @@ import com.google.gson.*;
 import creoii.custom.data.CustomObject;
 import creoii.custom.eventsystem.event.EntityLandsEvent;
 import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.NeighborUpdateEvent;
 import creoii.custom.eventsystem.event.RightClickEvent;
 import creoii.custom.util.BlockUtil;
 import creoii.custom.util.CustomJsonHelper;
@@ -19,6 +20,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -185,8 +187,8 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
     @Override
     @SuppressWarnings("deprecation")
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.cuboid(shape.minX, shape.minY, shape.minZ, shape.maxX, shape.maxY, shape.maxZ);
-        //return super.getOutlineShape(state, world, pos, context);
+        if (shape != null) return VoxelShapes.cuboid(shape.minX, shape.minY, shape.minZ, shape.maxX, shape.maxY, shape.maxZ);
+        else return super.getOutlineShape(state, world, pos, context);
     }
 
     private VoxelShape unionAll(Shape[] shapes) {
@@ -318,7 +320,49 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
     }
 
     @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        Event event = Event.findEvent(events, Event.STEPPED_ON);
+        if (event != null && entity instanceof LivingEntity living) {
+            event.applyBlockEvent(world, state, pos, living, living.getActiveHand());
+        }
+        super.onSteppedOn(world, pos, state, entity);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
+        Event event = Event.findEvent(events, Event.PROJECTILE_HIT);
+        if (event != null && projectile.getOwner() instanceof LivingEntity living) {
+            event.applyBlockEvent(world, state, hit.getBlockPos(), living, living.getActiveHand());
+        }
+        super.onProjectileHit(world, state, hit, projectile);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
+        Event event = Event.findEvent(events, Event.LEFT_CLICK);
+        if (event != null) {
+            event.applyBlockEvent(world, state, pos, player, player.getActiveHand());
+        }
+        super.onBlockBreakStart(state, world, pos, player);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+        Event event = Event.findEvent(events, Event.NEIGHBOR_UPDATE);
+        if (event != null) {
+            NeighborUpdateEvent neighborUpdateEvent = (NeighborUpdateEvent) event;
+            neighborUpdateEvent.setNeighborState(block.getDefaultState());
+            neighborUpdateEvent.setNeighborPos(fromPos);
+            neighborUpdateEvent.applyBlockEvent(world, state, pos, null, null);
+        }
+        super.neighborUpdate(state, world, pos, block, fromPos, notify);
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
         Event event = Event.findEvent(events, Event.PLACE_BLOCK);
         if (event != null) {
             event.applyBlockEvent(world, state, pos, placer, placer.getActiveHand());
@@ -376,8 +420,8 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
             RenderLayer renderLayer = StringToObject.renderLayer(JsonHelper.getString(object, "render_layer", "solid"));
             PathNodeType pathNodeType = StringToObject.pathNodeType(JsonHelper.getString(object, "pathing_type", "walkable"));
             OffsetType offsetType = StringToObject.offsetType(JsonHelper.getString(object, "offset_type", "none"));
-            FallingBlockData gravity = CustomJsonHelper.getFallingBlockData(object, "name");
-            Shape shape = null;
+            FallingBlockData gravity = CustomJsonHelper.getFallingBlockData(object, "gravity");
+            Shape shape = Shape.get(object, "shape");
             int flammability = JsonHelper.getInt(object, "flammability", 0);
             int fireSpread = JsonHelper.getInt(object, "fire_spread", 0);
             float compostChance = JsonHelper.getFloat(object, "compost_chance", 0f);
@@ -452,6 +496,20 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
             this.maxX = maxX;
             this.maxY = maxY;
             this.maxZ = maxZ;
+        }
+
+        public static Shape get(JsonElement element, String name) {
+            if (element.isJsonObject()) {
+                JsonObject object = element.getAsJsonObject();
+                float minX = JsonHelper.getFloat(object, "min_x", 0f);
+                float minY = JsonHelper.getFloat(object, "min_y", 0f);
+                float minZ = JsonHelper.getFloat(object, "min_z", 0f);
+                float maxX = JsonHelper.getFloat(object, "max_x", 16f);
+                float maxY = JsonHelper.getFloat(object, "max_y", 16f);
+                float maxZ = JsonHelper.getFloat(object, "max_z", 16f);
+                return new Shape(minX, minY, minZ, maxX, maxY, maxZ);
+            }
+            throw new JsonSyntaxException(name);
         }
     }
 }

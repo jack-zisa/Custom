@@ -13,18 +13,23 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public abstract class Event {
     public static final String RIGHT_CLICK = "right_click";
+    public static final String LEFT_CLICK = "left_click";
+    public static final String STEPPED_ON = "stepped_on";
+    public static final String PROJECTILE_HIT = "projectile_hit";
     public static final String PLACE_BLOCK = "place_block";
     public static final String BREAK_BLOCK = "break_block";
     public static final String TARGET_DAMAGED = "target_damaged";
     public static final String USER_DAMAGED = "user_damaged";
     public static final String ENTITY_LANDS = "entity_lands";
     public static final String ENTITY_COLLISION = "entity_collision";
+    public static final String NEIGHBOR_UPDATE = "neighbor_update";
 
     private final String type;
     public final Condition[] conditions;
@@ -43,12 +48,16 @@ public abstract class Event {
     public static Event getEvent(JsonObject object, String str) {
         return switch (str) {
             case RIGHT_CLICK -> RightClickEvent.getFromJson(object);
+            case LEFT_CLICK -> LeftClickEvent.getFromJson(object);
+            case STEPPED_ON -> SteppedOnEvent.getFromJson(object);
+            case PROJECTILE_HIT -> ProjectileHitEvent.getFromJson(object);
             case PLACE_BLOCK -> PlaceBlockEvent.getFromJson(object);
             case BREAK_BLOCK -> BreakBlockEvent.getFromJson(object);
             case TARGET_DAMAGED -> TargetDamagedEvent.getFromJson(object);
             case USER_DAMAGED -> UserDamagedEvent.getFromJson(object);
             case ENTITY_LANDS -> EntityLandsEvent.getFromJson(object);
             case ENTITY_COLLISION -> EntityCollisionEvent.getFromJson(object);
+            case NEIGHBOR_UPDATE -> NeighborUpdateEvent.getFromJson(object);
             default -> new NoEvent();
         };
     }
@@ -100,7 +109,7 @@ public abstract class Event {
         } return null;
     }
 
-    public boolean applyBlockEvent(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
+    public boolean applyBlockEvent(World world, BlockState state, BlockPos pos, @Nullable LivingEntity living, @Nullable Hand hand) {
         AtomicBoolean pass = new AtomicBoolean(true);
         forEachCondition(condition -> {
             if (!condition.testBlock(world, state, pos, living, hand)) pass.set(false);
