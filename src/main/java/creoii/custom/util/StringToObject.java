@@ -10,6 +10,8 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.pathing.PathNodeType;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
@@ -371,6 +373,23 @@ public class StringToObject {
         };
     }
 
+    public static SoundEvent workSoundEvent(String str) {
+        return switch (str) {
+            case "work_armorer" -> SoundEvents.ENTITY_VILLAGER_WORK_ARMORER;
+            case "work_butcher" -> SoundEvents.ENTITY_VILLAGER_WORK_BUTCHER;
+            case "work_cartographer" -> SoundEvents.ENTITY_VILLAGER_WORK_CARTOGRAPHER;
+            case "work_cleric" -> SoundEvents.ENTITY_VILLAGER_WORK_CLERIC;
+            case "work_fisherman" -> SoundEvents.ENTITY_VILLAGER_WORK_FISHERMAN;
+            case "work_leatherworker" -> SoundEvents.ENTITY_VILLAGER_WORK_LEATHERWORKER;
+            case "work_librarian" -> SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN;
+            case "work_mason" -> SoundEvents.ENTITY_VILLAGER_WORK_MASON;
+            case "work_shepherd" -> SoundEvents.ENTITY_VILLAGER_WORK_SHEPHERD;
+            case "work_toolsmith" -> SoundEvents.ENTITY_VILLAGER_WORK_TOOLSMITH;
+            case "work_weaponsmith" -> SoundEvents.ENTITY_VILLAGER_WORK_WEAPONSMITH;
+            default -> SoundEvents.ENTITY_VILLAGER_WORK_FARMER;
+        };
+    }
+
     public static Hand hand(String str) {
         return str.equals("offhand") ? Hand.OFF_HAND : Hand.MAIN_HAND;
     }
@@ -383,5 +402,13 @@ public class StringToObject {
             case "consume" -> ActionResult.CONSUME;
             default -> ActionResult.PASS;
         };
+    }
+
+    public static StatusEffectCategory statusEffectCategory(String str) {
+        return str.equals("beneficial") ? StatusEffectCategory.BENEFICIAL : str.equals("harmful") ? StatusEffectCategory.HARMFUL : StatusEffectCategory.NEUTRAL;
+    }
+
+    public static EntityAttributeModifier.Operation attributeModifierOperation(String str) {
+        return str.equals("addition") ? EntityAttributeModifier.Operation.ADDITION : str.equals("multiply_base") ? EntityAttributeModifier.Operation.MULTIPLY_BASE : EntityAttributeModifier.Operation.MULTIPLY_TOTAL;
     }
 }

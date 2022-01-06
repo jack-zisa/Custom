@@ -9,7 +9,7 @@ import net.minecraft.village.VillagerProfession;
 
 import java.io.Reader;
 
-public class TradesManager extends AbstractDataManager<CustomTrade> {
+public class VillagerTradesManager extends AbstractDataManager<CustomTrade> {
     private static Int2ObjectMap<TradeOffers.Factory[]> FARMER;
     private static Int2ObjectMap<TradeOffers.Factory[]> FISHERMAN;
     private static Int2ObjectMap<TradeOffers.Factory[]> SHEPHERD;
@@ -24,8 +24,8 @@ public class TradesManager extends AbstractDataManager<CustomTrade> {
     private static Int2ObjectMap<TradeOffers.Factory[]> LEATHERWORKER;
     private static Int2ObjectMap<TradeOffers.Factory[]> MASON;
 
-    public TradesManager() {
-        super("trades", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomTrade.class, new CustomTrade.Serializer()).create());
+    public VillagerTradesManager() {
+        super("villager/trades", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomTrade.class, new CustomTrade.Serializer()).create());
         FARMER = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.FARMER);
         FISHERMAN = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.FISHERMAN);
         SHEPHERD = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.SHEPHERD);

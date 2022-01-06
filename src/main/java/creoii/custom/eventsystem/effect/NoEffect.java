@@ -3,8 +3,9 @@ package creoii.custom.eventsystem.effect;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -19,7 +20,7 @@ public class NoEffect extends Effect {
     }
 
     @Override
-    public void runItem(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
+    public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
     }
 
     @Override
@@ -28,5 +29,9 @@ public class NoEffect extends Effect {
 
     @Override
     public void runEnchantment(Entity user, Entity target, int level) {
+    }
+
+    @Override
+    public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
     }
 }

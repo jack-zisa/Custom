@@ -1,12 +1,9 @@
 {
   "identifier": "custom:test",
   "rarity": "very_rare",
-  "target": "armor",
+  "target": "weapon",
   "equipment_slots": [
-    "head",
-    "chest",
-    "legs",
-    "feet"
+    "mainhand"
   ],
   "offered_by_librarians": true,
   "randomly_selectable": true,
@@ -23,7 +20,19 @@
 
       ],
       "effects": [
-
+        {
+          "type": "apply_status_effect",
+          "status_effect": "minecraft:poison",
+          "duration": 100,
+          "use_target_position": true
+        },
+        {
+          "type": "apply_status_effect",
+          "status_effect": "minecraft:slowness",
+          "amplifier": 100,
+          "duration": 100,
+          "use_target_position": true
+        }
       ]
     }
   ]

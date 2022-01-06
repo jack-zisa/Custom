@@ -31,7 +31,6 @@ public class CustomPainting extends PaintingMotive implements CustomObject {
             int height = JsonHelper.getInt(object, "height", 16);
             return new CustomPainting(
                     Identifier.tryParse(JsonHelper.getString(object, "identifier")), width, height
-
             );
         }
 

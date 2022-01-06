@@ -1,5 +1,6 @@
 package creoii.custom.util;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -10,13 +11,17 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 
 import static creoii.custom.util.StringToObject.*;
 
@@ -86,7 +91,32 @@ public class CustomJsonHelper {
     public static FoodComponent getFood(JsonElement element, String name) {
         if (element.isJsonObject()) {
             JsonObject object = JsonHelper.asObject(element, "item settings");
-            FoodComponent.Builder food = new FoodComponent.Builder();
+            int hunger = JsonHelper.getInt(object, "hunger", 0);
+            float saturationModifier = JsonHelper.getFloat(object, "saturation_modifier", 0f);
+            boolean meat = JsonHelper.getBoolean(object, "meat", false);
+            boolean alwaysEdible = JsonHelper.getBoolean(object, "always_edible", false);
+            boolean snack = JsonHelper.getBoolean(object, "snack", false);
+            FoodComponent.Builder food = new FoodComponent.Builder()
+                    .hunger(hunger).saturationModifier(saturationModifier);
+            if (JsonHelper.hasArray(object, "status_effects")) {
+                JsonArray array = JsonHelper.getArray(object, "status_effects");
+                for (int i = 0; i < array.size(); ++i) {
+                    if (array.get(i).isJsonObject()) {
+                        JsonObject object1 = array.get(i).getAsJsonObject();
+                        StatusEffect statusEffect = Registry.STATUS_EFFECT.get(Identifier.tryParse(JsonHelper.getString(object, "status_effect")));
+                        int amplifier = JsonHelper.getInt(object, "amplifier", 0);
+                        int duration = JsonHelper.getInt(object, "duration", 0);
+                        boolean ambient = JsonHelper.getBoolean(object, "ambient", false);
+                        boolean showParticles = JsonHelper.getBoolean(object, "show_particles", true);
+                        boolean showIcon = JsonHelper.getBoolean(object, "show_icon", true);
+                        float chance = JsonHelper.getFloat(object1, "chance", 1f);
+                        food.statusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon), chance);
+                    }
+                }
+            }
+            if (meat) food.meat();
+            if (alwaysEdible) food.alwaysEdible();
+            if (snack) food.snack();
             return food.build();
         }
         throw new JsonSyntaxException("Expected " + name + " to be food, was " + JsonHelper.getType(element));

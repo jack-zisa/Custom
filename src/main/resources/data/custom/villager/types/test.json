@@ -1,0 +1,10 @@
+{
+  "identifier": "custom:test",
+  "biomes": [
+    "minecraft:nether_wastes",
+    "minecraft:basalt_deltas",
+    "minecraft:warped_forest",
+    "minecraft:crimson_forest",
+    "minecraft:soul_sand_valley"
+  ]
+}

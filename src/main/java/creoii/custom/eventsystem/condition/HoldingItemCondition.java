@@ -5,8 +5,10 @@ import creoii.custom.util.StringToObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 import net.minecraft.util.JsonHelper;
@@ -35,8 +37,8 @@ public class HoldingItemCondition extends Condition {
     }
 
     @Override
-    public boolean testItem(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
-        return player.getStackInHand(this.hand).isOf(item);
+    public boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
+        return player.getStackInHand(this.hand).getItem() == stack.getItem();
     }
 
     @Override
@@ -49,5 +51,10 @@ public class HoldingItemCondition extends Condition {
         if (user instanceof LivingEntity) {
             return ((LivingEntity) user).getStackInHand(this.hand).isOf(item);
         } else return false;
+    }
+
+    @Override
+    public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
+        return entity.getStackInHand(this.hand).isOf(item);
     }
 }

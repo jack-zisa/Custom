@@ -1,13 +1,12 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.StringToObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
@@ -32,7 +31,7 @@ public class RandomChanceCondition extends Condition {
     }
 
     @Override
-    public boolean testItem(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
+    public boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
         return world.getRandom().nextFloat() < chance;
     }
 
@@ -44,5 +43,10 @@ public class RandomChanceCondition extends Condition {
     @Override
     public boolean testEnchantment(Entity user, Entity target, int level) {
         return user.getWorld().getRandom().nextFloat() < chance;
+    }
+
+    @Override
+    public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
+        return entity.getWorld().getRandom().nextFloat() < chance;
     }
 }

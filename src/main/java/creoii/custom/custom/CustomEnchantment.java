@@ -22,6 +22,7 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
     private final int minPlayerLevel;
     private final int maxPlayerLevel;
     private final int maxLevel;
+    private final int minLevel;
     private final Identifier[] blacklist;
     private final Event[] events;
 
@@ -29,7 +30,7 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
             Identifier identifier,
             Rarity rarity, EnchantmentTarget type, EquipmentSlot[] slotTypes,
             boolean offeredByLibrarians, boolean randomlySelectable,
-            int minPlayerLevel, int maxPlayerLevel, int maxLevel,
+            int minPlayerLevel, int maxPlayerLevel, int maxLevel, int minLevel,
             Identifier[] blacklist, Event[] events
     ) {
         super(rarity, type, slotTypes);
@@ -39,6 +40,7 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
         this.minPlayerLevel = minPlayerLevel;
         this.maxPlayerLevel = maxPlayerLevel;
         this.maxLevel = maxLevel;
+        this.minLevel = minLevel;
         this.blacklist = blacklist;
         this.events = events;
 
@@ -48,6 +50,16 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
     @Override
     public Identifier getIdentifier() {
         return identifier;
+    }
+
+    @Override
+    protected boolean canAccept(Enchantment other) {
+        for (Identifier id : blacklist) {
+            if (Registry.ENCHANTMENT.get(id) == other) {
+                return false;
+            }
+        }
+        return super.canAccept(other);
     }
 
     @Override
@@ -64,8 +76,39 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
         super.onUserDamaged(user, attacker, level);
         Event event = Event.findEvent(events, Event.USER_DAMAGED);
         if (event != null) {
+            System.out.println("user damaged");
             event.applyEnchantmentEvent(user, attacker, level);
         }
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer() {
+        return offeredByLibrarians;
+    }
+
+    @Override
+    public boolean isAvailableForRandomSelection() {
+        return randomlySelectable;
+    }
+
+    @Override
+    public int getMaxLevel() {
+        return maxLevel;
+    }
+
+    @Override
+    public int getMaxPower(int level) {
+        return maxPlayerLevel;
+    }
+
+    @Override
+    public int getMinPower(int level) {
+        return minPlayerLevel;
+    }
+
+    @Override
+    public int getMinLevel() {
+        return minLevel;
     }
 
     public static class Serializer implements JsonDeserializer<CustomEnchantment>, JsonSerializer<CustomEnchantment> {
@@ -88,6 +131,7 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
             int minPlayerLevel = JsonHelper.getInt(object, "min_player_level", 1);
             int maxPlayerLevel = JsonHelper.getInt(object, "max_player_level", 30);
             int maxLevel = JsonHelper.getInt(object, "max_level", 1);
+            int minLevel = JsonHelper.getInt(object, "min_level", 1);
             Identifier[] blacklist;
             if (JsonHelper.hasArray(object, "blacklist")) {
                 JsonArray array = JsonHelper.getArray(object, "blacklist");
@@ -111,7 +155,7 @@ public class CustomEnchantment extends Enchantment implements CustomObject {
             } else events = new Event[]{};
             return new CustomEnchantment(identifier, rarity, target, slots,
                     offeredByLibrarians, randomlySelectable,
-                    minPlayerLevel, maxPlayerLevel, maxLevel,
+                    minPlayerLevel, maxPlayerLevel, maxLevel, minLevel,
                     blacklist, events
             );
         }

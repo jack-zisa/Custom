@@ -11,32 +11,29 @@ import net.minecraft.village.TradeOffers;
 
 import java.util.Arrays;
 
-/**
- * TODO:
- * Add shear and elytra enchantment targets
- * Support for:
- *  custom commands, status effects, particles, villager professions, entities, fluids
- */
 public class Custom implements ModInitializer, ClientModInitializer {
     public static final String MOD_ID = "custom";
     public static final BlocksManager BLOCKS_MANAGER = new BlocksManager();
     public static final ItemsManager ITEMS_MANAGER = new ItemsManager();
     public static final ItemGroupsManager ITEM_GROUPS_MANAGER = new ItemGroupsManager();
     public static final EnchantmentsManager ENCHANTMENTS_MANAGER = new EnchantmentsManager();
+    public static final StatusEffectManager STATUS_EFFECT_MANAGER = new StatusEffectManager();
     public static final PaintingsManager PAINTINGS_MANAGER = new PaintingsManager();
-    public static final TradesManager TRADES_MANAGER = new TradesManager();
+    public static final VillagerTradesManager VILLAGER_TRADES_MANAGER = new VillagerTradesManager();
+    public static final VillagerProfessionManager VILLAGER_PROFESSION_MANAGER = new VillagerProfessionManager();
+    public static final VillagerTypeManager VILLAGER_TYPE_MANAGER = new VillagerTypeManager();
 
     @Override
     public void onInitialize() {
         TradeOffers.Factory[] trades;
-        for (CustomTrade trade : TRADES_MANAGER.values.values()) {
+        for (CustomTrade trade : VILLAGER_TRADES_MANAGER.values.values()) {
             if (trade.isTraderTrade()) {
                 TradeOffers.Factory[] temp1 = TradeOffers.WANDERING_TRADER_TRADES.remove(trade.getTradeLevel()).clone();
                 trades = Arrays.copyOf(temp1, temp1.length + 1);
                 trades[temp1.length] = trade.get();
                 TradeOffers.WANDERING_TRADER_TRADES.put(trade.getTradeLevel(), trades);
             } else {
-                Int2ObjectMap<TradeOffers.Factory[]> temp1 = TradesManager.professionToTradeMap(trade.getProfession().toString());
+                Int2ObjectMap<TradeOffers.Factory[]> temp1 = VillagerTradesManager.professionToTradeMap(trade.getProfession().toString());
                 TradeOffers.Factory[] temp2 = temp1.remove(trade.getTradeLevel()).clone();
                 trades = Arrays.copyOf(temp2, temp2.length + 1);
                 trades[temp2.length] = trade.get();

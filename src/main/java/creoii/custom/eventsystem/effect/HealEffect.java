@@ -4,8 +4,9 @@ import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
@@ -30,7 +31,7 @@ public class HealEffect extends Effect {
     }
 
     @Override
-    public void runItem(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
+    public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
         player.heal(this.amount);
     }
 
@@ -46,5 +47,10 @@ public class HealEffect extends Effect {
         if (user instanceof LivingEntity) {
             ((LivingEntity) user).heal(this.amount);
         }
+    }
+
+    @Override
+    public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
+        entity.heal(this.amount);
     }
 }

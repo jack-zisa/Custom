@@ -6,8 +6,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Hand;
@@ -67,9 +69,9 @@ public class InTagCondition extends Condition {
     }
 
     @Override
-    public boolean testItem(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
+    public boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
         if (type == Type.ITEM && this.item != null) {
-            return item.getDefaultStack().isIn((Tag<Item>) tag);
+            return stack.isIn((Tag<Item>) tag);
         } else return false;
     }
 
@@ -82,6 +84,11 @@ public class InTagCondition extends Condition {
 
     @Override
     public boolean testEnchantment(Entity user, Entity target, int level) {
+        return false;
+    }
+
+    @Override
+    public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return false;
     }
 

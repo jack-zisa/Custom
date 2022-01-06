@@ -1,17 +1,15 @@
 package creoii.custom.eventsystem.effect;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import creoii.custom.util.CustomJsonHelper;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -23,20 +21,20 @@ import net.minecraft.world.World;
 public class SpawnEntityEffect extends Effect {
     private final EntityType<?> entityType;
     private final BlockPos offset;
-    private final EnchantmentOptions enchantmentOptions;
+    private final boolean useTargetPosition;
 
-    public SpawnEntityEffect(EntityType<?> entityType, BlockPos offset, EnchantmentOptions enchantmentOptions) {
+    public SpawnEntityEffect(EntityType<?> entityType, BlockPos offset, boolean useTargetPosition) {
         super(Effect.SPAWN_ENTITY);
         this.entityType = entityType;
         this.offset = offset;
-        this.enchantmentOptions = enchantmentOptions;
+        this.useTargetPosition = useTargetPosition;
     }
 
     public static Effect getFromJson(JsonObject object) {
         EntityType<?> entityType = Registry.ENTITY_TYPE.get(Identifier.tryParse(object.get("entity_type").getAsString()));
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
-        EnchantmentOptions enchantmentOptions = EnchantmentOptions.get(object, "enchantment_options");
-        return new SpawnEntityEffect(entityType, offset, enchantmentOptions);
+        boolean useTargetPosition = JsonHelper.getBoolean(object, "use_target_position", false);
+        return new SpawnEntityEffect(entityType, offset, useTargetPosition);
     }
 
     @Override
@@ -47,7 +45,7 @@ public class SpawnEntityEffect extends Effect {
     }
 
     @Override
-    public void runItem(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
+    public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
         if (!world.isClient) {
             world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, player, pos.add(offset), SpawnReason.NATURAL, false, false));
         }
@@ -65,19 +63,17 @@ public class SpawnEntityEffect extends Effect {
     public void runEnchantment(Entity user, Entity target, int level) {
         World world = target.getWorld();
         if (!world.isClient) {
-            BlockPos pos = enchantmentOptions.useTargetPosition() ? target.getBlockPos() : user.getBlockPos();
+            BlockPos pos = useTargetPosition ? target.getBlockPos() : user.getBlockPos();
             world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, null, pos.add(offset), SpawnReason.NATURAL, false, false));
         }
     }
 
-    private record EnchantmentOptions(boolean useTargetPosition) {
-        public static EnchantmentOptions get(JsonElement element, String name) {
-            if (element.isJsonObject()) {
-                JsonObject object = element.getAsJsonObject();
-                boolean useTargetPosition = JsonHelper.getBoolean(object, "use_target_position", false);
-                return new EnchantmentOptions(useTargetPosition);
-            }
-            throw new JsonSyntaxException(name);
+    @Override
+    public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
+        World world = entity.getWorld();
+        if (!world.isClient) {
+            BlockPos pos = useTargetPosition ? entity.getBlockPos() : entity.getBlockPos();
+            world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, null, pos.add(offset), SpawnReason.NATURAL, false, false));
         }
     }
 }

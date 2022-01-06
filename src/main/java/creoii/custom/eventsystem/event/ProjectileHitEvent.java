@@ -3,8 +3,6 @@ package creoii.custom.eventsystem.event;
 import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
 
 public class ProjectileHitEvent extends Event {
     public ProjectileHitEvent(Condition[] conditions, Effect[] effects) {

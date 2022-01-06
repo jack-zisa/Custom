@@ -7,8 +7,9 @@ import creoii.custom.eventsystem.effect.Effect;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
@@ -30,6 +31,12 @@ public abstract class Event {
     public static final String ENTITY_LANDS = "entity_lands";
     public static final String ENTITY_COLLISION = "entity_collision";
     public static final String NEIGHBOR_UPDATE = "neighbor_update";
+    public static final String STOPPED_USING = "stopped_using";
+    public static final String CRAFTED = "crafted";
+    public static final String RANDOM_TICK = "random_tick";
+    public static final String STATUS_EFFECT_UPDATE = "status_effect_update";
+    public static final String STATUS_EFFECT_APPLY = "status_effect_apply";
+    public static final String STATUS_EFFECT_REMOVE = "status_effect_remove";
 
     private final String type;
     public final Condition[] conditions;
@@ -58,6 +65,12 @@ public abstract class Event {
             case ENTITY_LANDS -> EntityLandsEvent.getFromJson(object);
             case ENTITY_COLLISION -> EntityCollisionEvent.getFromJson(object);
             case NEIGHBOR_UPDATE -> NeighborUpdateEvent.getFromJson(object);
+            case STOPPED_USING -> StoppedUsingEvent.getFromJson(object);
+            case CRAFTED -> CraftedEvent.getFromJson(object);
+            case RANDOM_TICK -> RandomTickEvent.getFromJson(object);
+            case STATUS_EFFECT_UPDATE -> StatusEffectUpdateEvent.getFromJson(object);
+            case STATUS_EFFECT_APPLY -> StatusEffectApplyEvent.getFromJson(object);
+            case STATUS_EFFECT_REMOVE -> StatusEffectRemoveEvent.getFromJson(object);
             default -> new NoEvent();
         };
     }
@@ -122,14 +135,14 @@ public abstract class Event {
         return pass.get();
     }
 
-    public boolean applyItemEvent(World world, Item item, BlockPos pos, PlayerEntity player, Hand hand) {
+    public boolean applyItemEvent(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
         AtomicBoolean pass = new AtomicBoolean(true);
         forEachCondition(condition -> {
-            if (!condition.testItem(world, item, pos, player, hand)) pass.set(false);
+            if (!condition.testItem(world, stack, pos, player, hand)) pass.set(false);
         });
 
         if (pass.get()) {
-            forEachEffect(effect -> effect.runItem(world, item, pos, player, hand));
+            forEachEffect(effect -> effect.runItem(world, stack, pos, player, hand));
         }
 
         return pass.get();
@@ -156,6 +169,19 @@ public abstract class Event {
 
         if (pass.get()) {
             forEachEffect(effect -> effect.runEnchantment(user, target, level));
+        }
+
+        return pass.get();
+    }
+
+    public boolean applyStatusEffectEvent(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
+        AtomicBoolean pass = new AtomicBoolean(true);
+        forEachCondition(condition -> {
+            if (!condition.testStatusEffect(statusEffect, entity, amplifier)) pass.set(false);
+        });
+
+        if (pass.get()) {
+            forEachEffect(effect -> effect.runStatusEffect(statusEffect, entity, amplifier));
         }
 
         return pass.get();

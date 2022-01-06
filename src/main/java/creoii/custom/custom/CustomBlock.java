@@ -47,13 +47,13 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 import java.util.Random;
 
 public class CustomBlock extends Block implements CustomObject, Waterloggable {
     private final Identifier identifier;
+    private final boolean hasItem;
     private final AbstractBlock.Settings blockSettings;
     private final Item.Settings itemSettings;
     private final boolean placeableOnLiquid;
@@ -75,7 +75,7 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
     private final Event[] events;
 
     public CustomBlock(
-            Identifier identifier, Settings blockSettings, Item.Settings itemSettings,
+            Identifier identifier, boolean hasItem, Settings blockSettings, Item.Settings itemSettings,
             boolean placeableOnLiquid, boolean waterloggable,
             int redstonePower, int droppedXp, int fuelPower,
             float fallDamageMultiplier, float bounceVelocity, float slideVelocity,
@@ -88,6 +88,7 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
         setDefaultState(getDefaultState().with(Properties.WATERLOGGED, false));
 
         this.identifier = identifier;
+        this.hasItem = hasItem;
         this.blockSettings = blockSettings;
         this.itemSettings = itemSettings;
         this.placeableOnLiquid = placeableOnLiquid;
@@ -117,6 +118,10 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
 
     public Identifier getIdentifier() {
         return identifier;
+    }
+
+    public boolean hasItem() {
+        return hasItem;
     }
 
     public Settings getBlockSettings() {
@@ -399,6 +404,7 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
         @Override
         public CustomBlock deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject object = JsonHelper.asObject(json, "block");
+            boolean hasItem = JsonHelper.getBoolean(object, "has_item", true);
             AbstractBlock.Settings blockSettings;
             if (object.has("block_settings")) {
                 blockSettings = CustomJsonHelper.getBlockSettings(JsonHelper.getObject(object, "block_settings"), "block settings");
@@ -439,7 +445,8 @@ public class CustomBlock extends Block implements CustomObject, Waterloggable {
                 }
             } else events = new Event[]{};
             return new CustomBlock(
-                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), blockSettings, itemSettings,
+                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), hasItem,
+                    blockSettings, itemSettings,
                     placeableOnLiquid, waterloggable,
                     redstonePower, droppedXp, fuelPower,
                     fallDamageMultiplier, bounceVelocity, slideVelocity,
