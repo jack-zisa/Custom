@@ -1,4 +1,4 @@
-package creoii.custom.custom;
+package creoii.custom.custom.block;
 
 import com.google.gson.*;
 import creoii.custom.data.CustomObject;
@@ -153,14 +153,6 @@ public class CustomBlock extends Block implements CustomObject {
         return getRedstonePower();
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        //if (shape != null) return VoxelShapes.cuboid(shape.minX, shape.minY, shape.minZ, shape.maxX, shape.maxY, shape.maxZ);
-        //else return super.getOutlineShape(state, world, pos, context);
-        return super.getOutlineShape(state, world, pos, context);
-    }
-
     private VoxelShape unionAll(Shape[] shapes) {
         VoxelShape[] voxelShapes = new VoxelShape[shapes.length];
         for (int i = 0; i < shapes.length; ++i) {
@@ -221,7 +213,7 @@ public class CustomBlock extends Block implements CustomObject {
             RenderLayer renderLayer = StringToObject.renderLayer(JsonHelper.getString(object, "render_layer", "solid"));
             PathNodeType pathNodeType = StringToObject.pathNodeType(JsonHelper.getString(object, "pathing_type", "walkable"));
             OffsetType offsetType = StringToObject.offsetType(JsonHelper.getString(object, "offset_type", "none"));
-            Shape shape = Shape.get(object, "shape");
+            Shape shape = Shape.get(object);
             int flammability = JsonHelper.getInt(object, "flammability", 0);
             int fireSpread = JsonHelper.getInt(object, "fire_spread", 0);
             float compostChance = JsonHelper.getFloat(object, "compost_chance", 0f);
@@ -247,6 +239,43 @@ public class CustomBlock extends Block implements CustomObject {
                         events
                 );
             } else {
+                if (shape.presetShape != null) {
+                    switch (shape.presetShape) {
+                        case SLAB -> {
+                            return new CustomSlabBlock(
+                                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), hasItem,
+                                    blockSettings, itemSettings,
+                                    placeableOnLiquid,
+                                    redstonePower, droppedXp, fuelPower,
+                                    fallDamageMultiplier, bounceVelocity, slideVelocity,
+                                    renderLayer, pathNodeType,
+                                    flammability, fireSpread, compostChance
+                            );
+                        }
+                        case STAIR -> {
+                            return new CustomStairsBlock(
+                                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), hasItem,
+                                    blockSettings, itemSettings,
+                                    placeableOnLiquid,
+                                    redstonePower, droppedXp, fuelPower,
+                                    fallDamageMultiplier, bounceVelocity, slideVelocity,
+                                    renderLayer, pathNodeType,
+                                    flammability, fireSpread, compostChance
+                            );
+                        }
+                        case WALL -> {
+                            return new CustomWallBlock(
+                                    Identifier.tryParse(JsonHelper.getString(object, "identifier")), hasItem,
+                                    blockSettings, itemSettings,
+                                    placeableOnLiquid,
+                                    redstonePower, droppedXp, fuelPower,
+                                    fallDamageMultiplier, bounceVelocity, slideVelocity,
+                                    renderLayer, pathNodeType,
+                                    flammability, fireSpread, compostChance
+                            );
+                        }
+                    }
+                }
                 return new CustomBlock(
                         Identifier.tryParse(JsonHelper.getString(object, "identifier")), hasItem,
                         blockSettings, itemSettings,
@@ -280,12 +309,17 @@ public class CustomBlock extends Block implements CustomObject {
     }
 
     public static class Shape {
+        public PresetShape presetShape;
         public float minX;
         public float minY;
         public float minZ;
         public float maxX;
         public float maxY;
         public float maxZ;
+
+        public Shape(PresetShape presetShape) {
+            this.presetShape = presetShape;
+        }
 
         public Shape(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
             this.minX = minX;
@@ -296,18 +330,29 @@ public class CustomBlock extends Block implements CustomObject {
             this.maxZ = maxZ;
         }
 
-        public static Shape get(JsonElement element, String name) {
-            if (element.isJsonObject()) {
-                JsonObject object = element.getAsJsonObject();
-                float minX = JsonHelper.getFloat(object, "min_x", 0f);
-                float minY = JsonHelper.getFloat(object, "min_y", 0f);
-                float minZ = JsonHelper.getFloat(object, "min_z", 0f);
-                float maxX = JsonHelper.getFloat(object, "max_x", 16f);
-                float maxY = JsonHelper.getFloat(object, "max_y", 16f);
-                float maxZ = JsonHelper.getFloat(object, "max_z", 16f);
-                return new Shape(minX, minY, minZ, maxX, maxY, maxZ);
+        public static Shape get(JsonObject object) {
+            if (object.has("shape")) {
+                JsonObject shapeObj = object.getAsJsonObject("shape");
+                if (shapeObj.has("preset")) {
+                    return new Shape(PresetShape.valueOf(JsonHelper.getString(shapeObj, "preset", "CUBE").toUpperCase()));
+                } else {
+                    float minX;
+                    float minY;
+                    float minZ;
+                    float maxX;
+                    float maxY;
+                    float maxZ;
+                }
             }
-            throw new JsonSyntaxException(name);
+            return new Shape(PresetShape.CUBE);
+        }
+
+        public enum PresetShape {
+            CUBE,
+            STAIR,
+            SLAB,
+            WALL,
+            FENCE
         }
     }
 }

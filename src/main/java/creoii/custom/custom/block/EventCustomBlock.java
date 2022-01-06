@@ -1,4 +1,4 @@
-package creoii.custom.custom;
+package creoii.custom.custom.block;
 
 import creoii.custom.data.CustomObject;
 import creoii.custom.eventsystem.event.EntityLandsEvent;

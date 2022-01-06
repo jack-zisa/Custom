@@ -1,0 +1,17 @@
+{
+  "identifier": "minecraft:bamboo_slab",
+  "block_settings": {
+    "type": "new",
+    "material": "wood",
+    "map_color": "gray",
+    "sound_group": "wood",
+    "hardness": 1.0,
+    "blast_resistance": 5.0
+  },
+  "item_settings": {
+    "item_group": "building_blocks"
+  },
+  "shape": {
+    "preset": "slab"
+  }
+}
