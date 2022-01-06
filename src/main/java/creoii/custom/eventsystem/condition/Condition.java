@@ -27,6 +27,7 @@ public abstract class Condition {
     public static final String WITHIN_Y = "within_y";
     public static final String TIME_WITHIN = "time_within";
     public static final String PLAYER_LEVEL_WITHIN = "player_level_within";
+    public static final String COMPOSITE = "composite";
 
     private final String type;
 
@@ -48,16 +49,19 @@ public abstract class Condition {
             case ENTITY_SWIMMING -> EntitySwimmingCondition.getFromJson(object);
             case BIOME_MATCHES -> BiomeMatchesCondition.getFromJson(object);
             case DIFFICULTY_MATCHES -> DifficultyMatchesCondition.getFromJson(object);
+            case GAMEMODE_MATCHES -> GameModeMatchesCondition.getFromJson(object);
             case HAS_ENCHANTMENT -> HasEnchantmentCondition.getFromJson(object);
             case HAS_STATUS_EFFECT -> HasStatusEffectCondition.getFromJson(object);
             case WEATHER_MATCHES -> WeatherMatchesCondition.getFromJson(object);
             case WITHIN_Y -> WithinYCondition.getFromJson(object);
             case TIME_WITHIN -> TimeWithinCondition.getFromJson(object);
             case PLAYER_LEVEL_WITHIN -> PlayerLevelWithinCondition.getFromJson(object);
+            case COMPOSITE -> CompositeCondition.getFromJson(object);
             default -> new NoCondition();
         };
     }
 
+    public static Condition getFromJson(JsonObject object) { return null; }
     public abstract boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand);
     public abstract boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand);
     public abstract boolean testEntity(Entity entity, PlayerEntity player, Hand hand);
