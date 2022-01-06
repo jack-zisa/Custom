@@ -34,7 +34,7 @@ public class AddVelocityEffect extends Effect {
         float yVelocity = JsonHelper.getFloat(object, "y_velocity", 0f);
         float zVelocity = JsonHelper.getFloat(object, "z_velocity", 0f);
         boolean useLookVec = JsonHelper.getBoolean(object, "use_look_vec", true);
-        boolean useTargetPosition = JsonHelper.getBoolean(object, "use_target_position", true);
+        boolean useTargetPosition = JsonHelper.getBoolean(object, "use_target_position", false);
         return new AddVelocityEffect(xVelocity, yVelocity, zVelocity, useLookVec, useTargetPosition);
     }
 

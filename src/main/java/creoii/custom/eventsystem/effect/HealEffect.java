@@ -14,15 +14,18 @@ import net.minecraft.world.World;
 
 public class HealEffect extends Effect {
     private final float amount;
+    private final boolean useTargetPosition;
 
-    public HealEffect(float amount) {
+    public HealEffect(float amount, boolean useTargetPosition) {
         super(Effect.HEAL);
         this.amount = amount;
+        this.useTargetPosition = useTargetPosition;
     }
 
     public static Effect getFromJson(JsonObject object) {
         float amount = JsonHelper.getFloat(object, "amount", 0f);
-        return new HealEffect(amount);
+        boolean useTargetPosition = JsonHelper.getBoolean(object, "use_target_position", false);
+        return new HealEffect(amount, useTargetPosition);
     }
 
     @Override
@@ -44,8 +47,9 @@ public class HealEffect extends Effect {
 
     @Override
     public void runEnchantment(Entity user, Entity target, int level) {
-        if (user instanceof LivingEntity) {
-            ((LivingEntity) user).heal(this.amount);
+        Entity entity = useTargetPosition ? target : user;
+        if (entity instanceof LivingEntity living) {
+            living.heal(this.amount);
         }
     }
 

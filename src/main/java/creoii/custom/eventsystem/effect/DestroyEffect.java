@@ -46,6 +46,7 @@ public class DestroyEffect extends Effect {
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
+        entity.removeStatusEffect(statusEffect);
     }
 
     @Override
