@@ -18,5 +18,30 @@
         }
       ]
     }
-  }
+  },
+  "events": [
+    {
+      "type": "right_click",
+      "conditions": [
+        {
+          "type": "composite",
+          "comparison": "and",
+          "first": {
+            "type": "holding_item"
+          },
+          "second": {
+            "second": "entity_swimming"
+          }
+        }
+      ],
+      "effects": [
+        {
+          "type": "add_velocity",
+          "x_velocity": 0.25,
+          "y_velocity": 0.25,
+          "z_velocity": 0.25
+        }
+      ]
+    }
+  ]
 }

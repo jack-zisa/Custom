@@ -1,19 +1,11 @@
 package creoii.custom.custom;
 
-import com.google.gson.*;
-import creoii.custom.data.CustomObject;
 import creoii.custom.eventsystem.event.Event;
-import creoii.custom.util.StringToObject;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
-
-import java.lang.reflect.Type;
 
 public class EventCustomEnchantment extends CustomEnchantment {
     private final Event[] events;
@@ -30,8 +22,6 @@ public class EventCustomEnchantment extends CustomEnchantment {
                 minPlayerLevel, maxPlayerLevel, maxLevel, minLevel,
                 blacklist);
         this.events = events;
-
-        Registry.register(Registry.ENCHANTMENT, identifier, this);
     }
 
     @Override
