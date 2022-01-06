@@ -1,12 +1,13 @@
 package creoii.custom;
 
-import creoii.custom.custom.CustomBlock;
 import creoii.custom.custom.CustomTrade;
+import creoii.custom.custom.SimpleCustomBlock;
 import creoii.custom.data.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.village.TradeOffers;
 
 import java.util.Arrays;
@@ -22,6 +23,7 @@ public class Custom implements ModInitializer, ClientModInitializer {
     public static final VillagerTradesManager VILLAGER_TRADES_MANAGER = new VillagerTradesManager();
     public static final VillagerProfessionManager VILLAGER_PROFESSION_MANAGER = new VillagerProfessionManager();
     public static final VillagerTypeManager VILLAGER_TYPE_MANAGER = new VillagerTypeManager();
+    public static final GlobalEventManager GLOBAL_EVENT_MANAGER = new GlobalEventManager();
 
     @Override
     public void onInitialize() {
@@ -47,7 +49,7 @@ public class Custom implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        for (CustomBlock block : BLOCKS_MANAGER.values.values()) {
+        for (SimpleCustomBlock block : BLOCKS_MANAGER.values.values()) {
             BlockRenderLayerMap.INSTANCE.putBlock(block, block.getRenderLayer());
         }
     }

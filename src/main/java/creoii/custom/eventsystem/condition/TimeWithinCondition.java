@@ -52,4 +52,9 @@ public class TimeWithinCondition extends Condition {
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return entity.getWorld().getTime() > minTime && entity.getWorld().getTime() < maxTime;
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return world.getTime() > minTime && world.getTime() < maxTime;
+    }
 }

@@ -39,4 +39,9 @@ public class NoCondition extends Condition {
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return false;
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

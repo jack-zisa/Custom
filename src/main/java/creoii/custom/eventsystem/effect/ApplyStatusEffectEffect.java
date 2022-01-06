@@ -80,4 +80,7 @@ public class ApplyStatusEffectEffect extends Effect {
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         entity.addStatusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon));
     }
+
+    @Override
+    public void runWorld(World world) { }
 }

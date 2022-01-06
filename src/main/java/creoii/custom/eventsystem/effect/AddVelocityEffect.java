@@ -59,4 +59,7 @@ public class AddVelocityEffect extends Effect {
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         entity.addVelocity(xVelocity, yVelocity, zVelocity);
     }
+
+    @Override
+    public void runWorld(World world) { }
 }

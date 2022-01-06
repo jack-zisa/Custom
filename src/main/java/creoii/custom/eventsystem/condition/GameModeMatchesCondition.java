@@ -11,7 +11,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 
@@ -65,5 +64,10 @@ public class GameModeMatchesCondition extends Condition {
         if (entity instanceof ServerPlayerEntity player) {
             return player.interactionManager.getGameMode() == gameMode;
         } return false;
+    }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
     }
 }

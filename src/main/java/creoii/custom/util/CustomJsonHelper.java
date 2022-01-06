@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import creoii.custom.custom.CustomBlock;
 import creoii.custom.custom.CustomMaterial;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -137,18 +136,6 @@ public class CustomJsonHelper {
             );
         }
         throw new JsonSyntaxException("Expected " + name + " to be block material, was " + JsonHelper.getType(element));
-    }
-
-    public static CustomBlock.FallingBlockData getFallingBlockData(JsonElement element, String name) {
-        if (element.isJsonObject()) {
-            JsonObject object = JsonHelper.asObject(element, "block falling block data");
-            return new CustomBlock.FallingBlockData(
-                    JsonHelper.getBoolean(object, "affected_by_gravity", false),
-                    JsonHelper.getInt(object, "delay", 2),
-                    JsonHelper.getInt(object, "dust_color", 0)
-            );
-        }
-        throw new JsonSyntaxException("Expected " + name + " to be block falling block data, was " + JsonHelper.getType(element));
     }
 
     public static CustomMaterial.CustomArmorMaterial getCustomArmorMaterial(JsonElement element, String name) {

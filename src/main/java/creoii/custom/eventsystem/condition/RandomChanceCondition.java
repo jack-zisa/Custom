@@ -49,4 +49,9 @@ public class RandomChanceCondition extends Condition {
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return entity.getWorld().getRandom().nextFloat() < chance;
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return world.getRandom().nextFloat() < chance;
+    }
 }

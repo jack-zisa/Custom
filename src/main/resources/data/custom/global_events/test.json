@@ -1,0 +1,17 @@
+{
+  "identifier": "custom:test",
+  "type": "server_world_tick",
+  "conditions": [
+    {
+      "type": "random_chance",
+      "chance": 0.025
+    }
+  ],
+  "effects": [
+    {
+      "type": "send_message",
+      "text": "TEST GLOBAL EVENT",
+      "action_bar": false
+    }
+  ]
+}

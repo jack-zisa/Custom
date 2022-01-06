@@ -118,4 +118,9 @@ public class BiomeMatchesCondition extends Condition {
         }
         return false;
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

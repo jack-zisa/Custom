@@ -50,4 +50,9 @@ public class DifficultyMatchesCondition extends Condition {
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return entity.getWorld().getDifficulty() == difficulty;
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return world.getDifficulty() == difficulty;
+    }
 }

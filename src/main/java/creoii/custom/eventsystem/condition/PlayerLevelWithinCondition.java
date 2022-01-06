@@ -68,4 +68,9 @@ public class PlayerLevelWithinCondition extends Condition {
         }
         return false;
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

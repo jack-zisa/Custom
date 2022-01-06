@@ -58,4 +58,9 @@ public class HasStatusEffectCondition extends Condition {
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return entity.hasStatusEffect(statusEffect);
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

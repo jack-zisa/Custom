@@ -18,6 +18,7 @@ public abstract class Effect {
     public static final String APPLY_STATUS_EFFECT = "apply_status_effect";
     public static final String DESTROY = "destroy";
     public static final String ADD_VELOCITY = "add_velocity";
+    public static final String SEND_MESSAGE = "send_message";
 
     private final String type;
 
@@ -37,6 +38,7 @@ public abstract class Effect {
             case APPLY_STATUS_EFFECT -> ApplyStatusEffectEffect.getFromJson(object);
             case DESTROY -> DestroyEffect.getFromJson(object);
             case ADD_VELOCITY -> AddVelocityEffect.getFromJson(object);
+            case SEND_MESSAGE -> SendMessageEffect.getFromJson(object);
             default -> new NoEffect();
         };
     }
@@ -52,4 +54,5 @@ public abstract class Effect {
     public abstract void runEntity(Entity entity, PlayerEntity player, Hand hand);
     public abstract void runEnchantment(Entity user, Entity target, int level);
     public abstract void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier);
+    public abstract void runWorld(World world);
 }

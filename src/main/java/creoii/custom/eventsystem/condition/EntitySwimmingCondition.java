@@ -49,4 +49,9 @@ public class EntitySwimmingCondition extends Condition {
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return entity.isSwimming();
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

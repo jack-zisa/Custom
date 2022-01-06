@@ -67,4 +67,7 @@ public class DropItemEffect extends Effect {
         itemEntity.setToDefaultPickupDelay();
         entity.world.spawnEntity(itemEntity);
     }
+
+    @Override
+    public void runWorld(World world) { }
 }

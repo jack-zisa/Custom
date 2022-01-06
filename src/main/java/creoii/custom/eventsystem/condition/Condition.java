@@ -61,10 +61,10 @@ public abstract class Condition {
         };
     }
 
-    public static Condition getFromJson(JsonObject object) { return null; }
     public abstract boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand);
     public abstract boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand);
     public abstract boolean testEntity(Entity entity, PlayerEntity player, Hand hand);
     public abstract boolean testEnchantment(Entity user, Entity target, int level);
     public abstract boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier);
+    public abstract boolean testWorld(World world);
 }

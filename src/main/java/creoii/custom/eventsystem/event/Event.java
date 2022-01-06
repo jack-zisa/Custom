@@ -104,18 +104,6 @@ public abstract class Event {
         return effects;
     }
 
-    public void forEachCondition(Consumer<Condition> action) {
-        for (Condition condition : conditions) {
-            action.accept(condition);
-        }
-    }
-
-    public void forEachEffect(Consumer<Effect> action) {
-        for (Effect effect : effects) {
-            action.accept(effect);
-        }
-    }
-
     public static Event findEvent(Event[] events, String name) {
         for (Event event : events) {
             if (event.getType().equals(name)) return event;
@@ -123,75 +111,57 @@ public abstract class Event {
     }
 
     public boolean applyBlockEvent(World world, BlockState state, BlockPos pos, @Nullable LivingEntity living, @Nullable Hand hand) {
-        AtomicBoolean pass = new AtomicBoolean(true);
-        forEachCondition(condition -> {
-            if (!condition.testBlock(world, state, pos, living, hand)) pass.set(false);
-        });
-
-        if (pass.get()) {
-            forEachEffect(effect -> effect.runBlock(world, state, pos, living, hand));
+        for (Condition condition : conditions) {
+            if (!condition.testBlock(world, state, pos, living, hand)) return false;
         }
 
-        return pass.get();
+        for (Effect effect : effects) {
+            effect.runBlock(world, state, pos, living, hand);
+        }
+        return true;
     }
 
     public boolean applyItemEvent(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        AtomicBoolean pass = new AtomicBoolean(true);
-        forEachCondition(condition -> {
-            if (!condition.testItem(world, stack, pos, player, hand)) pass.set(false);
-        });
-
-        if (pass.get()) {
-            forEachEffect(effect -> effect.runItem(world, stack, pos, player, hand));
+        for (Condition condition : conditions) {
+            if (!condition.testItem(world, stack, pos, player, hand)) return false;
         }
 
-        return pass.get();
+        for (Effect effect : effects) {
+            effect.runItem(world, stack, pos, player, hand);
+        }
+        return true;
     }
 
     public boolean applyEntityEvent(Entity entity, PlayerEntity player, Hand hand) {
-        AtomicBoolean pass = new AtomicBoolean(true);
-        forEachCondition(condition -> {
-            if (!condition.testEntity(entity, player, hand)) pass.set(false);
-        });
-
-        if (pass.get()) {
-            forEachEffect(effect -> effect.runEntity(entity, player, hand));
+        for (Condition condition : conditions) {
+            if (!condition.testEntity(entity, player, hand)) return false;
         }
 
-        return pass.get();
+        for (Effect effect : effects) {
+            effect.runEntity(entity, player, hand);
+        }
+        return true;
     }
 
     public boolean applyEnchantmentEvent(Entity user, Entity target, int level) {
-        AtomicBoolean pass = new AtomicBoolean(true);
-        forEachCondition(condition -> {
-            if (!condition.testEnchantment(user, target, level)) pass.set(false);
-        });
-
-        if (pass.get()) {
-            forEachEffect(effect -> effect.runEnchantment(user, target, level));
+        for (Condition condition : conditions) {
+            if (!condition.testEnchantment(user, target, level)) return false;
         }
 
-        return pass.get();
+        for (Effect effect : effects) {
+            effect.runEnchantment(user, target, level);
+        }
+        return true;
     }
 
     public boolean applyStatusEffectEvent(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        AtomicBoolean pass = new AtomicBoolean(true);
-        forEachCondition(condition -> {
-            if (!condition.testStatusEffect(statusEffect, entity, amplifier)) pass.set(false);
-        });
-
-        if (pass.get()) {
-            forEachEffect(effect -> effect.runStatusEffect(statusEffect, entity, amplifier));
+        for (Condition condition : conditions) {
+            if (!condition.testStatusEffect(statusEffect, entity, amplifier)) return false;
         }
 
-        return pass.get();
+        for (Effect effect : effects) {
+            effect.runStatusEffect(statusEffect, entity, amplifier);
+        }
+        return true;
     }
-
-    /**
-     * Maybe reimplement Types and allow events to specify multiple.
-     * Each type has an 'apply' method which will be called if the event is that type.
-     * For example:
-     *  if an event has the types BLOCK and WORLD, only applyWorldEvent and applyBlockEvent will be called.
-     *  all others will be ignored.
-     */
 }

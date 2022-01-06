@@ -76,6 +76,15 @@ public class CompositeCondition extends Condition {
         }
     }
 
+    @Override
+    public boolean testWorld(World world) {
+        if (type == Type.AND) {
+            return first.testWorld(world) && second.testWorld(world);
+        } else {
+            return first.testWorld(world) || second.testWorld(world);
+        }
+    }
+
     public enum Type {
         AND,
         OR;

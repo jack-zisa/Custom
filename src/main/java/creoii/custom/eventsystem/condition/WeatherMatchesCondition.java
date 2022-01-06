@@ -74,4 +74,9 @@ public class WeatherMatchesCondition extends Condition {
         else if (weather.equals("snow")) return hasRain && biome.getPrecipitation() == Biome.Precipitation.SNOW;
         else return !hasRain;
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

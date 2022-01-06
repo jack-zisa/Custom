@@ -47,4 +47,7 @@ public class DestroyEffect extends Effect {
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
     }
+
+    @Override
+    public void runWorld(World world) { }
 }

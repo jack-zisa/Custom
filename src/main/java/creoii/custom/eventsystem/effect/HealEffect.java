@@ -53,4 +53,7 @@ public class HealEffect extends Effect {
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         entity.heal(this.amount);
     }
+
+    @Override
+    public void runWorld(World world) { }
 }

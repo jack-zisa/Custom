@@ -92,6 +92,11 @@ public class InTagCondition extends Condition {
         return false;
     }
 
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
+
     public enum Type {
         BLOCK("block"),
         ITEM("item"),

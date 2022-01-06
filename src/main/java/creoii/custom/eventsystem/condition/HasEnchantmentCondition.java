@@ -68,4 +68,9 @@ public class HasEnchantmentCondition extends Condition {
             return level1 >= level;
         } else return false;
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

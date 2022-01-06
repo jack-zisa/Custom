@@ -49,4 +49,9 @@ public class EntitySprintingCondition extends Condition {
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return entity.isSprinting();
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

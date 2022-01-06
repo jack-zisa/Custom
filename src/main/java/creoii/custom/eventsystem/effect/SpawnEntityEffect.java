@@ -76,4 +76,7 @@ public class SpawnEntityEffect extends Effect {
             world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, null, pos.add(offset), SpawnReason.NATURAL, false, false));
         }
     }
+
+    @Override
+    public void runWorld(World world) { }
 }

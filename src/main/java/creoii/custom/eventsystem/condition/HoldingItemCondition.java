@@ -57,4 +57,9 @@ public class HoldingItemCondition extends Condition {
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return entity.getStackInHand(this.hand).isOf(item);
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

@@ -55,4 +55,9 @@ public class WithinYCondition extends Condition {
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         return entity.getY() > minY && entity.getY() < maxY;
     }
+
+    @Override
+    public boolean testWorld(World world) {
+        return false;
+    }
 }

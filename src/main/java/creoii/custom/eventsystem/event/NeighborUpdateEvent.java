@@ -95,19 +95,19 @@ public class NeighborUpdateEvent extends Event {
 
     @Override
     public boolean applyBlockEvent(World world, BlockState state, BlockPos pos, @Nullable LivingEntity living, @Nullable Hand hand) {
-        AtomicBoolean pass = new AtomicBoolean(true);
-        forEachCondition(condition -> {
-            if (!condition.testBlock(world, state, pos, living, hand)) pass.set(false);
-        });
-        forEachNeighborCondition(condition -> {
-            if (!condition.testBlock(world, state, pos, living, hand)) pass.set(false);
-        });
-
-        if (pass.get()) {
-            forEachEffect(effect -> effect.runBlock(world, state, pos, living, hand));
-            forEachNeighborEffect(effect -> effect.runBlock(world, state, pos, living, hand));
+        for (Condition condition : conditions) {
+            if (!condition.testBlock(world, state, pos, living, hand)) return false;
+        }
+        for (Condition condition : neighborConditions) {
+            if (!condition.testBlock(world, state, pos, living, hand)) return false;
         }
 
-        return pass.get();
+        for (Effect effect : effects) {
+            effect.runBlock(world, state, pos, living, hand);
+        }
+        for (Effect effect : neighborEffects) {
+            effect.runBlock(world, state, pos, living, hand);
+        }
+        return true;
     }
 }
