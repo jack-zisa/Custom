@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.CustomJsonObjects;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -10,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
@@ -17,18 +19,24 @@ import net.minecraft.world.World;
 
 public class SendMessageEffect extends Effect {
     private final Text text;
+    private final CustomJsonObjects.TextFormatting formatting;
     private final boolean actionBar;
 
-    public SendMessageEffect(Text text, boolean actionBar) {
+    public SendMessageEffect(Text text, CustomJsonObjects.TextFormatting formatting, boolean actionBar) {
         super(Effect.SEND_MESSAGE);
         this.text = text;
+        this.formatting = formatting;
         this.actionBar = actionBar;
     }
 
     public static Effect getFromJson(JsonObject object) {
-        Text text = new LiteralText(JsonHelper.getString(object, "text", ""));
+        CustomJsonObjects.TextFormatting formatting = CustomJsonObjects.TextFormatting.get(object);
+        LiteralText text = new LiteralText(JsonHelper.getString(object, "text", ""));
+        for (Formatting formatting1 : formatting.formatting()) {
+            text.formatted(formatting1);
+        }
         boolean actionBar = JsonHelper.getBoolean(object, "action_bar", false);
-        return new SendMessageEffect(text, actionBar);
+        return new SendMessageEffect(text, formatting, actionBar);
     }
 
     @Override
@@ -79,7 +87,6 @@ public class SendMessageEffect extends Effect {
     @Override
     public void runWorld(World world) {
         if (!world.isClient) {
-            System.out.println("run");
             ((ServerWorld) world).getPlayers().forEach(player1 -> {
                 player1.sendMessage(text, actionBar);
             });

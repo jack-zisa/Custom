@@ -22,7 +22,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EventCustomBlock extends SimpleCustomBlock implements CustomObject {
+public class EventCustomBlock extends CustomBlock implements CustomObject {
     private final Event[] events;
 
     public EventCustomBlock(

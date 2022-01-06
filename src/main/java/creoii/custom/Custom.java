@@ -1,13 +1,12 @@
 package creoii.custom;
 
 import creoii.custom.custom.CustomTrade;
-import creoii.custom.custom.SimpleCustomBlock;
+import creoii.custom.custom.CustomBlock;
 import creoii.custom.data.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.village.TradeOffers;
 
 import java.util.Arrays;
@@ -49,7 +48,7 @@ public class Custom implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        for (SimpleCustomBlock block : BLOCKS_MANAGER.values.values()) {
+        for (CustomBlock block : BLOCKS_MANAGER.values.values()) {
             BlockRenderLayerMap.INSTANCE.putBlock(block, block.getRenderLayer());
         }
     }

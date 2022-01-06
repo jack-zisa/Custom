@@ -11,6 +11,10 @@
     {
       "type": "send_message",
       "text": "TEST GLOBAL EVENT",
+      "formatting": [
+        "red",
+        "obfuscated"
+      ],
       "action_bar": false
     }
   ]

@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 
 import java.lang.reflect.Type;
 
-public class SimpleCustomBlock extends Block implements CustomObject {
+public class CustomBlock extends Block implements CustomObject {
     private final Identifier identifier;
     private final boolean hasItem;
     private final Settings blockSettings;
@@ -48,7 +48,7 @@ public class SimpleCustomBlock extends Block implements CustomObject {
     private final int fireSpread;
     private final float compostChance;
 
-    public SimpleCustomBlock(
+    public CustomBlock(
             Identifier identifier, boolean hasItem, Settings blockSettings, Item.Settings itemSettings,
             boolean placeableOnLiquid,
             int redstonePower, int droppedXp, int fuelPower,
@@ -196,9 +196,9 @@ public class SimpleCustomBlock extends Block implements CustomObject {
         }
     }
 
-    public static class Serializer implements JsonDeserializer<SimpleCustomBlock>, JsonSerializer<SimpleCustomBlock> {
+    public static class Serializer implements JsonDeserializer<CustomBlock>, JsonSerializer<CustomBlock> {
         @Override
-        public SimpleCustomBlock deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        public CustomBlock deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject object = JsonHelper.asObject(json, "block");
             boolean hasItem = JsonHelper.getBoolean(object, "has_item", true);
             Settings blockSettings;
@@ -247,7 +247,7 @@ public class SimpleCustomBlock extends Block implements CustomObject {
                         events
                 );
             } else {
-                return new SimpleCustomBlock(
+                return new CustomBlock(
                         Identifier.tryParse(JsonHelper.getString(object, "identifier")), hasItem,
                         blockSettings, itemSettings,
                         placeableOnLiquid,
@@ -260,7 +260,7 @@ public class SimpleCustomBlock extends Block implements CustomObject {
         }
 
         @Override
-        public JsonElement serialize(SimpleCustomBlock src, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize(CustomBlock src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject object = new JsonObject();
             object.addProperty("identifier", src.getIdentifier().toString());
             object.addProperty("has_item", src.hasItem());
