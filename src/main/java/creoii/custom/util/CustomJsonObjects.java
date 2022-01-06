@@ -2,7 +2,6 @@ package creoii.custom.util;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import creoii.custom.eventsystem.event.Event;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.util.Formatting;

@@ -16,9 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
-
 public abstract class Event {
     public static final String RIGHT_CLICK = "right_click";
     public static final String LEFT_CLICK = "left_click";

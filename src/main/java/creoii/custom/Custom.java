@@ -1,7 +1,7 @@
 package creoii.custom;
 
-import creoii.custom.custom.CustomTrade;
 import creoii.custom.custom.CustomBlock;
+import creoii.custom.custom.CustomTrade;
 import creoii.custom.data.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.api.ClientModInitializer;
