@@ -1,9 +1,0 @@
-{
-  "identifier": "custom:test",
-  "profession": "farmer",
-  "trade_level": 1,
-  "sell_count": 64,
-  "sell_item": "minecraft:emerald",
-  "first_price": 1,
-  "first_buy_item": "minecraft:diamond"
-}

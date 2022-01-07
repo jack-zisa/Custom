@@ -252,7 +252,7 @@ public class CustomBlock extends Block implements CustomObject {
                                     flammability, fireSpread, compostChance
                             );
                         }
-                        case STAIR -> {
+                        case STAIRS -> {
                             return new CustomStairsBlock(
                                     Identifier.tryParse(JsonHelper.getString(object, "identifier")), hasItem,
                                     blockSettings, itemSettings,
@@ -349,7 +349,7 @@ public class CustomBlock extends Block implements CustomObject {
 
         public enum PresetShape {
             CUBE,
-            STAIR,
+            STAIRS,
             SLAB,
             WALL,
             FENCE

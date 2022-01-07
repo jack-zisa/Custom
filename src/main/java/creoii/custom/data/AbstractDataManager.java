@@ -2,46 +2,60 @@ package creoii.custom.data;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import creoii.custom.Custom;
 import net.minecraft.data.Main;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.Reader;
-import java.net.URISyntaxException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
 public abstract class AbstractDataManager<T extends CustomObject> {
-    private static final Logger LOGGER = LogManager.getLogger();
-    public Map<Identifier, T> values = ImmutableMap.of();
+    public Map<Identifier, T> values;
+    private static final boolean useMinecraftDir = true;
 
     public AbstractDataManager(String name, Gson gson) {
-        try {
-            String path = "/data/custom/" + name;
-            if (Main.class.getResource(path) == null) return;
-            File data = new File(Main.class.getResource(path).toURI());
+        if (useMinecraftDir) {
+            File data = new File("./data/custom/" + name);
+            if (!data.exists()) return;
             ImmutableMap.Builder<Identifier, T> builder = ImmutableMap.builder();
-
-            if (!data.exists()) data.mkdirs();
-
             for (File file : data.listFiles()) {
                 if (file.getName().endsWith(".json")) {
                     String fileName = file.getName();
                     try {
-                        Reader reader = Files.newBufferedReader(Paths.get(data + "/".concat(fileName)));
-                        T obj = createCustomObject(reader, gson);
+                        System.out.println(file.getPath());
+                        T obj = createCustomObject(Files.newBufferedReader(Paths.get(data + "/" + fileName)), gson);
                         builder.put(obj.getIdentifier(), obj);
-                    } catch (Exception block) {
-                        LOGGER.error("Couldn't parse {}", fileName, block);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
             values = builder.build();
-        } catch (URISyntaxException e) {
-            LOGGER.error(e);
+        } else {
+            try {
+                String dataPath = "/data/custom/" + name;
+                if (Main.class.getResource(dataPath) == null) return;
+                ImmutableMap.Builder<Identifier, T> builder = ImmutableMap.builder();
+                String resource;
+                while ((resource = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream(dataPath))).readLine()) != null) {
+                    if (resource.endsWith(".json")) {
+                        System.out.println(resource);
+                        try {
+                            T obj = createCustomObject(Files.newBufferedReader(new File(Main.class.getResource(dataPath).getPath() + "/".concat(resource)).toPath()), gson);
+                            builder.put(obj.getIdentifier(), obj);
+                        } catch (Exception block) {
+                            Custom.LOGGER.error("Couldn't parse {}", resource, block);
+                        }
+                    }
+                }
+                values = builder.build();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
