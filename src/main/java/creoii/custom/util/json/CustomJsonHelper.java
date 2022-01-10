@@ -1,4 +1,4 @@
-package creoii.custom.util;
+package creoii.custom.util.json;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

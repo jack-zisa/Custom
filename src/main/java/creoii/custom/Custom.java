@@ -1,12 +1,16 @@
 package creoii.custom;
 
-import creoii.custom.custom.block.CustomBlock;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import creoii.custom.custom.CustomTrade;
+import creoii.custom.custom.block.CustomBlock;
 import creoii.custom.data.*;
+import creoii.custom.util.reflection.JsonReflection;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.village.TradeOffers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,6 +53,10 @@ public class Custom implements ModInitializer, ClientModInitializer {
                 }
             }
         }
+
+        JsonElement element = JsonReflection.serializeClass(AbstractBlock.class);
+        System.out.println(element);
+        System.out.println(JsonReflection.deserializeClass(element, true));
 
         LOGGER.info("Custom has been successfully initialized");
     }

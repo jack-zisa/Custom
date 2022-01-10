@@ -3,7 +3,7 @@ package creoii.custom.custom;
 import com.google.gson.*;
 import creoii.custom.data.CustomObject;
 import creoii.custom.eventsystem.event.Event;
-import creoii.custom.util.CustomJsonHelper;
+import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;

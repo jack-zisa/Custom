@@ -1,0 +1,4591 @@
+{
+  "package": "net.minecraft.block",
+  "access_types": "public abstract",
+  "type": "class",
+  "name": "net.minecraft.block.AbstractBlock",
+  "fields": [
+    {
+      "access_types": "public static final",
+      "return_type": "Direction[]",
+      "name": "DIRECTIONS"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "Material",
+      "name": "material"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "boolean",
+      "name": "collidable"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "float",
+      "name": "resistance"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "boolean",
+      "name": "randomTicks"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "BlockSoundGroup",
+      "name": "soundGroup"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "float",
+      "name": "slipperiness"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "float",
+      "name": "velocityMultiplier"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "float",
+      "name": "jumpVelocityMultiplier"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "boolean",
+      "name": "dynamicBounds"
+    },
+    {
+      "access_types": "public final",
+      "return_type": "Settings",
+      "name": "settings"
+    },
+    {
+      "access_types": "public",
+      "return_type": "Identifier",
+      "name": "lootTableId"
+    }
+  ],
+  "constructors": [
+    {
+      "access_types": "public",
+      "name": "net.minecraft.block.AbstractBlock",
+      "parameters": [
+        {
+          "settings": {
+            "type": "parameter",
+            "return_type": "Settings",
+            "name": "settings"
+          }
+        }
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "prepare",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "WorldAccess",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "flags": {
+            "type": "parameter",
+            "return_type": "int",
+            "name": "flags"
+          }
+        },
+        {
+          "maxUpdateDepth": {
+            "type": "parameter",
+            "return_type": "int",
+            "name": "maxUpdateDepth"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "BlockState",
+      "name": "rotate",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "rotation": {
+            "type": "parameter",
+            "return_type": "BlockRotation",
+            "name": "rotation"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "Settings",
+      "name": "getSettings"
+    },
+    {
+      "access_types": "private",
+      "return_type": "void",
+      "name": "handler$zff000$custom$affectedByGravityNeighborUpdate",
+      "parameters": [
+        {
+          "arg0": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "arg0"
+          }
+        },
+        {
+          "arg1": {
+            "type": "parameter",
+            "return_type": "Direction",
+            "name": "arg1"
+          }
+        },
+        {
+          "arg2": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "arg2"
+          }
+        },
+        {
+          "arg3": {
+            "type": "parameter",
+            "return_type": "WorldAccess",
+            "name": "arg3"
+          }
+        },
+        {
+          "arg4": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "arg4"
+          }
+        },
+        {
+          "arg5": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "arg5"
+          }
+        },
+        {
+          "arg6": {
+            "type": "parameter",
+            "return_type": "CallbackInfoReturnable",
+            "name": "arg6"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "randomTick",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "ServerWorld",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "random": {
+            "type": "parameter",
+            "return_type": "Random",
+            "name": "random"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "scheduledTick",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "ServerWorld",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "random": {
+            "type": "parameter",
+            "return_type": "Random",
+            "name": "random"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "neighborUpdate",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "block": {
+            "type": "parameter",
+            "return_type": "Block",
+            "name": "block"
+          }
+        },
+        {
+          "fromPos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "fromPos"
+          }
+        },
+        {
+          "notify": {
+            "type": "parameter",
+            "return_type": "boolean",
+            "name": "notify"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "onSyncedBlockEvent",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "type": {
+            "type": "parameter",
+            "return_type": "int",
+            "name": "type"
+          }
+        },
+        {
+          "data": {
+            "type": "parameter",
+            "return_type": "int",
+            "name": "data"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "int",
+      "name": "getStrongRedstonePower",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "direction": {
+            "type": "parameter",
+            "return_type": "Direction",
+            "name": "direction"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "int",
+      "name": "getWeakRedstonePower",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "direction": {
+            "type": "parameter",
+            "return_type": "Direction",
+            "name": "direction"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "VoxelShape",
+      "name": "getRaycastShape",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "VoxelShape",
+      "name": "getCollisionShape",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "context": {
+            "type": "parameter",
+            "return_type": "ShapeContext",
+            "name": "context"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "onEntityCollision",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "entity": {
+            "type": "parameter",
+            "return_type": "Entity",
+            "name": "entity"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "BlockRenderType",
+      "name": "getRenderType",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "private",
+      "return_type": "void",
+      "name": "handler$zff000$custom$affectedByGravityTick",
+      "parameters": [
+        {
+          "arg0": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "arg0"
+          }
+        },
+        {
+          "arg1": {
+            "type": "parameter",
+            "return_type": "ServerWorld",
+            "name": "arg1"
+          }
+        },
+        {
+          "arg2": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "arg2"
+          }
+        },
+        {
+          "arg3": {
+            "type": "parameter",
+            "return_type": "Random",
+            "name": "arg3"
+          }
+        },
+        {
+          "arg4": {
+            "type": "parameter",
+            "return_type": "CallbackInfo",
+            "name": "arg4"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "private",
+      "return_type": "void",
+      "name": "handler$zff000$custom$affectedByGravityAdded",
+      "parameters": [
+        {
+          "arg0": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "arg0"
+          }
+        },
+        {
+          "arg1": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "arg1"
+          }
+        },
+        {
+          "arg2": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "arg2"
+          }
+        },
+        {
+          "arg3": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "arg3"
+          }
+        },
+        {
+          "arg4": {
+            "type": "parameter",
+            "return_type": "boolean",
+            "name": "arg4"
+          }
+        },
+        {
+          "arg5": {
+            "type": "parameter",
+            "return_type": "CallbackInfo",
+            "name": "arg5"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "canPlaceAt",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "WorldView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public final",
+      "return_type": "Identifier",
+      "name": "getLootTableId"
+    },
+    {
+      "access_types": "public abstract",
+      "return_type": "Item",
+      "name": "asItem"
+    },
+    {
+      "access_types": "public",
+      "return_type": "PistonBehavior",
+      "name": "getPistonBehavior",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "BlockState",
+      "name": "mirror",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "mirror": {
+            "type": "parameter",
+            "return_type": "BlockMirror",
+            "name": "mirror"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "hasComparatorOutput",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "hasSidedTransparency",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "int",
+      "name": "getOpacity",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "int",
+      "name": "getComparatorOutput",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "float",
+      "name": "getAmbientOcclusionLightLevel",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "NamedScreenHandlerFactory",
+      "name": "createScreenHandlerFactory",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "BlockState",
+      "name": "getStateForNeighborUpdate",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "direction": {
+            "type": "parameter",
+            "return_type": "Direction",
+            "name": "direction"
+          }
+        },
+        {
+          "neighborState": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "neighborState"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "WorldAccess",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "neighborPos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "neighborPos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "VoxelShape",
+      "name": "getCameraCollisionShape",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "context": {
+            "type": "parameter",
+            "return_type": "ShapeContext",
+            "name": "context"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "float",
+      "name": "getVerticalModelOffsetMultiplier"
+    },
+    {
+      "access_types": "public",
+      "return_type": "float",
+      "name": "getMaxHorizontalModelOffset"
+    },
+    {
+      "access_types": "public",
+      "return_type": "float",
+      "name": "calcBlockBreakingDelta",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "player": {
+            "type": "parameter",
+            "return_type": "PlayerEntity",
+            "name": "player"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "FluidState",
+      "name": "getFluidState",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "long",
+      "name": "getRenderingSeed",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "VoxelShape",
+      "name": "getCullingShape",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "VoxelShape",
+      "name": "getSidesShape",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "ActionResult",
+      "name": "onUse",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "player": {
+            "type": "parameter",
+            "return_type": "PlayerEntity",
+            "name": "player"
+          }
+        },
+        {
+          "hand": {
+            "type": "parameter",
+            "return_type": "Hand",
+            "name": "hand"
+          }
+        },
+        {
+          "hit": {
+            "type": "parameter",
+            "return_type": "BlockHitResult",
+            "name": "hit"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "onBlockAdded",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "oldState": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "oldState"
+          }
+        },
+        {
+          "notify": {
+            "type": "parameter",
+            "return_type": "boolean",
+            "name": "notify"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "OffsetType",
+      "name": "getOffsetType"
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "emitsRedstonePower",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "canReplace",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "context": {
+            "type": "parameter",
+            "return_type": "ItemPlacementContext",
+            "name": "context"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "onStateReplaced",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "newState": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "newState"
+          }
+        },
+        {
+          "moved": {
+            "type": "parameter",
+            "return_type": "boolean",
+            "name": "moved"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "canBucketPlace",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "fluid": {
+            "type": "parameter",
+            "return_type": "Fluid",
+            "name": "fluid"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "isSideInvisible",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "stateFrom": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "stateFrom"
+          }
+        },
+        {
+          "direction": {
+            "type": "parameter",
+            "return_type": "Direction",
+            "name": "direction"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "isShapeFullCube",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "List",
+      "name": "getDroppedStacks",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "builder": {
+            "type": "parameter",
+            "return_type": "Builder",
+            "name": "builder"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "VoxelShape",
+      "name": "getOutlineShape",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "context": {
+            "type": "parameter",
+            "return_type": "ShapeContext",
+            "name": "context"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "onStacksDropped",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "ServerWorld",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "stack": {
+            "type": "parameter",
+            "return_type": "ItemStack",
+            "name": "stack"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public abstract",
+      "return_type": "Block",
+      "name": "asBlock"
+    },
+    {
+      "access_types": "public",
+      "return_type": "boolean",
+      "name": "canPathfindThrough",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "BlockView",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "type": {
+            "type": "parameter",
+            "return_type": "NavigationType",
+            "name": "type"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "MapColor",
+      "name": "getDefaultMapColor"
+    },
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "onBlockBreakStart",
+      "parameters": [
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "pos": {
+            "type": "parameter",
+            "return_type": "BlockPos",
+            "name": "pos"
+          }
+        },
+        {
+          "player": {
+            "type": "parameter",
+            "return_type": "PlayerEntity",
+            "name": "player"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "void",
+      "name": "onProjectileHit",
+      "parameters": [
+        {
+          "world": {
+            "type": "parameter",
+            "return_type": "World",
+            "name": "world"
+          }
+        },
+        {
+          "state": {
+            "type": "parameter",
+            "return_type": "BlockState",
+            "name": "state"
+          }
+        },
+        {
+          "hit": {
+            "type": "parameter",
+            "return_type": "BlockHitResult",
+            "name": "hit"
+          }
+        },
+        {
+          "projectile": {
+            "type": "parameter",
+            "return_type": "ProjectileEntity",
+            "name": "projectile"
+          }
+        }
+      ]
+    },
+    {
+      "access_types": "public",
+      "return_type": "float",
+      "name": "getHardness"
+    }
+  ],
+  "net.minecraft.block.AbstractBlock$Settings": {
+    "package": "net.minecraft.block",
+    "access_types": "public static",
+    "type": "class",
+    "name": "net.minecraft.block.AbstractBlock$Settings",
+    "fields": [
+      {
+        "access_types": "public",
+        "return_type": "Material",
+        "name": "material"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Function",
+        "name": "mapColorProvider"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "collidable"
+      },
+      {
+        "access_types": "public",
+        "return_type": "BlockSoundGroup",
+        "name": "soundGroup"
+      },
+      {
+        "access_types": "public",
+        "return_type": "ToIntFunction",
+        "name": "luminance"
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "resistance"
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "hardness"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "toolRequired"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "randomTicks"
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "slipperiness"
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "velocityMultiplier"
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "jumpVelocityMultiplier"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Identifier",
+        "name": "lootTableId"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "opaque"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isAir"
+      },
+      {
+        "access_types": "public",
+        "return_type": "TypedContextPredicate",
+        "name": "allowsSpawningPredicate"
+      },
+      {
+        "access_types": "public",
+        "return_type": "ContextPredicate",
+        "name": "solidBlockPredicate"
+      },
+      {
+        "access_types": "public",
+        "return_type": "ContextPredicate",
+        "name": "suffocationPredicate"
+      },
+      {
+        "access_types": "public",
+        "return_type": "ContextPredicate",
+        "name": "blockVisionPredicate"
+      },
+      {
+        "access_types": "public",
+        "return_type": "ContextPredicate",
+        "name": "postProcessPredicate"
+      },
+      {
+        "access_types": "public",
+        "return_type": "ContextPredicate",
+        "name": "emissiveLightingPredicate"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "dynamicBounds"
+      },
+      {
+        "access_types": "private",
+        "return_type": "ExtraData",
+        "name": "fabricExtraData"
+      }
+    ],
+    "constructors": [
+      {
+        "access_types": "protected",
+        "name": "net.minecraft.block.AbstractBlock$Settings",
+        "parameters": [
+          {
+            "material": {
+              "type": "parameter",
+              "return_type": "Material",
+              "name": "material"
+            }
+          },
+          {
+            "mapColorProvider": {
+              "type": "parameter",
+              "return_type": "MapColor",
+              "name": "mapColorProvider"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "protected",
+        "name": "net.minecraft.block.AbstractBlock$Settings",
+        "parameters": [
+          {
+            "material": {
+              "type": "parameter",
+              "return_type": "Material",
+              "name": "material"
+            }
+          },
+          {
+            "mapColorProvider": {
+              "type": "parameter",
+              "return_type": "Function",
+              "name": "mapColorProvider"
+            }
+          }
+        ]
+      }
+    ],
+    "methods": [
+      {
+        "access_types": "public static",
+        "return_type": "Settings",
+        "name": "of",
+        "parameters": [
+          {
+            "material": {
+              "type": "parameter",
+              "return_type": "Material",
+              "name": "material"
+            }
+          },
+          {
+            "color": {
+              "type": "parameter",
+              "return_type": "MapColor",
+              "name": "color"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public static",
+        "return_type": "Settings",
+        "name": "of",
+        "parameters": [
+          {
+            "material": {
+              "type": "parameter",
+              "return_type": "Material",
+              "name": "material"
+            }
+          },
+          {
+            "mapColor": {
+              "type": "parameter",
+              "return_type": "Function",
+              "name": "mapColor"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public static",
+        "return_type": "Settings",
+        "name": "of",
+        "parameters": [
+          {
+            "material": {
+              "type": "parameter",
+              "return_type": "Material",
+              "name": "material"
+            }
+          },
+          {
+            "color": {
+              "type": "parameter",
+              "return_type": "DyeColor",
+              "name": "color"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public static",
+        "return_type": "Settings",
+        "name": "of",
+        "parameters": [
+          {
+            "material": {
+              "type": "parameter",
+              "return_type": "Material",
+              "name": "material"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public static",
+        "return_type": "Settings",
+        "name": "copy",
+        "parameters": [
+          {
+            "block": {
+              "type": "parameter",
+              "return_type": "AbstractBlock",
+              "name": "block"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "getOpaque"
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setOpaque",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "boolean",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "strength",
+        "parameters": [
+          {
+            "strength": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "strength"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "strength",
+        "parameters": [
+          {
+            "hardness": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "hardness"
+            }
+          },
+          {
+            "resistance": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "resistance"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "postProcess",
+        "parameters": [
+          {
+            "predicate": {
+              "type": "parameter",
+              "return_type": "ContextPredicate",
+              "name": "predicate"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isToolRequired"
+      },
+      {
+        "access_types": "public",
+        "return_type": "ToIntFunction",
+        "name": "getLuminance"
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "getVelocityMultiplier"
+      },
+      {
+        "access_types": "private static",
+        "return_type": "boolean",
+        "name": "method_26248",
+        "parameters": [
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "private static",
+        "return_type": "int",
+        "name": "method_26237",
+        "parameters": [
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "private",
+        "return_type": "boolean",
+        "name": "method_26246",
+        "parameters": [
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "private static",
+        "return_type": "boolean",
+        "name": "method_26239",
+        "parameters": [
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "type": {
+              "type": "parameter",
+              "return_type": "EntityType",
+              "name": "type"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "private static",
+        "return_type": "boolean",
+        "name": "method_26244",
+        "parameters": [
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "private static",
+        "return_type": "MapColor",
+        "name": "method_26241",
+        "parameters": [
+          {
+            "mapColor": {
+              "type": "parameter",
+              "return_type": "MapColor",
+              "name": "mapColor"
+            }
+          },
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setMaterial",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "Material",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setRandomTicks",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "boolean",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setDynamicBounds",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "boolean",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setResistance",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setCollidable",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "boolean",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setIsAir",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "boolean",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setExtraData",
+        "parameters": [
+          {
+            "extraData": {
+              "type": "parameter",
+              "return_type": "ExtraData",
+              "name": "extraData"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "getCollidable"
+      },
+      {
+        "access_types": "private static",
+        "return_type": "MapColor",
+        "name": "method_31711",
+        "parameters": [
+          {
+            "mapColor": {
+              "type": "parameter",
+              "return_type": "MapColor",
+              "name": "mapColor"
+            }
+          },
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "getIsAir"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "getDynamicBounds"
+      },
+      {
+        "access_types": "public",
+        "return_type": "ExtraData",
+        "name": "getExtraData"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "getRandomTicks"
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setHardness",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "private static",
+        "return_type": "boolean",
+        "name": "method_26238",
+        "parameters": [
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "getResistance"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "invokeSounds",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "BlockSoundGroup",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "invokeStrength",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "invokeDropsNothing"
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setLootTableId",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "Identifier",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setToolRequired",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "boolean",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "air"
+      },
+      {
+        "access_types": "public",
+        "return_type": "BlockSoundGroup",
+        "name": "getSoundGroup"
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "getSlipperiness"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "slipperiness",
+        "parameters": [
+          {
+            "slipperiness": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "slipperiness"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Material",
+        "name": "getMaterial"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Function",
+        "name": "getMapColorProvider"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "invokeBreakInstantly"
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setLuminanceFunction",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "ToIntFunction",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "invokeTicksRandomly"
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "setMapColorProvider",
+        "parameters": [
+          {
+            "arg0": {
+              "type": "parameter",
+              "return_type": "Function",
+              "name": "arg0"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "allowsSpawning",
+        "parameters": [
+          {
+            "predicate": {
+              "type": "parameter",
+              "return_type": "TypedContextPredicate",
+              "name": "predicate"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "nonOpaque"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "sounds",
+        "parameters": [
+          {
+            "soundGroup": {
+              "type": "parameter",
+              "return_type": "BlockSoundGroup",
+              "name": "soundGroup"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "ticksRandomly"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "solidBlock",
+        "parameters": [
+          {
+            "predicate": {
+              "type": "parameter",
+              "return_type": "ContextPredicate",
+              "name": "predicate"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "suffocates",
+        "parameters": [
+          {
+            "predicate": {
+              "type": "parameter",
+              "return_type": "ContextPredicate",
+              "name": "predicate"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "blockVision",
+        "parameters": [
+          {
+            "predicate": {
+              "type": "parameter",
+              "return_type": "ContextPredicate",
+              "name": "predicate"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "mapColor",
+        "parameters": [
+          {
+            "color": {
+              "type": "parameter",
+              "return_type": "MapColor",
+              "name": "color"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "requiresTool"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "dropsNothing"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "noCollision"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "breakInstantly"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "luminance",
+        "parameters": [
+          {
+            "luminance": {
+              "type": "parameter",
+              "return_type": "ToIntFunction",
+              "name": "luminance"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "dropsLike",
+        "parameters": [
+          {
+            "source": {
+              "type": "parameter",
+              "return_type": "Block",
+              "name": "source"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "jumpVelocityMultiplier",
+        "parameters": [
+          {
+            "jumpVelocityMultiplier": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "jumpVelocityMultiplier"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "resistance",
+        "parameters": [
+          {
+            "resistance": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "resistance"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "velocityMultiplier",
+        "parameters": [
+          {
+            "velocityMultiplier": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "velocityMultiplier"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "dynamicBounds"
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "getHardness"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "hardness",
+        "parameters": [
+          {
+            "hardness": {
+              "type": "parameter",
+              "return_type": "float",
+              "name": "hardness"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Settings",
+        "name": "emissiveLighting",
+        "parameters": [
+          {
+            "predicate": {
+              "type": "parameter",
+              "return_type": "ContextPredicate",
+              "name": "predicate"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "net.minecraft.block.AbstractBlock$OffsetType": {
+    "package": "net.minecraft.block",
+    "access_types": "public static final",
+    "type": "enum",
+    "name": "net.minecraft.block.AbstractBlock$OffsetType",
+    "fields": [
+      {
+        "access_types": "public static final",
+        "return_type": "OffsetType",
+        "name": "NONE"
+      },
+      {
+        "access_types": "public static final",
+        "return_type": "OffsetType",
+        "name": "XZ"
+      },
+      {
+        "access_types": "public static final",
+        "return_type": "OffsetType",
+        "name": "XYZ"
+      },
+      {
+        "access_types": "private static final",
+        "return_type": "OffsetType[]",
+        "name": "field_10658"
+      }
+    ],
+    "constructors": [
+      {
+        "access_types": "private",
+        "name": "net.minecraft.block.AbstractBlock$OffsetType",
+        "parameters": [
+          {
+            "string": {
+              "type": "parameter",
+              "return_type": "String",
+              "name": "string"
+            }
+          },
+          {
+            "i": {
+              "type": "parameter",
+              "return_type": "int",
+              "name": "i"
+            }
+          }
+        ]
+      }
+    ],
+    "methods": [
+      {
+        "access_types": "public static",
+        "return_type": "OffsetType[]",
+        "name": "values"
+      },
+      {
+        "access_types": "public static",
+        "return_type": "OffsetType",
+        "name": "valueOf",
+        "parameters": [
+          {
+            "string": {
+              "type": "parameter",
+              "return_type": "String",
+              "name": "string"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "private static",
+        "return_type": "OffsetType[]",
+        "name": "method_36719"
+      }
+    ]
+  },
+  "net.minecraft.block.AbstractBlock$TypedContextPredicate": {
+    "package": "net.minecraft.block",
+    "access_types": "public abstract static interface",
+    "type": "interface",
+    "name": "net.minecraft.block.AbstractBlock$TypedContextPredicate",
+    "fields": [],
+    "constructors": [],
+    "methods": [
+      {
+        "access_types": "public abstract",
+        "return_type": "boolean",
+        "name": "test",
+        "parameters": [
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "type": {
+              "type": "parameter",
+              "return_type": "Object",
+              "name": "type"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "net.minecraft.block.AbstractBlock$ContextPredicate": {
+    "package": "net.minecraft.block",
+    "access_types": "public abstract static interface",
+    "type": "interface",
+    "name": "net.minecraft.block.AbstractBlock$ContextPredicate",
+    "fields": [],
+    "constructors": [],
+    "methods": [
+      {
+        "access_types": "public abstract",
+        "return_type": "boolean",
+        "name": "test",
+        "parameters": [
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "net.minecraft.block.AbstractBlock$AbstractBlockState": {
+    "package": "net.minecraft.block",
+    "access_types": "public abstract static",
+    "type": "class",
+    "name": "net.minecraft.block.AbstractBlock$AbstractBlockState",
+    "fields": [
+      {
+        "access_types": "private final",
+        "return_type": "int",
+        "name": "luminance"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "boolean",
+        "name": "hasSidedTransparency"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "boolean",
+        "name": "isAir"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "Material",
+        "name": "material"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "MapColor",
+        "name": "mapColor"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "float",
+        "name": "hardness"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "boolean",
+        "name": "toolRequired"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "boolean",
+        "name": "opaque"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "ContextPredicate",
+        "name": "solidBlockPredicate"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "ContextPredicate",
+        "name": "suffocationPredicate"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "ContextPredicate",
+        "name": "blockVisionPredicate"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "ContextPredicate",
+        "name": "postProcessPredicate"
+      },
+      {
+        "access_types": "private final",
+        "return_type": "ContextPredicate",
+        "name": "emissiveLightingPredicate"
+      },
+      {
+        "access_types": "public",
+        "return_type": "ShapeCache",
+        "name": "shapeCache"
+      }
+    ],
+    "constructors": [
+      {
+        "access_types": "public",
+        "name": "net.minecraft.block.AbstractBlock$AbstractBlockState",
+        "parameters": [
+          {
+            "block": {
+              "type": "parameter",
+              "return_type": "Block",
+              "name": "block"
+            }
+          },
+          {
+            "propertyMap": {
+              "type": "parameter",
+              "return_type": "ImmutableMap",
+              "name": "propertyMap"
+            }
+          },
+          {
+            "codec": {
+              "type": "parameter",
+              "return_type": "MapCodec",
+              "name": "codec"
+            }
+          }
+        ]
+      }
+    ],
+    "methods": [
+      {
+        "access_types": "public final",
+        "return_type": "void",
+        "name": "prepare",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "WorldAccess",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "flags": {
+              "type": "parameter",
+              "return_type": "int",
+              "name": "flags"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "prepare",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "WorldAccess",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "flags": {
+              "type": "parameter",
+              "return_type": "int",
+              "name": "flags"
+            }
+          },
+          {
+            "maxUpdateDepth": {
+              "type": "parameter",
+              "return_type": "int",
+              "name": "maxUpdateDepth"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isOpaque"
+      },
+      {
+        "access_types": "public",
+        "return_type": "BlockState",
+        "name": "rotate",
+        "parameters": [
+          {
+            "rotation": {
+              "type": "parameter",
+              "return_type": "BlockRotation",
+              "name": "rotation"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Block",
+        "name": "getBlock"
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "randomTick",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "ServerWorld",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "random": {
+              "type": "parameter",
+              "return_type": "Random",
+              "name": "random"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "hasRandomTicks"
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "scheduledTick",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "ServerWorld",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "random": {
+              "type": "parameter",
+              "return_type": "Random",
+              "name": "random"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isAir"
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "neighborUpdate",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "block": {
+              "type": "parameter",
+              "return_type": "Block",
+              "name": "block"
+            }
+          },
+          {
+            "posFrom": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "posFrom"
+            }
+          },
+          {
+            "notify": {
+              "type": "parameter",
+              "return_type": "boolean",
+              "name": "notify"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public final",
+        "return_type": "boolean",
+        "name": "hasSolidTopSurface",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "entity": {
+              "type": "parameter",
+              "return_type": "Entity",
+              "name": "entity"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public final",
+        "return_type": "boolean",
+        "name": "hasSolidTopSurface",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "entity": {
+              "type": "parameter",
+              "return_type": "Entity",
+              "name": "entity"
+            }
+          },
+          {
+            "direction": {
+              "type": "parameter",
+              "return_type": "Direction",
+              "name": "direction"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isSolidBlock",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "onSyncedBlockEvent",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "type": {
+              "type": "parameter",
+              "return_type": "int",
+              "name": "type"
+            }
+          },
+          {
+            "data": {
+              "type": "parameter",
+              "return_type": "int",
+              "name": "data"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isOf",
+        "parameters": [
+          {
+            "block": {
+              "type": "parameter",
+              "return_type": "Block",
+              "name": "block"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "int",
+        "name": "getStrongRedstonePower",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "direction": {
+              "type": "parameter",
+              "return_type": "Direction",
+              "name": "direction"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "int",
+        "name": "getWeakRedstonePower",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "direction": {
+              "type": "parameter",
+              "return_type": "Direction",
+              "name": "direction"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isToolRequired"
+      },
+      {
+        "access_types": "public",
+        "return_type": "int",
+        "name": "getLuminance"
+      },
+      {
+        "access_types": "public",
+        "return_type": "VoxelShape",
+        "name": "getRaycastShape",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isSideSolidFullSquare",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "direction": {
+              "type": "parameter",
+              "return_type": "Direction",
+              "name": "direction"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public abstract",
+        "return_type": "BlockState",
+        "name": "asBlockState"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "exceedsCube"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "shouldBlockVision",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "shouldPostProcess",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "VoxelShape",
+        "name": "getCollisionShape",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "context": {
+              "type": "parameter",
+              "return_type": "ShapeContext",
+              "name": "context"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "VoxelShape",
+        "name": "getCollisionShape",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "onEntityCollision",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "entity": {
+              "type": "parameter",
+              "return_type": "Entity",
+              "name": "entity"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "BlockRenderType",
+        "name": "getRenderType"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isFullCube",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "canPlaceAt",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "WorldView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "BlockSoundGroup",
+        "name": "getSoundGroup"
+      },
+      {
+        "access_types": "public",
+        "return_type": "Material",
+        "name": "getMaterial"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isIn",
+        "parameters": [
+          {
+            "tag": {
+              "type": "parameter",
+              "return_type": "Tag",
+              "name": "tag"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isIn",
+        "parameters": [
+          {
+            "tag": {
+              "type": "parameter",
+              "return_type": "Tag",
+              "name": "tag"
+            }
+          },
+          {
+            "predicate": {
+              "type": "parameter",
+              "return_type": "Predicate",
+              "name": "predicate"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "PistonBehavior",
+        "name": "getPistonBehavior"
+      },
+      {
+        "access_types": "public",
+        "return_type": "BlockState",
+        "name": "mirror",
+        "parameters": [
+          {
+            "mirror": {
+              "type": "parameter",
+              "return_type": "BlockMirror",
+              "name": "mirror"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "hasComparatorOutput"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "hasSidedTransparency"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "hasEmissiveLighting",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "BlockEntityTicker",
+        "name": "getBlockEntityTicker",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "blockEntityType": {
+              "type": "parameter",
+              "return_type": "BlockEntityType",
+              "name": "blockEntityType"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "allowsSpawning",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "type": {
+              "type": "parameter",
+              "return_type": "EntityType",
+              "name": "type"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "initShapeCache"
+      },
+      {
+        "access_types": "public",
+        "return_type": "MapColor",
+        "name": "getMapColor",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "hasBlockEntity"
+      },
+      {
+        "access_types": "public final",
+        "return_type": "void",
+        "name": "updateNeighbors",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "WorldAccess",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "flags": {
+              "type": "parameter",
+              "return_type": "int",
+              "name": "flags"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public final",
+        "return_type": "void",
+        "name": "updateNeighbors",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "WorldAccess",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "flags": {
+              "type": "parameter",
+              "return_type": "int",
+              "name": "flags"
+            }
+          },
+          {
+            "maxUpdateDepth": {
+              "type": "parameter",
+              "return_type": "int",
+              "name": "maxUpdateDepth"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "int",
+        "name": "getOpacity",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "int",
+        "name": "getComparatorOutput",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "getAmbientOcclusionLightLevel",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "NamedScreenHandlerFactory",
+        "name": "createScreenHandlerFactory",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "BlockState",
+        "name": "getStateForNeighborUpdate",
+        "parameters": [
+          {
+            "direction": {
+              "type": "parameter",
+              "return_type": "Direction",
+              "name": "direction"
+            }
+          },
+          {
+            "neighborState": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "neighborState"
+            }
+          },
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "WorldAccess",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "neighborPos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "neighborPos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "VoxelShape",
+        "name": "getCameraCollisionShape",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "context": {
+              "type": "parameter",
+              "return_type": "ShapeContext",
+              "name": "context"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "calcBlockBreakingDelta",
+        "parameters": [
+          {
+            "player": {
+              "type": "parameter",
+              "return_type": "PlayerEntity",
+              "name": "player"
+            }
+          },
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isOpaqueFullCube",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "shouldSuffocate",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "FluidState",
+        "name": "getFluidState"
+      },
+      {
+        "access_types": "public",
+        "return_type": "long",
+        "name": "getRenderingSeed",
+        "parameters": [
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "VoxelShape",
+        "name": "getCullingShape",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "VoxelShape",
+        "name": "getSidesShape",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "ActionResult",
+        "name": "onUse",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "player": {
+              "type": "parameter",
+              "return_type": "PlayerEntity",
+              "name": "player"
+            }
+          },
+          {
+            "hand": {
+              "type": "parameter",
+              "return_type": "Hand",
+              "name": "hand"
+            }
+          },
+          {
+            "hit": {
+              "type": "parameter",
+              "return_type": "BlockHitResult",
+              "name": "hit"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "onBlockAdded",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "notify": {
+              "type": "parameter",
+              "return_type": "boolean",
+              "name": "notify"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "emitsRedstonePower"
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "canReplace",
+        "parameters": [
+          {
+            "context": {
+              "type": "parameter",
+              "return_type": "ItemPlacementContext",
+              "name": "context"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "onStateReplaced",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "moved": {
+              "type": "parameter",
+              "return_type": "boolean",
+              "name": "moved"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "canBucketPlace",
+        "parameters": [
+          {
+            "fluid": {
+              "type": "parameter",
+              "return_type": "Fluid",
+              "name": "fluid"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "VoxelShape",
+        "name": "getCullingFace",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "direction": {
+              "type": "parameter",
+              "return_type": "Direction",
+              "name": "direction"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isSideInvisible",
+        "parameters": [
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "direction": {
+              "type": "parameter",
+              "return_type": "Direction",
+              "name": "direction"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "List",
+        "name": "getDroppedStacks",
+        "parameters": [
+          {
+            "builder": {
+              "type": "parameter",
+              "return_type": "Builder",
+              "name": "builder"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isSideSolid",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "direction": {
+              "type": "parameter",
+              "return_type": "Direction",
+              "name": "direction"
+            }
+          },
+          {
+            "shapeType": {
+              "type": "parameter",
+              "return_type": "SideShapeType",
+              "name": "shapeType"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "isTranslucent",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "VoxelShape",
+        "name": "getOutlineShape",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "VoxelShape",
+        "name": "getOutlineShape",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "context": {
+              "type": "parameter",
+              "return_type": "ShapeContext",
+              "name": "context"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "onStacksDropped",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "ServerWorld",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "stack": {
+              "type": "parameter",
+              "return_type": "ItemStack",
+              "name": "stack"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "boolean",
+        "name": "canPathfindThrough",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "type": {
+              "type": "parameter",
+              "return_type": "NavigationType",
+              "name": "type"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "onBlockBreakStart",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          },
+          {
+            "player": {
+              "type": "parameter",
+              "return_type": "PlayerEntity",
+              "name": "player"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "void",
+        "name": "onProjectileHit",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "World",
+              "name": "world"
+            }
+          },
+          {
+            "state": {
+              "type": "parameter",
+              "return_type": "BlockState",
+              "name": "state"
+            }
+          },
+          {
+            "hit": {
+              "type": "parameter",
+              "return_type": "BlockHitResult",
+              "name": "hit"
+            }
+          },
+          {
+            "projectile": {
+              "type": "parameter",
+              "return_type": "ProjectileEntity",
+              "name": "projectile"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "float",
+        "name": "getHardness",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      },
+      {
+        "access_types": "public",
+        "return_type": "Vec3d",
+        "name": "getModelOffset",
+        "parameters": [
+          {
+            "world": {
+              "type": "parameter",
+              "return_type": "BlockView",
+              "name": "world"
+            }
+          },
+          {
+            "pos": {
+              "type": "parameter",
+              "return_type": "BlockPos",
+              "name": "pos"
+            }
+          }
+        ]
+      }
+    ],
+    "net.minecraft.block.AbstractBlock$AbstractBlockState$ShapeCache": {
+      "package": "net.minecraft.block",
+      "access_types": "public static final",
+      "type": "class",
+      "name": "net.minecraft.block.AbstractBlock$AbstractBlockState$ShapeCache",
+      "fields": [
+        {
+          "access_types": "private static final",
+          "return_type": "Direction[]",
+          "name": "DIRECTIONS"
+        },
+        {
+          "access_types": "private static final",
+          "return_type": "int",
+          "name": "SHAPE_TYPE_LENGTH"
+        },
+        {
+          "access_types": "public final",
+          "return_type": "boolean",
+          "name": "fullOpaque"
+        },
+        {
+          "access_types": "public final",
+          "return_type": "boolean",
+          "name": "translucent"
+        },
+        {
+          "access_types": "public final",
+          "return_type": "int",
+          "name": "lightSubtracted"
+        },
+        {
+          "access_types": "public final",
+          "return_type": "VoxelShape[]",
+          "name": "extrudedFaces"
+        },
+        {
+          "access_types": "public final",
+          "return_type": "VoxelShape",
+          "name": "collisionShape"
+        },
+        {
+          "access_types": "public final",
+          "return_type": "boolean",
+          "name": "exceedsCube"
+        },
+        {
+          "access_types": "private final",
+          "return_type": "boolean[]",
+          "name": "solidSides"
+        },
+        {
+          "access_types": "public final",
+          "return_type": "boolean",
+          "name": "isFullCube"
+        }
+      ],
+      "constructors": [
+        {
+          "access_types": "public",
+          "name": "net.minecraft.block.AbstractBlock$AbstractBlockState$ShapeCache",
+          "parameters": [
+            {
+              "state": {
+                "type": "parameter",
+                "return_type": "BlockState",
+                "name": "state"
+              }
+            }
+          ]
+        }
+      ],
+      "methods": [
+        {
+          "access_types": "private",
+          "return_type": "boolean",
+          "name": "method_17901",
+          "parameters": [
+            {
+              "axis": {
+                "type": "parameter",
+                "return_type": "Axis",
+                "name": "axis"
+              }
+            }
+          ]
+        },
+        {
+          "access_types": "private static",
+          "return_type": "int",
+          "name": "indexSolidSide",
+          "parameters": [
+            {
+              "direction": {
+                "type": "parameter",
+                "return_type": "Direction",
+                "name": "direction"
+              }
+            },
+            {
+              "shapeType": {
+                "type": "parameter",
+                "return_type": "SideShapeType",
+                "name": "shapeType"
+              }
+            }
+          ]
+        },
+        {
+          "access_types": "public",
+          "return_type": "boolean",
+          "name": "isSideSolid",
+          "parameters": [
+            {
+              "direction": {
+                "type": "parameter",
+                "return_type": "Direction",
+                "name": "direction"
+              }
+            },
+            {
+              "shapeType": {
+                "type": "parameter",
+                "return_type": "SideShapeType",
+                "name": "shapeType"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

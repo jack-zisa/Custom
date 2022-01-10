@@ -2,7 +2,7 @@ package creoii.custom.custom;
 
 import com.google.gson.*;
 import creoii.custom.data.CustomObject;
-import creoii.custom.util.CustomJsonHelper;
+import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;

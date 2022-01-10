@@ -1,0 +1,32 @@
+{
+  "events": [
+    {
+      "type": "right_click",
+      "action_result": "success",
+      "swing_hand": true,
+      "conditions": [
+        {
+          "type": "holding_item",
+          "item": "minecraft:stick"
+        }
+      ],
+      "effects": [
+        {
+          "type": "spawn_entity",
+          "entity_type": "minecraft:evoker",
+          "count": {
+            "type": "divide",
+            "first": {
+              "type": "world",
+              "value": "time"
+            },
+            "second": {
+              "type": "constant",
+              "value": 1000
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

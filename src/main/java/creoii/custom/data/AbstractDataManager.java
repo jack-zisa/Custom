@@ -5,8 +5,6 @@ import com.google.gson.Gson;
 import creoii.custom.Custom;
 import net.minecraft.data.Main;
 import net.minecraft.util.Identifier;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -26,7 +24,6 @@ public abstract class AbstractDataManager<T extends CustomObject> {
                 if (file.getName().endsWith(".json")) {
                     String fileName = file.getName();
                     try {
-                        System.out.println(file.getPath());
                         T obj = createCustomObject(Files.newBufferedReader(Paths.get(data + "/" + fileName)), gson);
                         builder.put(obj.getIdentifier(), obj);
                     } catch (Exception e) {
@@ -41,7 +38,8 @@ public abstract class AbstractDataManager<T extends CustomObject> {
                 if (Main.class.getResource(dataPath) == null) return;
                 ImmutableMap.Builder<Identifier, T> builder = ImmutableMap.builder();
                 String resource;
-                while ((resource = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream(dataPath))).readLine()) != null) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream(dataPath)));
+                while ((resource = reader.readLine()) != null) {
                     if (resource.endsWith(".json")) {
                         System.out.println(resource);
                         try {

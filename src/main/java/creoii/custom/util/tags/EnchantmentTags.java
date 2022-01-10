@@ -7,7 +7,7 @@ import net.minecraft.tag.TagGroup;
 
 public final class EnchantmentTags {
     public static RequiredTagList<Enchantment> REQUIRED_TAGS;
-    //public static Tag.Identified<Enchantment> CURSED;
+    public static Tag.Identified<Enchantment> CURSED;
     public static Tag.Identified<Enchantment> TREASURE;
 
     public static Tag.Identified<Enchantment> enchantment(String name) {

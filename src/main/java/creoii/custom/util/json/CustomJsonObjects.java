@@ -1,7 +1,8 @@
-package creoii.custom.util;
+package creoii.custom.util.json;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import creoii.custom.util.StringToObject;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.util.Formatting;
