@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.math.ValueHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -14,13 +15,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class AddVelocityEffect extends Effect {
-    private final float xVelocity;
-    private final float yVelocity;
-    private final float zVelocity;
+    private final ValueHolder xVelocity;
+    private final ValueHolder yVelocity;
+    private final ValueHolder zVelocity;
     private final boolean useLookVec;
     private final boolean useTargetPosition;
 
-    public AddVelocityEffect(float xVelocity, float yVelocity, float zVelocity, boolean useLookVec, boolean useTargetPosition) {
+    public AddVelocityEffect(ValueHolder xVelocity, ValueHolder yVelocity, ValueHolder zVelocity, boolean useLookVec, boolean useTargetPosition) {
         super(Effect.ADD_VELOCITY);
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
@@ -30,9 +31,9 @@ public class AddVelocityEffect extends Effect {
     }
 
     public static Effect getFromJson(JsonObject object) {
-        float xVelocity = JsonHelper.getFloat(object, "x_velocity", 0f);
-        float yVelocity = JsonHelper.getFloat(object, "y_velocity", 0f);
-        float zVelocity = JsonHelper.getFloat(object, "z_velocity", 0f);
+        ValueHolder xVelocity = ValueHolder.getFromJson(object, "x_velocity");
+        ValueHolder yVelocity = ValueHolder.getFromJson(object, "y_velocity");
+        ValueHolder zVelocity = ValueHolder.getFromJson(object, "z_velocity");
         boolean useLookVec = JsonHelper.getBoolean(object, "use_look_vec", true);
         boolean useTargetPosition = JsonHelper.getBoolean(object, "use_target_position", false);
         return new AddVelocityEffect(xVelocity, yVelocity, zVelocity, useLookVec, useTargetPosition);
@@ -41,19 +42,19 @@ public class AddVelocityEffect extends Effect {
     @Override
     public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
         Vec3d look = living.getRotationVector();
-        living.addVelocity(look.x * xVelocity, look.y * yVelocity, look.z * zVelocity);
+        living.addVelocity(look.x * xVelocity.getValue(), look.y * yVelocity.getValue(), look.z * zVelocity.getValue());
     }
 
     @Override
     public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
         Vec3d look = player.getRotationVector();
-        player.addVelocity(look.x * xVelocity, look.y * yVelocity, look.z * zVelocity);
+        player.addVelocity(look.x * xVelocity.getValue(), look.y * yVelocity.getValue(), look.z * zVelocity.getValue());
     }
 
     @Override
     public void runEntity(Entity entity, PlayerEntity player, Hand hand) {
         Vec3d look = entity.getRotationVector();
-        entity.addVelocity(look.x * xVelocity, look.y * yVelocity, look.z * zVelocity);
+        entity.addVelocity(look.x * xVelocity.getValue(), look.y * yVelocity.getValue(), look.z * zVelocity.getValue());
     }
 
     @Override
@@ -61,17 +62,17 @@ public class AddVelocityEffect extends Effect {
         Vec3d look;
         if (useTargetPosition) {
             look = target.getRotationVector();
-            target.addVelocity(look.x * xVelocity, look.y * yVelocity, look.z * zVelocity);
+            target.addVelocity(look.x * xVelocity.getValue(), look.y * yVelocity.getValue(), look.z * zVelocity.getValue());
         } else {
             look = user.getRotationVector();
-            user.addVelocity(look.x * xVelocity, look.y * yVelocity, look.z * zVelocity);
+            user.addVelocity(look.x * xVelocity.getValue(), look.y * yVelocity.getValue(), look.z * zVelocity.getValue());
         }
     }
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         Vec3d look = entity.getRotationVector();
-        entity.addVelocity(look.x * xVelocity, look.y * yVelocity, look.z * zVelocity);
+        entity.addVelocity(look.x * xVelocity.getValue(), look.y * yVelocity.getValue(), look.z * zVelocity.getValue());
     }
 
     @Override

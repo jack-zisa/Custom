@@ -61,8 +61,10 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         if (entityLandsEventCache == null) entityLandsEventCache = Event.findEvent(events, Event.ENTITY_LANDS);
-        ((EntityLandsEvent) entityLandsEventCache).setEntity(entity);
-        entityLandsEventCache.applyBlockEvent(world, state, pos, null, null);
+        if (leftClickEventCache != null) {
+            ((EntityLandsEvent) entityLandsEventCache).setEntity(entity);
+            entityLandsEventCache.applyBlockEvent(world, state, pos, null, null);
+        }
         super.onLandedUpon(world, state, pos, entity, fallDistance);
     }
 
@@ -70,7 +72,7 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @SuppressWarnings("deprecation")
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (rightClickEventCache == null) rightClickEventCache = Event.findEvent(events, Event.RIGHT_CLICK);
-        if (rightClickEventCache.applyBlockEvent(world, state, pos, player, hand)) {
+        if (rightClickEventCache != null && rightClickEventCache.applyBlockEvent(world, state, pos, player, hand)) {
             return ((RightClickEvent) rightClickEventCache).getActionResult();
         }
         return super.onUse(state, world, pos, player, hand, hit);
@@ -79,7 +81,7 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         if (steppedOnEventCache == null) steppedOnEventCache = Event.findEvent(events, Event.STEPPED_ON);
-        if (entity instanceof LivingEntity living) {
+        if (steppedOnEventCache != null && entity instanceof LivingEntity living) {
             steppedOnEventCache.applyBlockEvent(world, state, pos, living, living.getActiveHand());
         }
         super.onSteppedOn(world, pos, state, entity);
@@ -89,7 +91,7 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @SuppressWarnings("deprecation")
     public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
         if (projectileHitEventCache == null) projectileHitEventCache = Event.findEvent(events, Event.PROJECTILE_HIT);
-        if (projectile.getOwner() instanceof LivingEntity living) {
+        if (projectileHitEventCache != null && projectile.getOwner() instanceof LivingEntity living) {
             projectileHitEventCache.applyBlockEvent(world, state, hit.getBlockPos(), living, living.getActiveHand());
         }
         super.onProjectileHit(world, state, hit, projectile);
@@ -99,7 +101,7 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @SuppressWarnings("deprecation")
     public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         if (leftClickEventCache == null) leftClickEventCache = Event.findEvent(events, Event.LEFT_CLICK);
-        leftClickEventCache.applyBlockEvent(world, state, pos, player, player.getActiveHand());
+        if (leftClickEventCache != null) leftClickEventCache.applyBlockEvent(world, state, pos, player, player.getActiveHand());
         super.onBlockBreakStart(state, world, pos, player);
     }
 
@@ -107,24 +109,26 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @SuppressWarnings("deprecation")
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
         if (neighborUpdateEventCache == null) neighborUpdateEventCache = Event.findEvent(events, Event.NEIGHBOR_UPDATE);
-        NeighborUpdateEvent neighborUpdateEvent = (NeighborUpdateEvent) neighborUpdateEventCache;
-        neighborUpdateEvent.setNeighborState(block.getDefaultState());
-        neighborUpdateEvent.setNeighborPos(fromPos);
-        neighborUpdateEvent.applyBlockEvent(world, state, pos, null, null);
+        if (neighborUpdateEventCache != null) {
+            NeighborUpdateEvent neighborUpdateEvent = (NeighborUpdateEvent) neighborUpdateEventCache;
+            neighborUpdateEvent.setNeighborState(block.getDefaultState());
+            neighborUpdateEvent.setNeighborPos(fromPos);
+            neighborUpdateEvent.applyBlockEvent(world, state, pos, null, null);
+        }
         super.neighborUpdate(state, world, pos, block, fromPos, notify);
     }
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
         if (placeBlockEventCache == null) placeBlockEventCache = Event.findEvent(events, Event.PLACE_BLOCK);
-        placeBlockEventCache.applyBlockEvent(world, state, pos, placer, placer.getActiveHand());
+        if (placeBlockEventCache != null) placeBlockEventCache.applyBlockEvent(world, state, pos, placer, placer.getActiveHand());
         super.onPlaced(world, pos, state, placer, itemStack);
     }
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (breakBlockEventCache == null) breakBlockEventCache = Event.findEvent(events, Event.BREAK_BLOCK);
-        breakBlockEventCache.applyBlockEvent(world, state, pos, player, player.getActiveHand());
+        if (breakBlockEventCache != null) breakBlockEventCache.applyBlockEvent(world, state, pos, player, player.getActiveHand());
         super.onBreak(world, pos, state, player);
     }
 
@@ -132,7 +136,7 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @SuppressWarnings("deprecation")
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (entityCollisionEventCache == null) entityCollisionEventCache = Event.findEvent(events, Event.ENTITY_COLLISION);
-        if (entity instanceof LivingEntity living) {
+        if (entityCollisionEventCache != null && entity instanceof LivingEntity living) {
             entityCollisionEventCache.applyBlockEvent(world, state, pos, living, living.getActiveHand());
         }
         super.onEntityCollision(state, world, pos, entity);

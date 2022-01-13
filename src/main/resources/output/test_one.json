@@ -1,4 +1,12 @@
 {
+  "identifier": "custom:test_one",
+  "block_settings": {
+    "type": "copy",
+    "block": "minecraft:bedrock"
+  },
+  "item_settings": {
+    "item_group": "building_blocks"
+  },
   "events": [
     {
       "type": "right_click",
@@ -16,13 +24,14 @@
           "entity_type": "minecraft:evoker",
           "count": {
             "type": "divide",
-            "first": {
-              "type": "world",
-              "value": "time"
+            "input1": {
+              "type": "random",
+              "min_value": 10,
+              "max_value": 50
             },
-            "second": {
+            "input2": {
               "type": "constant",
-              "value": 1000
+              "value": 10
             }
           }
         }
