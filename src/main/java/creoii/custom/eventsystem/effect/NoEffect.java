@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -28,7 +29,7 @@ public class NoEffect extends Effect {
     }
 
     @Override
-    public void runEnchantment(Entity user, Entity target, int level) {
+    public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
     }
 
     @Override

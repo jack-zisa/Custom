@@ -2,6 +2,8 @@ package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -13,26 +15,26 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class DestroyEffect extends Effect {
-    private final boolean dropItem;
+    private final boolean blocksDropItem;
 
-    public DestroyEffect(boolean dropItem) {
+    public DestroyEffect(boolean blocksDropItem) {
         super(Effect.DESTROY);
-        this.dropItem = dropItem;
+        this.blocksDropItem = blocksDropItem;
     }
 
     public static Effect getFromJson(JsonObject object) {
-        boolean dropItem = JsonHelper.getBoolean(object, "drop_item", true);
-        return new DestroyEffect(dropItem);
+        boolean blocksDropItem = JsonHelper.getBoolean(object, "blocks_drop_item", true);
+        return new DestroyEffect(blocksDropItem);
     }
 
     @Override
     public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        world.breakBlock(pos, dropItem, living);
+        world.breakBlock(pos, blocksDropItem, living);
     }
 
     @Override
     public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        stack.setCount(stack.getCount() - 1);
+        stack.setCount(0);
     }
 
     @Override
@@ -41,8 +43,7 @@ public class DestroyEffect extends Effect {
     }
 
     @Override
-    public void runEnchantment(Entity user, Entity target, int level) {
-    }
+    public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) { }
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {

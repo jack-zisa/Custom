@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -31,7 +32,7 @@ public class NoCondition extends Condition {
     }
 
     @Override
-    public boolean testEnchantment(Entity user, Entity target, int level) {
+    public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
         return false;
     }
 

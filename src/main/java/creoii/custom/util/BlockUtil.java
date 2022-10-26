@@ -18,7 +18,7 @@ public class BlockUtil {
     }
 
     public static void melt(BlockState state, World world, BlockPos pos) {
-        if (world.getDimension().isUltrawarm()) {
+        if (world.getDimension().ultrawarm()) {
             world.removeBlock(pos, false);
             return;
         }

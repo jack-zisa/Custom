@@ -2,6 +2,7 @@ package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -18,8 +19,10 @@ public abstract class Condition {
     public static final String ENTITY_SNEAKING = "entity_sneaking";
     public static final String ENTITY_SPRINTING = "entity_sprinting";
     public static final String ENTITY_SWIMMING = "entity_swimming";
+    public static final String ENTITY_JUMPING = "entity_jumping";
     public static final String BIOME_MATCHES = "biome_matches";
     public static final String DIFFICULTY_MATCHES = "difficulty_matches";
+    public static final String BLOCK_MATCHES = "block_matches";
     public static final String HAS_ENCHANTMENT = "has_enchantment";
     public static final String HAS_STATUS_EFFECT = "has_status_effect";
     public static final String WEATHER_MATCHES = "weather_matches";
@@ -29,14 +32,14 @@ public abstract class Condition {
     public static final String PLAYER_LEVEL_WITHIN = "player_level_within";
     public static final String COMPOSITE = "composite";
 
-    private final String type;
+    private final String name;
 
-    public Condition(String type) {
-        this.type = type;
+    public Condition(String name) {
+        this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
     public static Condition getCondition(JsonObject object, String str) {
@@ -47,9 +50,11 @@ public abstract class Condition {
             case ENTITY_SNEAKING -> EntitySneakingCondition.getFromJson(object);
             case ENTITY_SPRINTING -> EntitySprintingCondition.getFromJson(object);
             case ENTITY_SWIMMING -> EntitySwimmingCondition.getFromJson(object);
+            case ENTITY_JUMPING -> EntityJumpingCondition.getFromJson(object);
             case BIOME_MATCHES -> BiomeMatchesCondition.getFromJson(object);
             case DIFFICULTY_MATCHES -> DifficultyMatchesCondition.getFromJson(object);
             case GAMEMODE_MATCHES -> GameModeMatchesCondition.getFromJson(object);
+            case BLOCK_MATCHES -> BlockMatchesCondition.getFromJson(object);
             case HAS_ENCHANTMENT -> HasEnchantmentCondition.getFromJson(object);
             case HAS_STATUS_EFFECT -> HasStatusEffectCondition.getFromJson(object);
             case WEATHER_MATCHES -> WeatherMatchesCondition.getFromJson(object);
@@ -64,7 +69,7 @@ public abstract class Condition {
     public abstract boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand);
     public abstract boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand);
     public abstract boolean testEntity(Entity entity, PlayerEntity player, Hand hand);
-    public abstract boolean testEnchantment(Entity user, Entity target, int level);
+    public abstract boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level);
     public abstract boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier);
     public abstract boolean testWorld(World world);
 }

@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -48,22 +49,21 @@ public class RandomTickEvent extends Event {
 
     public boolean applyEntityEvent(Entity entity, PlayerEntity player, Hand hand) {
         if (entity.getWorld().getRandom().nextFloat() > chance) {
-            super.applyEntityEvent(entity, player, hand);
+            return super.applyEntityEvent(entity, player, hand);
         }
         return false;
     }
 
-    public boolean applyEnchantmentEvent(Entity user, Entity target, int level) {
+    public void applyEnchantmentEvent(Enchantment enchantment, Entity user, Entity target, int level) {
         if (user.getWorld().getRandom().nextFloat() > chance) {
-            super.applyEnchantmentEvent(user, target, level);
+            super.applyEnchantmentEvent(enchantment, user, target, level);
         }
-        return false;
     }
 
     @Override
-    public boolean applyStatusEffectEvent(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
+    public void applyStatusEffectEvent(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         if (entity.getWorld().getRandom().nextFloat() > chance) {
             super.applyStatusEffectEvent(statusEffect, entity, amplifier);
         }
-        return false;    }
+    }
 }

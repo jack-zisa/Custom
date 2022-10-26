@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "custom",
-  "version": "${version}",
+  "version": "0.0.1",
   "name": "Custom",
   "description": "",
   "authors": [
@@ -9,7 +9,7 @@
   ],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/Custom/icon.png",
+  "icon": "assets/custom/icon.png",
   "environment": "*",
   "accessWidener": "custom.accesswidener",
   "entrypoints": {
@@ -24,8 +24,7 @@
     "custom.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.12",
-    "fabric": "*",
-    "minecraft": "1.18.1"
+    "fabricloader": ">=0.4.0",
+    "minecraft": "1.19.2"
   }
 }

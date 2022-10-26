@@ -56,4 +56,11 @@ public final class Functions {
             return value1.getValue() / value2.getValue();
         }
     };
+
+    public static final DoubleFunction POW = new DoubleFunction("pow") {
+        @Override
+        public double compute(ValueHolder value1, ValueHolder value2) {
+            return Math.pow(value1.getValue(), value2.getValue());
+        }
+    };
 }

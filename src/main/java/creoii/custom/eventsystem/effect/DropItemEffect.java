@@ -3,6 +3,7 @@ package creoii.custom.eventsystem.effect;
 import com.google.gson.JsonObject;
 import creoii.custom.util.math.ValueHolder;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -56,7 +57,7 @@ public class DropItemEffect extends Effect {
     }
 
     @Override
-    public void runEnchantment(Entity user, Entity target, int level) {
+    public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
         itemEntity = new ItemEntity(target.world, target.getX() + .5f, target.getY() + .5f, target.getZ() + .5f, new ItemStack(item, (int) amount.getValue()));
         itemEntity.setToDefaultPickupDelay();
         target.world.spawnEntity(itemEntity);

@@ -3,6 +3,7 @@ package creoii.custom.eventsystem.effect;
 import com.google.gson.JsonObject;
 import creoii.custom.util.math.ValueHolder;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -19,15 +20,15 @@ public class AddVelocityEffect extends Effect {
     private final ValueHolder yVelocity;
     private final ValueHolder zVelocity;
     private final boolean useLookVec;
-    private final boolean useTargetPosition;
+    private final boolean affectTarget;
 
-    public AddVelocityEffect(ValueHolder xVelocity, ValueHolder yVelocity, ValueHolder zVelocity, boolean useLookVec, boolean useTargetPosition) {
+    public AddVelocityEffect(ValueHolder xVelocity, ValueHolder yVelocity, ValueHolder zVelocity, boolean useLookVec, boolean affectTarget) {
         super(Effect.ADD_VELOCITY);
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
         this.zVelocity = zVelocity;
         this.useLookVec = useLookVec;
-        this.useTargetPosition = useTargetPosition;
+        this.affectTarget = affectTarget;
     }
 
     public static Effect getFromJson(JsonObject object) {
@@ -35,8 +36,8 @@ public class AddVelocityEffect extends Effect {
         ValueHolder yVelocity = ValueHolder.getFromJson(object, "y_velocity");
         ValueHolder zVelocity = ValueHolder.getFromJson(object, "z_velocity");
         boolean useLookVec = JsonHelper.getBoolean(object, "use_look_vec", true);
-        boolean useTargetPosition = JsonHelper.getBoolean(object, "use_target_position", false);
-        return new AddVelocityEffect(xVelocity, yVelocity, zVelocity, useLookVec, useTargetPosition);
+        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
+        return new AddVelocityEffect(xVelocity, yVelocity, zVelocity, useLookVec, affectTarget);
     }
 
     @Override
@@ -58,9 +59,9 @@ public class AddVelocityEffect extends Effect {
     }
 
     @Override
-    public void runEnchantment(Entity user, Entity target, int level) {
+    public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
         Vec3d look;
-        if (useTargetPosition) {
+        if (affectTarget) {
             look = target.getRotationVector();
             target.addVelocity(look.x * xVelocity.getValue(), look.y * yVelocity.getValue(), look.z * zVelocity.getValue());
         } else {

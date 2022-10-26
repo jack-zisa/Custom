@@ -2,6 +2,7 @@ package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -22,12 +23,12 @@ public class ApplyStatusEffectEffect extends Effect {
     private final boolean ambient;
     private final boolean showParticles;
     private final boolean showIcon;
-    private final boolean useTargetPosition;
+    private final boolean affectTarget;
 
     public ApplyStatusEffectEffect(StatusEffect statusEffect,
                                    int amplifier, int duration,
                                    boolean ambient, boolean showParticles, boolean showIcon,
-                                   boolean useTargetPosition
+                                   boolean affectTarget
     ) {
         super(Effect.APPLY_STATUS_EFFECT);
         this.statusEffect = statusEffect;
@@ -36,7 +37,7 @@ public class ApplyStatusEffectEffect extends Effect {
         this.ambient = ambient;
         this.showParticles = showParticles;
         this.showIcon = showIcon;
-        this.useTargetPosition = useTargetPosition;
+        this.affectTarget = affectTarget;
     }
 
     public static Effect getFromJson(JsonObject object) {
@@ -48,37 +49,39 @@ public class ApplyStatusEffectEffect extends Effect {
         boolean ambient = JsonHelper.getBoolean(object, "ambient", false);
         boolean showParticles = JsonHelper.getBoolean(object, "show_particles", true);
         boolean showIcon = JsonHelper.getBoolean(object, "show_icon", true);
-        boolean useTargetPosition = JsonHelper.getBoolean(object, "use_target_position", false);
-        return new ApplyStatusEffectEffect(statusEffect, amplifier, duration, ambient, showParticles, showIcon, useTargetPosition);
+        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
+        return new ApplyStatusEffectEffect(statusEffect, amplifier, duration, ambient, showParticles, showIcon, affectTarget);
+    }
+
+    private void run(Entity entity) {
+        if (entity instanceof LivingEntity livingEntity) {
+            livingEntity.addStatusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon));
+        }
     }
 
     @Override
     public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        living.addStatusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon));
+        run(living);
     }
 
     @Override
     public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        player.addStatusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon));
+        run(player);
     }
 
     @Override
     public void runEntity(Entity entity, PlayerEntity player, Hand hand) {
-        if (useTargetPosition && entity.isLiving()) {
-            ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon));
-        } else player.addStatusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon));
+        run(player);
     }
 
     @Override
-    public void runEnchantment(Entity user, Entity target, int level) {
-        if (useTargetPosition && target.isLiving()) {
-            ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon));
-        } else if (user.isLiving()) ((LivingEntity) user).addStatusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon));
+    public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
+        run(affectTarget ? target : user);
     }
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        entity.addStatusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon));
+        run(entity);
     }
 
     @Override

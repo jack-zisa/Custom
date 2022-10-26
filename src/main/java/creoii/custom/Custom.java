@@ -7,6 +7,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.village.TradeOffers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,6 @@ public class Custom implements ModInitializer, ClientModInitializer {
     public static final StatusEffectManager STATUS_EFFECT_MANAGER = new StatusEffectManager();
     public static final PaintingsManager PAINTINGS_MANAGER = new PaintingsManager();
     public static final VillagerTradesManager VILLAGER_TRADES_MANAGER = new VillagerTradesManager();
-    public static final VillagerProfessionManager VILLAGER_PROFESSION_MANAGER = new VillagerProfessionManager();
     public static final VillagerTypeManager VILLAGER_TYPE_MANAGER = new VillagerTypeManager();
     public static final GlobalEventManager GLOBAL_EVENT_MANAGER = new GlobalEventManager();
 
@@ -53,6 +53,10 @@ public class Custom implements ModInitializer, ClientModInitializer {
         //JsonElement element = JsonReflection.serializeClass(AbstractBlock.class);
         //System.out.println(element);
         //System.out.println(JsonReflection.deserializeClass(element, true));
+
+        //BuiltinRegistries.CONFIGURED_FEATURE.forEach(feature -> {
+        //    System.out.println(BuiltinRegistries.CONFIGURED_FEATURE.getId(feature).toString());
+        //});
 
         LOGGER.info("Custom has been successfully initialized");
     }

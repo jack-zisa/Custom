@@ -13,52 +13,62 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class HealEffect extends Effect {
-    private final float amount;
+public class GiveExperienceEffect extends Effect {
+    private final int amount;
+    private final Type type;
     private final boolean affectTarget;
 
-    public HealEffect(float amount, boolean affectTarget) {
-        super(Effect.HEAL);
+    public GiveExperienceEffect(int amount, Type type, boolean affectTarget) {
+        super(Effect.GIVE_EXPERIENCE);
         this.amount = amount;
+        this.type = type;
         this.affectTarget = affectTarget;
     }
 
     public static Effect getFromJson(JsonObject object) {
-        float amount = JsonHelper.getFloat(object, "amount", 0f);
+        int amount = JsonHelper.getInt(object, "amount", 0);
+        Type type = Type.valueOf(JsonHelper.getString(object, "type", "experience").toUpperCase());
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new HealEffect(amount, affectTarget);
+        return new GiveExperienceEffect(amount, type, affectTarget);
+    }
+
+    private void run(Entity entity) {
+        if (entity instanceof PlayerEntity playerEntity) {
+            if (type == Type.EXPERIENCE) playerEntity.addExperience(amount);
+            else playerEntity.addExperienceLevels(amount);
+        }
     }
 
     @Override
     public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        living.heal(this.amount);
+        run(living);
     }
 
     @Override
     public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        player.heal(this.amount);
+        run(player);
     }
 
     @Override
     public void runEntity(Entity entity, PlayerEntity player, Hand hand) {
-        if (entity instanceof LivingEntity) {
-            ((LivingEntity) entity).heal(this.amount);
-        }
+        run(player);
     }
 
     @Override
     public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        Entity entity = affectTarget ? target : user;
-        if (entity instanceof LivingEntity living) {
-            living.heal(this.amount);
-        }
+        run(affectTarget ? target : user);
     }
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        entity.heal(this.amount);
+        run(entity);
     }
 
     @Override
     public void runWorld(World world) { }
+
+    enum Type {
+        EXPERIENCE,
+        LEVELS;
+    }
 }

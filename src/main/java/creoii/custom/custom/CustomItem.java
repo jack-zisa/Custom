@@ -63,7 +63,7 @@ public class CustomItem extends Item implements CustomObject {
                     for (int i = 0; i < events.length; ++i) {
                         if (array.get(i).isJsonObject()) {
                             JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = Event.getEvent(eventObj, eventObj.get("type").getAsString());
+                            events[i] = Event.getEvent(eventObj, eventObj.get("name").getAsString());
                         }
                     }
                 }

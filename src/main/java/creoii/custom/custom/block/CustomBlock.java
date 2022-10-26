@@ -2,6 +2,8 @@ package creoii.custom.custom.block;
 
 import com.google.gson.*;
 import creoii.custom.data.CustomObject;
+import creoii.custom.eventsystem.condition.Condition;
+import creoii.custom.eventsystem.effect.Effect;
 import creoii.custom.eventsystem.event.Event;
 import creoii.custom.util.BlockUtil;
 import creoii.custom.util.StringToObject;
@@ -47,6 +49,8 @@ public class CustomBlock extends Block implements CustomObject {
     private final int flammability;
     private final int fireSpread;
     private final float compostChance;
+
+    private Event[] events;
 
     public CustomBlock(
             Identifier identifier, boolean hasItem, Settings blockSettings, Item.Settings itemSettings,
@@ -122,11 +126,6 @@ public class CustomBlock extends Block implements CustomObject {
 
     public PathNodeType getPathNodeType() {
         return pathNodeType;
-    }
-
-    @Override
-    public OffsetType getOffsetType() {
-        return offsetType;
     }
 
     public int getFlammability() {
@@ -224,7 +223,7 @@ public class CustomBlock extends Block implements CustomObject {
                     for (int i = 0; i < events.length; ++i) {
                         if (array.get(i).isJsonObject()) {
                             JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = Event.getEvent(eventObj, eventObj.get("type").getAsString());
+                            events[i] = Event.getEvent(eventObj, eventObj.get("name").getAsString());
                         }
                     }
                 }
@@ -301,7 +300,6 @@ public class CustomBlock extends Block implements CustomObject {
             object.addProperty("fuel_power", src.getFuelPower());
             object.add("render_layer", context.serialize(src.getRenderLayer()));
             object.add("pathing_type", context.serialize(src.getPathNodeType()));
-            object.add("offset_type", context.serialize(src.getOffsetType()));
             object.addProperty("flammability", src.getFlammability());
             object.addProperty("compost_chance", src.getCompostChance());
             return object;

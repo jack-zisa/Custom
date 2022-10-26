@@ -29,7 +29,7 @@ public class EventCustomEnchantment extends CustomEnchantment {
         super.onTargetDamaged(user, target, level);
         Event event = Event.findEvent(events, Event.TARGET_DAMAGED);
         if (event != null) {
-            event.applyEnchantmentEvent(user, target, level);
+            event.applyEnchantmentEvent(this, user, target, level);
         }
     }
 
@@ -38,7 +38,7 @@ public class EventCustomEnchantment extends CustomEnchantment {
         super.onUserDamaged(user, attacker, level);
         Event event = Event.findEvent(events, Event.USER_DAMAGED);
         if (event != null) {
-            event.applyEnchantmentEvent(user, attacker, level);
+            event.applyEnchantmentEvent(this, user, attacker, level);
         }
     }
 }

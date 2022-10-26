@@ -2,6 +2,7 @@ package creoii.custom.custom;
 
 import creoii.custom.eventsystem.event.Event;
 import creoii.custom.eventsystem.event.RightClickEvent;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
@@ -77,5 +78,14 @@ public class EventCustomItem extends CustomItem {
             event.applyItemEvent(player.world, stack, player.getBlockPos(), player, player.getActiveHand());
         }
         return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
+    }
+
+    @Override
+    public void onItemEntityDestroyed(ItemEntity entity) {
+        Event event = Event.findEvent(events, Event.ITEM_DESPAWN);
+        if (event != null) {
+            event.applyItemEvent(entity.world, entity.getStack(), entity.getBlockPos(), null, null);
+        }
+        super.onItemEntityDestroyed(entity);
     }
 }

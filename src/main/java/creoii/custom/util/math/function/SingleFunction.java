@@ -13,6 +13,7 @@ public abstract class SingleFunction extends Function {
         super(name);
         Function.getSingleFunctions().add(name);
     }
+
     public static SingleFunction getFromJson(JsonObject object) {
         if (object.has("value")) {
             SingleFunction function = SingleFunction.getByType(JsonHelper.getString(object, "type"));

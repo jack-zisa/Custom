@@ -3,6 +3,7 @@ package creoii.custom.eventsystem.effect;
 import com.google.gson.JsonObject;
 import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -60,7 +61,7 @@ public class SpawnEntityEffect extends Effect {
     }
 
     @Override
-    public void runEnchantment(Entity user, Entity target, int level) {
+    public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
         World world = target.getWorld();
         if (!world.isClient) {
             BlockPos pos = useTargetPosition ? target.getBlockPos() : user.getBlockPos();

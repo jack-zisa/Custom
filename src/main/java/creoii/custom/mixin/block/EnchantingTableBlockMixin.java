@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(EnchantingTableBlock.class)
 public class EnchantingTableBlockMixin {
-    @Redirect(method = "randomDisplayTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
-    private boolean custom$applyEnchantBoostParticles(BlockState state, Block block) {
-        return state.isIn(BlockTags.BOOSTS_ENCHANTMENTS);
+    @Redirect(method = "canAccessBookshelf", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
+    private static boolean custom$applyEnchantBoostParticles(BlockState instance, Block block) {
+        return instance.isIn(BlockTags.BOOSTS_ENCHANTMENTS);
     }
 }

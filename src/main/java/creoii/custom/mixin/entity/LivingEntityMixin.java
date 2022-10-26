@@ -10,6 +10,9 @@ import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
@@ -28,25 +31,27 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Override
-    public void onKilledOther(ServerWorld world, LivingEntity other) {
-        super.onKilledOther(world, other);
-        if (this.getType().isIn(EntityTypeTags.ZOMBIES)) {
-            if ((world.getDifficulty() == Difficulty.NORMAL || world.getDifficulty() == Difficulty.HARD) && other instanceof VillagerEntity villagerEntity) {
-                if (world.getDifficulty() != Difficulty.HARD && this.random.nextBoolean()) {
-                    return;
-                }
-
-                ZombieVillagerEntity zombieVillagerEntity = villagerEntity.convertTo(EntityType.ZOMBIE_VILLAGER, false);
-                zombieVillagerEntity.initialize(world, world.getLocalDifficulty(zombieVillagerEntity.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), null);
-                zombieVillagerEntity.setVillagerData(villagerEntity.getVillagerData());
-                zombieVillagerEntity.setGossipData(villagerEntity.getGossip().serialize(NbtOps.INSTANCE).getValue());
-                zombieVillagerEntity.setOfferData(villagerEntity.getOffers().toNbt());
-                zombieVillagerEntity.setXp(villagerEntity.getExperience());
-                if (!this.isSilent()) {
-                    world.syncWorldEvent(null, 1026, this.getBlockPos(), 0);
-                }
+    public boolean onKilledOther(ServerWorld world, LivingEntity other) {
+        boolean bl = super.onKilledOther(world, other);
+        if ((world.getDifficulty() == Difficulty.NORMAL || world.getDifficulty() == Difficulty.HARD) && other instanceof VillagerEntity villagerEntity) {
+            if (world.getDifficulty() != Difficulty.HARD && this.random.nextBoolean()) {
+                return bl;
             }
+
+            ZombieVillagerEntity zombieVillagerEntity = villagerEntity.convertTo(EntityType.ZOMBIE_VILLAGER, false);
+            zombieVillagerEntity.initialize(world, world.getLocalDifficulty(zombieVillagerEntity.getBlockPos()), SpawnReason.CONVERSION, new ZombieEntity.ZombieData(false, true), (NbtCompound)null);
+            zombieVillagerEntity.setVillagerData(villagerEntity.getVillagerData());
+            zombieVillagerEntity.setGossipData(villagerEntity.getGossip().serialize(NbtOps.INSTANCE).getValue());
+            zombieVillagerEntity.setOfferData(villagerEntity.getOffers().toNbt());
+            zombieVillagerEntity.setXp(villagerEntity.getExperience());
+            if (!this.isSilent()) {
+                world.syncWorldEvent(null, 1026, this.getBlockPos(), 0);
+            }
+
+            bl = false;
         }
+
+        return bl;
     }
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
@@ -62,7 +67,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "canWalkOnFluid", at = @At("RETURN"), cancellable = true)
-    private void custom$injectFluidWalkers(Fluid fluid, CallbackInfoReturnable<Boolean> cir) {
+    private void custom$injectFluidWalkers(FluidState state, CallbackInfoReturnable<Boolean> cir) {
         cir.cancel();
         cir.setReturnValue(this.getType().isIn(EntityTypeTags.WALKS_ON_FLUIDS));
     }

@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -9,54 +10,59 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.BuiltinRegistries;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 
-public class HealEffect extends Effect {
-    private final float amount;
+public class EmitGameEventEffect extends Effect {
+    private final GameEvent gameEvent;
+    private final BlockPos offset;
     private final boolean affectTarget;
 
-    public HealEffect(float amount, boolean affectTarget) {
-        super(Effect.HEAL);
-        this.amount = amount;
+    public EmitGameEventEffect(GameEvent gameEvent, BlockPos offset, boolean affectTarget) {
+        super(Effect.EMIT_GAME_EVENT);
+        this.gameEvent = gameEvent;
+        this.offset = offset;
         this.affectTarget = affectTarget;
     }
 
     public static Effect getFromJson(JsonObject object) {
-        float amount = JsonHelper.getFloat(object, "amount", 0f);
+        GameEvent event = Registry.GAME_EVENT.get(Identifier.tryParse(JsonHelper.getString(object, "event")));
+        BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new HealEffect(amount, affectTarget);
+        return new EmitGameEventEffect(event, offset, affectTarget);
     }
 
     @Override
     public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        living.heal(this.amount);
+        world.emitGameEvent(null, gameEvent, pos.add(offset));
     }
 
     @Override
     public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        player.heal(this.amount);
+        world.emitGameEvent(null, gameEvent, pos.add(offset));
     }
 
     @Override
     public void runEntity(Entity entity, PlayerEntity player, Hand hand) {
-        if (entity instanceof LivingEntity) {
-            ((LivingEntity) entity).heal(this.amount);
-        }
+        entity.getWorld().emitGameEvent(null, gameEvent, entity.getBlockPos().add(offset));
     }
 
     @Override
     public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        Entity entity = affectTarget ? target : user;
-        if (entity instanceof LivingEntity living) {
-            living.heal(this.amount);
-        }
+        BlockPos pos = affectTarget ? target.getBlockPos() : user.getBlockPos();
+        user.getWorld().emitGameEvent(null, gameEvent, pos.add(offset));
     }
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        entity.heal(this.amount);
+        entity.getWorld().emitGameEvent(null, gameEvent, entity.getBlockPos().add(offset));
     }
 
     @Override

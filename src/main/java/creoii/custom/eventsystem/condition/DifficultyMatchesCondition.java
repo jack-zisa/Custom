@@ -2,6 +2,7 @@ package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -26,33 +27,37 @@ public class DifficultyMatchesCondition extends Condition {
         return new DifficultyMatchesCondition(difficulty);
     }
 
+    private boolean test(World world) {
+        return world.getDifficulty() == difficulty;
+    }
+
     @Override
     public boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        return world.getDifficulty() == difficulty;
+        return test(world);
     }
 
     @Override
     public boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        return world.getDifficulty() == difficulty;
+        return test(world);
     }
 
     @Override
     public boolean testEntity(Entity entity, PlayerEntity player, Hand hand) {
-        return entity.getWorld().getDifficulty() == difficulty;
+        return test(entity.getWorld());
     }
 
     @Override
-    public boolean testEnchantment(Entity user, Entity target, int level) {
-        return user.getWorld().getDifficulty() == difficulty;
+    public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
+        return test(user.getWorld());
     }
 
     @Override
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        return entity.getWorld().getDifficulty() == difficulty;
+        return test(entity.getWorld());
     }
 
     @Override
     public boolean testWorld(World world) {
-        return world.getDifficulty() == difficulty;
+        return test(world);
     }
 }

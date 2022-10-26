@@ -54,6 +54,7 @@ public abstract class DoubleFunction extends Function implements ValueHolder {
             case "subtract" -> Functions.SUBTRACT;
             case "multiply" -> Functions.MULTIPLY;
             case "divide" -> Functions.DIVIDE;
+            case "pow" -> Functions.POW;
             default -> Functions.NONE_DOUBLE;
         };
     }

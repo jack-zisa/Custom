@@ -2,6 +2,7 @@ package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -59,11 +60,11 @@ public class CompositeCondition extends Condition {
     }
 
     @Override
-    public boolean testEnchantment(Entity user, Entity target, int level) {
+    public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
         if (comparison == Comparison.AND) {
-            return first.testEnchantment(user, target, level) && second.testEnchantment(user, target, level);
+            return first.testEnchantment(enchantment, user, target, level) && second.testEnchantment(enchantment, user, target, level);
         } else {
-            return first.testEnchantment(user, target, level) || second.testEnchantment(user, target, level);
+            return first.testEnchantment(enchantment, user, target, level) || second.testEnchantment(enchantment, user, target, level);
         }
     }
 

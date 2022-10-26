@@ -1,23 +1,23 @@
 package creoii.custom.util.tags;
 
 import creoii.custom.Custom;
-import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.entity.EntityType;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 public class EntityTypeTags {
-    public static final Tag<EntityType<?>> ZOMBIES = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "zombies"));
-    public static final Tag<EntityType<?>> SPIDERS = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "spiders"));
-    public static final Tag<EntityType<?>> MILKABLES = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "milkables"));
-    public static final Tag<EntityType<?>> VEHICLES = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "vehicles"));
-    public static final Tag<EntityType<?>> PROJECTILES_PASS_THROUGH = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "projectiles_pass_through"));
-    public static final Tag<EntityType<?>> IMMOVABLE_BY_FLUIDS = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "immovable_by_fluids"));
-    public static final Tag<EntityType<?>> FIERY = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "fiery"));
-    public static final Tag<EntityType<?>> CACTUS_IMMUNE = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "cactus_immune"));
-    public static final Tag<EntityType<?>> BERRY_BUSH_IMMUNE = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "berry_bush_immune"));
-    public static final Tag<EntityType<?>> WALKS_ON_FLUIDS = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "berry_bush_immune"));
-    public static final Tag<EntityType<?>> GOAT_UNRAMMABLE = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "goat_unrammable"));
-    public static final Tag<EntityType<?>> DRIPSTONE_IMMUNE = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "dripstone_immune"));
-    public static final Tag<EntityType<?>> WOLF_PREY = TagFactory.ENTITY_TYPE.create(new Identifier(Custom.MOD_ID, "wolf_prey"));
+    public static final TagKey<EntityType<?>> ZOMBIES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "zombies"));
+    public static final TagKey<EntityType<?>> SPIDERS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "spiders"));
+    public static final TagKey<EntityType<?>> MILKABLES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "milkables"));
+    public static final TagKey<EntityType<?>> VEHICLES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "vehicles"));
+    public static final TagKey<EntityType<?>> PROJECTILES_PASS_THROUGH = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "projectiles_pass_through"));
+    public static final TagKey<EntityType<?>> IMMOVABLE_BY_FLUIDS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "immovable_by_fluids"));
+    public static final TagKey<EntityType<?>> FIERY = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "fiery"));
+    public static final TagKey<EntityType<?>> CACTUS_IMMUNE = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "cactus_immune"));
+    public static final TagKey<EntityType<?>> BERRY_BUSH_IMMUNE = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "berry_bush_immune"));
+    public static final TagKey<EntityType<?>> WALKS_ON_FLUIDS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "berry_bush_immune"));
+    public static final TagKey<EntityType<?>> GOAT_UNRAMMABLE = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "goat_unrammable"));
+    public static final TagKey<EntityType<?>> DRIPSTONE_IMMUNE = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "dripstone_immune"));
+    public static final TagKey<EntityType<?>> WOLF_PREY = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(Custom.MOD_ID, "wolf_prey"));
 }

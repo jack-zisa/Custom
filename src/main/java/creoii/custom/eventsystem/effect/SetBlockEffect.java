@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -8,55 +9,59 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public class HealEffect extends Effect {
-    private final float amount;
+public class SetBlockEffect extends Effect {
+    private final Block block;
     private final boolean affectTarget;
 
-    public HealEffect(float amount, boolean affectTarget) {
-        super(Effect.HEAL);
-        this.amount = amount;
+    public SetBlockEffect(Block block, boolean affectTarget) {
+        super(Effect.SET_BLOCK);
+        this.block = block;
         this.affectTarget = affectTarget;
     }
 
     public static Effect getFromJson(JsonObject object) {
-        float amount = JsonHelper.getFloat(object, "amount", 0f);
-        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new HealEffect(amount, affectTarget);
+        Block block = Registry.BLOCK.get(Identifier.tryParse(JsonHelper.getString(object, "block")));
+        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target");
+        return new SetBlockEffect(block, affectTarget);
+    }
+
+    private void run(World world, BlockPos pos) {
+        world.setBlockState(pos, block.getDefaultState(), 3);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        living.heal(this.amount);
+        run(world, pos);
     }
 
     @Override
     public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        player.heal(this.amount);
+        run(world, pos);
     }
 
     @Override
     public void runEntity(Entity entity, PlayerEntity player, Hand hand) {
-        if (entity instanceof LivingEntity) {
-            ((LivingEntity) entity).heal(this.amount);
-        }
+        run(entity.getWorld(), entity.getBlockPos());
     }
 
     @Override
     public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        Entity entity = affectTarget ? target : user;
-        if (entity instanceof LivingEntity living) {
-            living.heal(this.amount);
-        }
+        run(user.getWorld(), affectTarget ? target.getBlockPos() : user.getBlockPos());
     }
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        entity.heal(this.amount);
+        run(entity.getWorld(), entity.getBlockPos());
     }
 
     @Override

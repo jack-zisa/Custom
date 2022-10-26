@@ -3,13 +3,15 @@ package creoii.custom.eventsystem.effect;
 import com.google.gson.JsonObject;
 import creoii.custom.util.json.CustomJsonObjects;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -31,7 +33,7 @@ public class SendMessageEffect extends Effect {
 
     public static Effect getFromJson(JsonObject object) {
         CustomJsonObjects.TextFormatting formatting = CustomJsonObjects.TextFormatting.get(object);
-        LiteralText text = new LiteralText(JsonHelper.getString(object, "text", ""));
+        MutableText text = MutableText.of(new LiteralTextContent(JsonHelper.getString(object, "text", ""))).formatted(formatting.formatting());
         for (Formatting formatting1 : formatting.formatting()) {
             text.formatted(formatting1);
         }
@@ -67,7 +69,7 @@ public class SendMessageEffect extends Effect {
     }
 
     @Override
-    public void runEnchantment(Entity user, Entity target, int level) {
+    public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
         if (!user.getWorld().isClient) {
             ((ServerWorld) user.getWorld()).getPlayers().forEach(player1 -> {
                 player1.sendMessage(text, actionBar);

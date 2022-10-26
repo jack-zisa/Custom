@@ -2,20 +2,20 @@ package creoii.custom.custom;
 
 import com.google.gson.*;
 import creoii.custom.data.CustomObject;
-import net.minecraft.entity.decoration.painting.PaintingMotive;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Type;
 
-public class CustomPainting extends PaintingMotive implements CustomObject {
+public class CustomPainting extends PaintingVariant implements CustomObject {
     private final Identifier identifier;
 
     public CustomPainting(Identifier identifier, int width, int height) {
         super(width, height);
         this.identifier = identifier;
-        Registry.register(Registry.PAINTING_MOTIVE, this.getIdentifier(), this);
+        Registry.register(Registry.PAINTING_VARIANT, this.getIdentifier(), this);
     }
 
     @Override

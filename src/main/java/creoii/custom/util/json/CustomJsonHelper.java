@@ -1,5 +1,6 @@
 package creoii.custom.util.json;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -7,9 +8,7 @@ import com.google.gson.JsonSyntaxException;
 import creoii.custom.custom.CustomMaterial;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.FoodComponent;
@@ -54,7 +53,6 @@ public class CustomJsonHelper {
                         .velocityMultiplier(JsonHelper.getFloat(object, "velocity_multiplier", 1f))
                         .jumpVelocityMultiplier(JsonHelper.getFloat(object, "jump_velocity_multiplier", 1f))
                         .suffocates((state, world, pos) -> JsonHelper.getBoolean(object, "suffocates", true))
-                        .breakByHand(JsonHelper.getBoolean(object, "break_by_hand", false))
                         .blockVision((state, world, pos) -> JsonHelper.getBoolean(object, "blocks_vision", true))
                         .solidBlock((state, world, pos) -> JsonHelper.getBoolean(object, "solid", true))
                         .dropsLike(block(JsonHelper.getString(object, "drops_like", "minecraft:air")));
@@ -181,5 +179,14 @@ public class CustomJsonHelper {
             return new BlockPos(x, y, z);
         }
         throw new JsonSyntaxException("Expected " + name + " to be block pos, was " + JsonHelper.getType(element));
+    }
+
+    public static BlockState getBlockState(JsonElement element, String name) {
+        if (element.isJsonObject()) {
+            JsonObject object = JsonHelper.asObject(element, "block state");
+            Block block = Registry.BLOCK.get(Identifier.tryParse(object.get("block").getAsString()));
+            return block.getDefaultState();
+        }
+        throw new JsonSyntaxException("Expected " + name + " to be block state, was " + JsonHelper.getType(element));
     }
 }

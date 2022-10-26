@@ -59,7 +59,7 @@ public class NeighborUpdateEvent extends Event {
             for (int i = 0; i < conditions.length; ++i) {
                 if (array.get(i).isJsonObject()) {
                     JsonObject eventObj = array.get(i).getAsJsonObject();
-                    conditions[i] = Condition.getCondition(eventObj, eventObj.get("type").getAsString());
+                    conditions[i] = Condition.getCondition(eventObj, eventObj.get("name").getAsString());
                 }            }
         } else conditions = new Condition[0];
         return conditions;
@@ -73,7 +73,7 @@ public class NeighborUpdateEvent extends Event {
             for (int i = 0; i < effects.length; ++i) {
                 if (array.get(i).isJsonObject()) {
                     JsonObject eventObj = array.get(i).getAsJsonObject();
-                    effects[i] = Effect.getEffect(eventObj, eventObj.get("type").getAsString());
+                    effects[i] = Effect.getEffect(eventObj, eventObj.get("name").getAsString());
                 }
             }
         } else effects = new Effect[0];
