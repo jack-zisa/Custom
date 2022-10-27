@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.math.DoubleValueHolder;
 import creoii.custom.util.math.ValueHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -16,28 +17,28 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class AddVelocityEffect extends Effect {
-    private final ValueHolder xVelocity;
-    private final ValueHolder yVelocity;
-    private final ValueHolder zVelocity;
-    private final boolean useLookVec;
-    private final boolean affectTarget;
+    private DoubleValueHolder xVelocity;
+    private DoubleValueHolder yVelocity;
+    private DoubleValueHolder zVelocity;
+    private boolean useLookVec;
+    private boolean affectTarget;
 
-    public AddVelocityEffect(ValueHolder xVelocity, ValueHolder yVelocity, ValueHolder zVelocity, boolean useLookVec, boolean affectTarget) {
-        super(Effect.ADD_VELOCITY);
+    public AddVelocityEffect withValues(DoubleValueHolder xVelocity, DoubleValueHolder yVelocity, DoubleValueHolder zVelocity, boolean useLookVec, boolean affectTarget) {
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
         this.zVelocity = zVelocity;
         this.useLookVec = useLookVec;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
-        ValueHolder xVelocity = ValueHolder.getFromJson(object, "x_velocity");
-        ValueHolder yVelocity = ValueHolder.getFromJson(object, "y_velocity");
-        ValueHolder zVelocity = ValueHolder.getFromJson(object, "z_velocity");
+    public Effect getFromJson(JsonObject object) {
+        DoubleValueHolder xVelocity = DoubleValueHolder.getFromJson(object, "x_velocity");
+        DoubleValueHolder yVelocity = DoubleValueHolder.getFromJson(object, "y_velocity");
+        DoubleValueHolder zVelocity = DoubleValueHolder.getFromJson(object, "z_velocity");
         boolean useLookVec = JsonHelper.getBoolean(object, "use_look_vec", true);
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new AddVelocityEffect(xVelocity, yVelocity, zVelocity, useLookVec, affectTarget);
+        return withValues(xVelocity, yVelocity, zVelocity, useLookVec, affectTarget);
     }
 
     @Override

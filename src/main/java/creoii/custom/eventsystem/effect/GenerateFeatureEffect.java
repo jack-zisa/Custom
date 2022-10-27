@@ -25,25 +25,25 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import java.util.function.Supplier;
 
 public class GenerateFeatureEffect extends Effect {
-    private final Supplier<RegistryEntry<ConfiguredFeature<?, ?>>> configuredFeature;
-    private final BlockPos offset;
-    private final boolean removeBlock;
-    private final boolean affectTarget;
+    private Supplier<RegistryEntry<ConfiguredFeature<?, ?>>> configuredFeature;
+    private BlockPos offset;
+    private boolean removeBlock;
+    private boolean affectTarget;
 
-    public GenerateFeatureEffect(Supplier<RegistryEntry<ConfiguredFeature<?, ?>>> configuredFeature, BlockPos offset, boolean removeBlock, boolean affectTarget) {
-        super(Effect.SPAWN_ENTITY);
+    public GenerateFeatureEffect withValues(Supplier<RegistryEntry<ConfiguredFeature<?, ?>>> configuredFeature, BlockPos offset, boolean removeBlock, boolean affectTarget) {
         this.configuredFeature = configuredFeature;
         this.offset = offset;
         this.removeBlock = removeBlock;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public Effect getFromJson(JsonObject object) {
         ConfiguredFeature<?, ?> configuredFeature = BuiltinRegistries.CONFIGURED_FEATURE.get(Identifier.tryParse(object.get("feature").getAsString()));
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
         boolean removeBlock = JsonHelper.getBoolean(object, "removeBlock", true);
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new GenerateFeatureEffect(() -> RegistryEntry.of(configuredFeature), offset, removeBlock, affectTarget);
+        return withValues(() -> RegistryEntry.of(configuredFeature), offset, removeBlock, affectTarget);
     }
 
     private void run(World world, BlockPos pos) {

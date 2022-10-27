@@ -7,6 +7,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public final class EnchantmentTags {
-    public static TagKey<Enchantment> CURSED = TagKey.of(Registry.ENCHANTMENT_KEY, new Identifier(Custom.MOD_ID, "cursed"));
-    public static TagKey<Enchantment> TREASURE = TagKey.of(Registry.ENCHANTMENT_KEY, new Identifier(Custom.MOD_ID, "treasure"));
+    public static TagKey<Enchantment> CURSED = TagKey.of(Registry.ENCHANTMENT_KEY, new Identifier(Custom.NAMESPACE, "cursed"));
+    public static TagKey<Enchantment> TREASURE = TagKey.of(Registry.ENCHANTMENT_KEY, new Identifier(Custom.NAMESPACE, "treasure"));
 }

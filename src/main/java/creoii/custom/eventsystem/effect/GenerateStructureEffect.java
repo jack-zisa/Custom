@@ -29,22 +29,22 @@ import net.minecraft.world.gen.structure.Structure;
 import java.util.function.Supplier;
 
 public class GenerateStructureEffect extends Effect {
-    private final RegistryEntry<Structure> structure;
-    private final BlockPos offset;
-    private final boolean affectTarget;
+    private RegistryEntry<Structure> structure;
+    private BlockPos offset;
+    private boolean affectTarget;
 
-    public GenerateStructureEffect(RegistryEntry<Structure> structure, BlockPos offset, boolean affectTarget) {
-        super(Effect.GENERATE_STRUCTURE);
+    public GenerateStructureEffect withValues(RegistryEntry<Structure> structure, BlockPos offset, boolean affectTarget) {
         this.structure = structure;
         this.offset = offset;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public Effect getFromJson(JsonObject object) {
         Structure structure = BuiltinRegistries.STRUCTURE.get(Identifier.tryParse(object.get("structure").getAsString()));
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new GenerateStructureEffect(RegistryEntry.of(structure), offset, affectTarget);
+        return withValues(RegistryEntry.of(structure), offset, affectTarget);
     }
 
     private void run(World world, BlockPos pos) {

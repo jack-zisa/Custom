@@ -21,22 +21,22 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 public class EmitGameEventEffect extends Effect {
-    private final GameEvent gameEvent;
-    private final BlockPos offset;
-    private final boolean affectTarget;
+    private GameEvent gameEvent;
+    private BlockPos offset;
+    private boolean affectTarget;
 
-    public EmitGameEventEffect(GameEvent gameEvent, BlockPos offset, boolean affectTarget) {
-        super(Effect.EMIT_GAME_EVENT);
+    public EmitGameEventEffect withValues(GameEvent gameEvent, BlockPos offset, boolean affectTarget) {
         this.gameEvent = gameEvent;
         this.offset = offset;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public EmitGameEventEffect getFromJson(JsonObject object) {
         GameEvent event = Registry.GAME_EVENT.get(Identifier.tryParse(JsonHelper.getString(object, "event")));
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new EmitGameEventEffect(event, offset, affectTarget);
+        return withValues(event, offset, affectTarget);
     }
 
     @Override

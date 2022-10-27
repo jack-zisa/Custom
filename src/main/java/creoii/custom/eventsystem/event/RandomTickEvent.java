@@ -17,18 +17,20 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class RandomTickEvent extends Event {
-    private final float chance;
+    private float chance;
 
-    public RandomTickEvent(Condition[] conditions, Effect[] effects, float chance) {
-        super(Event.RANDOM_TICK, conditions, effects);
+    public RandomTickEvent withValues(Condition[] conditions, Effect[] effects, float chance) {
+        this.conditions = conditions;
+        this.effects = effects;
         this.chance = chance;
+        return this;
     }
 
-    public static Event getFromJson(JsonObject object) {
+    public RandomTickEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
         float chance = JsonHelper.getFloat(object, "chance", 0f);
-        return new RandomTickEvent(conditions, effects, chance);
+        return withValues(conditions, effects, chance);
     }
 
     public boolean applyBlockEvent(World world, BlockState state, BlockPos pos, @Nullable LivingEntity living, @Nullable Hand hand) {

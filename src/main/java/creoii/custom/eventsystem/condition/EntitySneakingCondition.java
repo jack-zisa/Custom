@@ -14,16 +14,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntitySneakingCondition extends Condition {
-    private final boolean affectTarget;
+    private boolean affectTarget;
 
-    public EntitySneakingCondition(boolean affectTarget) {
-        super(Condition.ENTITY_SNEAKING);
+    public EntitySneakingCondition withValues(boolean affectTarget) {
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public EntitySneakingCondition getFromJson(JsonObject object) {
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new EntitySneakingCondition(affectTarget);
+        return withValues(affectTarget);
     }
 
     private boolean test(Entity entity) {

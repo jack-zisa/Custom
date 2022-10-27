@@ -1,13 +1,16 @@
 package creoii.custom.util.math.number;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import creoii.custom.util.math.DoubleValueHolder;
 import creoii.custom.util.math.ValueHolder;
+import creoii.custom.util.math.function.Function;
 import net.minecraft.util.JsonHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class NumberProvider implements ValueHolder {
+public abstract class NumberProvider implements DoubleValueHolder {
     private static final List<String> NUMBER_PROVIDERS = new ArrayList<>();
     private final String name;
 
@@ -31,6 +34,8 @@ public abstract class NumberProvider implements ValueHolder {
             case "random" -> NumberProviders.RANDOM.getFromJson(object);
             case "constant" -> NumberProviders.CONSTANT.getFromJson(object);
             case "world" -> NumberProviders.WORLD.getFromJson(object);
+            case "entity" -> NumberProviders.ENTITY.getFromJson(object);
+            case "living_entity" -> NumberProviders.LIVING_ENTITY.getFromJson(object);
             default ->  NumberProviders.NONE;
         };
     }

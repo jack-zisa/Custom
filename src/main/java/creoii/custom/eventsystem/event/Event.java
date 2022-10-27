@@ -2,6 +2,7 @@ package creoii.custom.eventsystem.event;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import creoii.custom.Custom;
 import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 import net.minecraft.block.BlockState;
@@ -12,72 +13,31 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class Event {
-    public static final String RIGHT_CLICK = "right_click";
-    public static final String LEFT_CLICK = "left_click";
-    public static final String STEPPED_ON = "stepped_on";
-    public static final String PROJECTILE_HIT = "projectile_hit";
-    public static final String PLACE_BLOCK = "place_block";
-    public static final String BREAK_BLOCK = "break_block";
-    public static final String TARGET_DAMAGED = "target_damaged";
-    public static final String USER_DAMAGED = "user_damaged";
-    public static final String ENTITY_LANDS = "entity_lands";
-    public static final String ENTITY_COLLISION = "entity_collision";
-    public static final String NEIGHBOR_UPDATE = "neighbor_update";
-    public static final String STOPPED_USING = "stopped_using";
-    public static final String CRAFTED = "crafted";
-    public static final String ITEM_DESPAWN = "item_despawn";
-    public static final String RANDOM_TICK = "random_tick";
-    public static final String STATUS_EFFECT_UPDATE = "status_effect_update";
-    public static final String STATUS_EFFECT_APPLY = "status_effect_apply";
-    public static final String STATUS_EFFECT_REMOVE = "status_effect_remove";
+    public Condition[] conditions;
+    public Effect[] effects;
 
-    private final String name;
-    public final Condition[] conditions;
-    public final Effect[] effects;
-
-    public Event(String name, Condition[] conditions, Effect[] effects) {
-        this.name = name;
-        this.conditions = conditions;
-        this.effects = effects;
+    public static Event register(Identifier id, Event event) {
+        return Registry.register(Custom.EVENT, id, event);
     }
 
-    public String getName() {
-        return name;
+    @Nullable
+    public static Event getEvent(JsonObject object, Identifier id) {
+        return Custom.EVENT.get(id).getFromJson(object);
     }
 
-    public boolean isType(String type) {
-        return this.name.equals(type);
+    public Identifier getId() {
+        return Custom.EVENT.getId(this);
     }
 
-    public static Event getEvent(JsonObject object, String str) {
-        return switch (str) {
-            case RIGHT_CLICK -> RightClickEvent.getFromJson(object);
-            case LEFT_CLICK -> LeftClickEvent.getFromJson(object);
-            case STEPPED_ON -> SteppedOnEvent.getFromJson(object);
-            case PROJECTILE_HIT -> ProjectileHitEvent.getFromJson(object);
-            case PLACE_BLOCK -> PlaceBlockEvent.getFromJson(object);
-            case BREAK_BLOCK -> BreakBlockEvent.getFromJson(object);
-            case TARGET_DAMAGED -> TargetDamagedEvent.getFromJson(object);
-            case USER_DAMAGED -> UserDamagedEvent.getFromJson(object);
-            case ENTITY_LANDS -> EntityLandsEvent.getFromJson(object);
-            case ENTITY_COLLISION -> EntityCollisionEvent.getFromJson(object);
-            case NEIGHBOR_UPDATE -> NeighborUpdateEvent.getFromJson(object);
-            case STOPPED_USING -> StoppedUsingEvent.getFromJson(object);
-            case CRAFTED -> CraftedEvent.getFromJson(object);
-            case ITEM_DESPAWN -> ItemDespawnEvent.getFromJson(object);
-            case RANDOM_TICK -> RandomTickEvent.getFromJson(object);
-            case STATUS_EFFECT_UPDATE -> StatusEffectUpdateEvent.getFromJson(object);
-            case STATUS_EFFECT_APPLY -> StatusEffectApplyEvent.getFromJson(object);
-            case STATUS_EFFECT_REMOVE -> StatusEffectRemoveEvent.getFromJson(object);
-            default -> new NoEvent();
-        };
-    }
+    public abstract Event getFromJson(JsonObject object);
 
     public static Condition[] getConditions(JsonObject object) {
         Condition[] conditions;
@@ -87,7 +47,7 @@ public abstract class Event {
             for (int i = 0; i < conditions.length; ++i) {
                 if (array.get(i).isJsonObject()) {
                     JsonObject eventObj = array.get(i).getAsJsonObject();
-                    conditions[i] = Condition.getCondition(eventObj, eventObj.get("name").getAsString());
+                    conditions[i] = Condition.getCondition(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
                 }            }
         } else conditions = new Condition[0];
         return conditions;
@@ -101,16 +61,16 @@ public abstract class Event {
             for (int i = 0; i < effects.length; ++i) {
                 if (array.get(i).isJsonObject()) {
                     JsonObject eventObj = array.get(i).getAsJsonObject();
-                    effects[i] = Effect.getEffect(eventObj, eventObj.get("name").getAsString());
+                    effects[i] = Effect.getEffect(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
                 }
             }
         } else effects = new Effect[0];
         return effects;
     }
 
-    public static Event findEvent(Event[] events, String name) {
-        for (Event event : events) {
-            if (event.getName().equals(name)) return event;
+    public static Event findEvent(Event[] events, Event event) {
+        for (Event event1 : events) {
+            if (event1.getId().equals(event.getId())) return event1;
         } return null;
     }
 

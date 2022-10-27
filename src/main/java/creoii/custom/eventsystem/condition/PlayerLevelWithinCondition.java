@@ -1,6 +1,8 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.math.DoubleValueHolder;
+import creoii.custom.util.math.number.NumberProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -14,27 +16,27 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class PlayerLevelWithinCondition extends Condition {
-    private final int minLevel;
-    private final int maxLevel;
-    private final boolean affectTarget;
+    private DoubleValueHolder minLevel;
+    private DoubleValueHolder maxLevel;
+    private boolean affectTarget;
 
-    public PlayerLevelWithinCondition(int minLevel, int maxLevel, boolean affectTarget) {
-        super(Condition.PLAYER_LEVEL_WITHIN);
+    public PlayerLevelWithinCondition withValues(DoubleValueHolder minLevel, DoubleValueHolder maxLevel, boolean affectTarget) {
         this.minLevel = minLevel;
         this.maxLevel = maxLevel;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
-        int minLevel = JsonHelper.getInt(object, "min_level", 0);
-        int maxLevel = JsonHelper.getInt(object, "max_level", 1);
+    public PlayerLevelWithinCondition getFromJson(JsonObject object) {
+        DoubleValueHolder minLevel = DoubleValueHolder.getFromJson(object, "min_level");
+        DoubleValueHolder maxLevel = DoubleValueHolder.getFromJson(object, "max_level");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new PlayerLevelWithinCondition(minLevel, maxLevel, affectTarget);
+        return withValues(minLevel, maxLevel, affectTarget);
     }
 
     private boolean test(Entity entity) {
         if (entity instanceof PlayerEntity player) {
-            return player.experienceLevel > minLevel && player.experienceLevel < maxLevel;
+            return player.experienceLevel > minLevel.getValue() && player.experienceLevel < maxLevel.getValue();
         }
         return false;
     }

@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.math.DoubleValueHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -14,35 +15,35 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class HealEffect extends Effect {
-    private final float amount;
-    private final boolean affectTarget;
+    private DoubleValueHolder amount;
+    private boolean affectTarget;
 
-    public HealEffect(float amount, boolean affectTarget) {
-        super(Effect.HEAL);
+    public HealEffect withValues(DoubleValueHolder amount, boolean affectTarget) {
         this.amount = amount;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
-        float amount = JsonHelper.getFloat(object, "amount", 0f);
+    public HealEffect getFromJson(JsonObject object) {
+        DoubleValueHolder amount = DoubleValueHolder.getFromJson(object, "amount");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new HealEffect(amount, affectTarget);
+        return withValues(amount, affectTarget);
     }
 
     @Override
     public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        living.heal(this.amount);
+        living.heal((float) amount.getValue());
     }
 
     @Override
     public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        player.heal(this.amount);
+        player.heal((float) amount.getValue());
     }
 
     @Override
     public void runEntity(Entity entity, PlayerEntity player, Hand hand) {
         if (entity instanceof LivingEntity) {
-            ((LivingEntity) entity).heal(this.amount);
+            ((LivingEntity) entity).heal((float) amount.getValue());
         }
     }
 
@@ -50,13 +51,13 @@ public class HealEffect extends Effect {
     public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
         Entity entity = affectTarget ? target : user;
         if (entity instanceof LivingEntity living) {
-            living.heal(this.amount);
+            living.heal((float) amount.getValue());
         }
     }
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        entity.heal(this.amount);
+        entity.heal((float) amount.getValue());
     }
 
     @Override

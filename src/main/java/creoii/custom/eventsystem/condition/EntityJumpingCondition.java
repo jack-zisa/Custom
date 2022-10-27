@@ -14,16 +14,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityJumpingCondition extends Condition {
-    private final boolean affectTarget;
+    private boolean affectTarget;
 
-    public EntityJumpingCondition(boolean affectTarget) {
-        super(Condition.ENTITY_JUMPING);
+    public EntityJumpingCondition withValues(boolean affectTarget) {
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public EntityJumpingCondition getFromJson(JsonObject object) {
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new EntityJumpingCondition(affectTarget);
+        return withValues(affectTarget);
     }
 
     private boolean test(Entity entity) {

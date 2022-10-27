@@ -19,19 +19,19 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class SetBlockEffect extends Effect {
-    private final Block block;
-    private final boolean affectTarget;
+    private Block block;
+    private boolean affectTarget;
 
-    public SetBlockEffect(Block block, boolean affectTarget) {
-        super(Effect.SET_BLOCK);
+    public SetBlockEffect withValues(Block block, boolean affectTarget) {
         this.block = block;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public SetBlockEffect getFromJson(JsonObject object) {
         Block block = Registry.BLOCK.get(Identifier.tryParse(JsonHelper.getString(object, "block")));
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target");
-        return new SetBlockEffect(block, affectTarget);
+        return withValues(block, affectTarget);
     }
 
     private void run(World world, BlockPos pos) {

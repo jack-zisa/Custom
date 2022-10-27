@@ -2,50 +2,46 @@ package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
 import creoii.custom.util.json.CustomJsonHelper;
-import creoii.custom.util.math.ValueHolder;
+import creoii.custom.util.math.DoubleValueHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.command.SpawnPointCommand;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SetSpawnEffect extends Effect {
-    private final BlockPos offset;
-    private final float angle;
-    private final boolean sendMessage;
-    private final boolean affectTarget;
+public class SetSpawnPointEffect extends Effect {
+    private BlockPos offset;
+    private DoubleValueHolder angle;
+    private boolean sendMessage;
+    private boolean affectTarget;
 
-    public SetSpawnEffect(BlockPos offset, float angle, boolean sendMessage, boolean affectTarget) {
-        super(Effect.SET_SPAWN);
+    public SetSpawnPointEffect withValues(BlockPos offset, DoubleValueHolder angle, boolean sendMessage, boolean affectTarget) {
         this.offset = offset;
         this.angle = angle;
         this.sendMessage = sendMessage;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public SetSpawnPointEffect getFromJson(JsonObject object) {
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
-        float angle = JsonHelper.getFloat(object, "angle", 0f);
+        DoubleValueHolder angle = DoubleValueHolder.getFromJson(object, "angle");
         boolean sendMessage = JsonHelper.getBoolean(object, "send_message", false);
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new SetSpawnEffect(offset, angle, sendMessage, affectTarget);
+        return withValues(offset, angle, sendMessage, affectTarget);
     }
 
     private void run(World world, Entity entity, BlockPos pos) {
         if (!world.isClient) {
             if (entity instanceof ServerPlayerEntity playerEntity) {
-                playerEntity.setSpawnPoint(world.getRegistryKey(), pos.add(offset), angle, false, sendMessage);
+                playerEntity.setSpawnPoint(world.getRegistryKey(), pos.add(offset), (float) angle.getValue(), false, sendMessage);
             }
         }
     }

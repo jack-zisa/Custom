@@ -52,20 +52,18 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @Override
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.RANDOM_TICK);
-        else if (cachedEvent.isType(Event.RANDOM_TICK)) {
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.RANDOM_TICK);
+        else if (cachedEvent == Events.RANDOM_TICK) {
             cachedEvent.applyBlockEvent(world, state, pos, null, null);
         }
-
-        if (random.nextInt(10) == 0) System.out.println(cachedEvent.getName());
 
         super.randomTick(state, world, pos, random);
     }
 
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.ENTITY_LANDS);
-        else if (cachedEvent.isType(Event.ENTITY_LANDS)) {
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.ENTITY_LANDS);
+        else if (cachedEvent == Events.ENTITY_LANDS) {
             ((EntityLandsEvent) cachedEvent).setEntity(entity);
             cachedEvent.applyBlockEvent(world, state, pos, null, null);
         }
@@ -75,8 +73,8 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @Override
     @SuppressWarnings("deprecation")
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.RIGHT_CLICK);
-        else if (cachedEvent.isType(Event.RIGHT_CLICK) && cachedEvent.applyBlockEvent(world, state, pos, player, hand)) {
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.RIGHT_CLICK);
+        else if (cachedEvent == Events.RIGHT_CLICK && cachedEvent.applyBlockEvent(world, state, pos, player, hand)) {
             return ((RightClickEvent) cachedEvent).getActionResult();
         }
         return super.onUse(state, world, pos, player, hand, hit);
@@ -84,8 +82,8 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
 
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.STEPPED_ON);
-        else if (cachedEvent.isType(Event.STEPPED_ON) && entity instanceof LivingEntity living) {
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.STEPPED_ON);
+        else if (cachedEvent == Events.STEPPED_ON && entity instanceof LivingEntity living) {
             cachedEvent.applyBlockEvent(world, state, pos, living, living.getActiveHand());
         }
         super.onSteppedOn(world, pos, state, entity);
@@ -94,8 +92,8 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @Override
     @SuppressWarnings("deprecation")
     public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.PROJECTILE_HIT);
-        else if (cachedEvent.isType(Event.PROJECTILE_HIT) && projectile.getOwner() instanceof LivingEntity living) {
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.PROJECTILE_HIT);
+        else if (cachedEvent == Events.PROJECTILE_HIT && projectile.getOwner() instanceof LivingEntity living) {
             cachedEvent.applyBlockEvent(world, state, hit.getBlockPos(), living, living.getActiveHand());
         }
         super.onProjectileHit(world, state, hit, projectile);
@@ -104,16 +102,16 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
     @Override
     @SuppressWarnings("deprecation")
     public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.LEFT_CLICK);
-        else if (cachedEvent.isType(Event.BREAK_BLOCK)) cachedEvent.applyBlockEvent(world, state, pos, player, player.getActiveHand());
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.LEFT_CLICK);
+        else if (cachedEvent == Events.BREAK_BLOCK) cachedEvent.applyBlockEvent(world, state, pos, player, player.getActiveHand());
         super.onBlockBreakStart(state, world, pos, player);
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.NEIGHBOR_UPDATE);
-        else if (cachedEvent.isType(Event.NEIGHBOR_UPDATE)) {
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.NEIGHBOR_UPDATE);
+        else if (cachedEvent == Events.NEIGHBOR_UPDATE) {
             NeighborUpdateEvent neighborUpdateEvent = (NeighborUpdateEvent) cachedEvent;
             neighborUpdateEvent.setNeighborState(block.getDefaultState());
             neighborUpdateEvent.setNeighborPos(fromPos);
@@ -124,23 +122,23 @@ public class EventCustomBlock extends CustomBlock implements CustomObject {
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.PLACE_BLOCK);
-        else if (cachedEvent.isType(Event.PLACE_BLOCK)) cachedEvent.applyBlockEvent(world, state, pos, placer, placer.getActiveHand());
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.PLACE_BLOCK);
+        else if (cachedEvent == Events.PLACE_BLOCK) cachedEvent.applyBlockEvent(world, state, pos, placer, placer.getActiveHand());
         super.onPlaced(world, pos, state, placer, itemStack);
     }
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.BREAK_BLOCK);
-        else if (cachedEvent.isType(Event.BREAK_BLOCK)) cachedEvent.applyBlockEvent(world, state, pos, player, player.getActiveHand());
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.BREAK_BLOCK);
+        else if (cachedEvent == Events.BREAK_BLOCK) cachedEvent.applyBlockEvent(world, state, pos, player, player.getActiveHand());
         super.onBreak(world, pos, state, player);
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Event.ENTITY_COLLISION);
-        else if (cachedEvent.isType(Event.ENTITY_COLLISION) && entity instanceof LivingEntity living) {
+        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.ENTITY_COLLISION);
+        else if (cachedEvent == Events.ENTITY_COLLISION && entity instanceof LivingEntity living) {
             cachedEvent.applyBlockEvent(world, state, pos, living, living.getActiveHand());
         }
         super.onEntityCollision(state, world, pos, entity);

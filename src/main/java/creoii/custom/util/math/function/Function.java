@@ -1,13 +1,13 @@
 package creoii.custom.util.math.function;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.math.ValueHolder;
+import creoii.custom.util.math.DoubleValueHolder;
 import net.minecraft.util.JsonHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Function implements ValueHolder {
+public abstract class Function implements DoubleValueHolder {
     private static final List<String> SINGLE_FUNCTIONS = new ArrayList<>();
     private static final List<String> DOUBLE_FUNCTIONS = new ArrayList<>();
     private final String name;

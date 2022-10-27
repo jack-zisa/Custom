@@ -16,19 +16,19 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 public class WeatherMatchesCondition extends Condition {
-    private final String weather;
-    private final boolean affectTarget;
+    private String weather;
+    private boolean affectTarget;
 
-    public WeatherMatchesCondition(String weather, boolean affectTarget) {
-        super(Condition.WEATHER_MATCHES);
+    public WeatherMatchesCondition withValues(String weather, boolean affectTarget) {
         this.weather = weather;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public WeatherMatchesCondition getFromJson(JsonObject object) {
         String weather = JsonHelper.getString(object, "weather", "none");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new WeatherMatchesCondition(weather, affectTarget);
+        return withValues(weather, affectTarget);
     }
 
     private boolean test(World world, BlockPos pos) {

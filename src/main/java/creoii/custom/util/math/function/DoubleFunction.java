@@ -2,13 +2,14 @@ package creoii.custom.util.math.function;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import creoii.custom.util.math.DoubleValueHolder;
 import creoii.custom.util.math.ValueHolder;
 import creoii.custom.util.math.number.NumberProvider;
 import net.minecraft.util.JsonHelper;
 
-public abstract class DoubleFunction extends Function implements ValueHolder {
-    private ValueHolder value1;
-    private ValueHolder value2;
+public abstract class DoubleFunction extends Function implements DoubleValueHolder {
+    private DoubleValueHolder value1;
+    private DoubleValueHolder value2;
 
     public DoubleFunction(String name) {
         super(name);
@@ -19,7 +20,7 @@ public abstract class DoubleFunction extends Function implements ValueHolder {
         if (object.has("input1") && object.has("input2")) {
             DoubleFunction function = DoubleFunction.getByType(JsonHelper.getString(object, "type"));
 
-            ValueHolder first = null;
+            DoubleValueHolder first = null;
             JsonObject object1 = JsonHelper.getObject(object, "input1");
             if (Function.isSingleFunction(object1) || Function.isDoubleFunction(object1)) {
                 first = Function.getByType(object1);
@@ -27,7 +28,7 @@ public abstract class DoubleFunction extends Function implements ValueHolder {
                 first = NumberProvider.getByType(object1);
             }
 
-            ValueHolder second = null;
+            DoubleValueHolder second = null;
             JsonObject object2 = JsonHelper.getObject(object, "input2");
             if (Function.isSingleFunction(object2) || Function.isDoubleFunction(object2)) {
                 second = Function.getByType(object2);
@@ -42,7 +43,7 @@ public abstract class DoubleFunction extends Function implements ValueHolder {
         throw new JsonSyntaxException("Function is missing \"input1\" and/or \"input2\"");
     }
 
-    public DoubleFunction withValues(ValueHolder value1, ValueHolder value2) {
+    public DoubleFunction withValues(DoubleValueHolder value1, DoubleValueHolder value2) {
         this.value1 = value1;
         this.value2 = value2;
         return this;
@@ -59,7 +60,7 @@ public abstract class DoubleFunction extends Function implements ValueHolder {
         };
     }
 
-    public abstract double compute(ValueHolder value1, ValueHolder value2);
+    public abstract double compute(DoubleValueHolder value1, DoubleValueHolder value2);
 
     @Override
     public double getValue() {

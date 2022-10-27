@@ -1,6 +1,7 @@
 package creoii.custom.custom;
 
 import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.Events;
 import creoii.custom.eventsystem.event.RightClickEvent;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -24,7 +25,7 @@ public class EventCustomItem extends CustomItem {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        Event event = Event.findEvent(events, Event.RIGHT_CLICK);
+        Event event = Event.findEvent(events, Events.RIGHT_CLICK);
         if (event != null) {
             if (event.applyItemEvent(context.getWorld(), context.getStack(), context.getBlockPos(), context.getPlayer(), context.getHand())) {
                 return ((RightClickEvent) event).getActionResult();
@@ -35,7 +36,7 @@ public class EventCustomItem extends CustomItem {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        Event event = Event.findEvent(events, Event.RIGHT_CLICK);
+        Event event = Event.findEvent(events, Events.RIGHT_CLICK);
         if (event != null) {
             if (event.applyItemEvent(user.world, stack, entity.getBlockPos(), user, hand)) {
                 return ((RightClickEvent) event).getActionResult();
@@ -46,7 +47,7 @@ public class EventCustomItem extends CustomItem {
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        Event event = Event.findEvent(events, Event.STOPPED_USING);
+        Event event = Event.findEvent(events, Events.STOPPED_USING);
         if (event != null && user instanceof PlayerEntity player) {
             event.applyItemEvent(user.world, stack, player.getBlockPos(), player, player.getActiveHand());
         }
@@ -55,7 +56,7 @@ public class EventCustomItem extends CustomItem {
 
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
-        Event event = Event.findEvent(events, Event.CRAFTED);
+        Event event = Event.findEvent(events, Events.CRAFTED);
         if (event != null) {
             event.applyItemEvent(world, stack, player.getBlockPos(), player, player.getActiveHand());
         }
@@ -64,7 +65,7 @@ public class EventCustomItem extends CustomItem {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        Event event = Event.findEvent(events, Event.RIGHT_CLICK);
+        Event event = Event.findEvent(events, Events.RIGHT_CLICK);
         if (event != null) {
             event.applyItemEvent(user.world, user.getStackInHand(hand), user.getBlockPos(), user, hand);
         }
@@ -73,7 +74,7 @@ public class EventCustomItem extends CustomItem {
 
     @Override
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-        Event event = Event.findEvent(events, Event.LEFT_CLICK);
+        Event event = Event.findEvent(events, Events.LEFT_CLICK);
         if (event != null) {
             event.applyItemEvent(player.world, stack, player.getBlockPos(), player, player.getActiveHand());
         }
@@ -82,7 +83,7 @@ public class EventCustomItem extends CustomItem {
 
     @Override
     public void onItemEntityDestroyed(ItemEntity entity) {
-        Event event = Event.findEvent(events, Event.ITEM_DESPAWN);
+        Event event = Event.findEvent(events, Events.ITEM_DESPAWN);
         if (event != null) {
             event.applyItemEvent(entity.world, entity.getStack(), entity.getBlockPos(), null, null);
         }

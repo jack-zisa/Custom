@@ -18,22 +18,22 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class BlockMatchesCondition extends Condition {
-    private final Block block;
-    private final BlockPos offset;
-    private final boolean affectTarget;
+    private Block block;
+    private BlockPos offset;
+    private boolean affectTarget;
 
-    public BlockMatchesCondition(Block block, BlockPos offset, boolean affectTarget) {
-        super(Condition.BLOCK_MATCHES);
+    public BlockMatchesCondition withValues(Block block, BlockPos offset, boolean affectTarget) {
         this.block = block;
         this.offset = offset;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public BlockMatchesCondition getFromJson(JsonObject object) {
         Block block = Registry.BLOCK.get(Identifier.tryParse(JsonHelper.getString(object, "block")));
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new BlockMatchesCondition(block, offset, affectTarget);
+        return withValues(block, offset, affectTarget);
     }
 
     private boolean test(World world, BlockPos pos) {

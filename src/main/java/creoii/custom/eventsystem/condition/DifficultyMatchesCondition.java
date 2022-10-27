@@ -15,16 +15,16 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class DifficultyMatchesCondition extends Condition {
-    private final Difficulty difficulty;
+    private Difficulty difficulty;
 
-    public DifficultyMatchesCondition(Difficulty difficulty) {
-        super(Condition.DIFFICULTY_MATCHES);
+    public DifficultyMatchesCondition withValues(Difficulty difficulty) {
         this.difficulty = difficulty;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public DifficultyMatchesCondition getFromJson(JsonObject object) {
         Difficulty difficulty = Difficulty.byName(JsonHelper.getString(object, "difficulty", "peaceful"));
-        return new DifficultyMatchesCondition(difficulty);
+        return withValues(difficulty);
     }
 
     private boolean test(World world) {

@@ -20,22 +20,22 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class SpawnEntityEffect extends Effect {
-    private final EntityType<?> entityType;
-    private final BlockPos offset;
-    private final boolean useTargetPosition;
+    private EntityType<?> entityType;
+    private BlockPos offset;
+    private boolean affectTarget;
 
-    public SpawnEntityEffect(EntityType<?> entityType, BlockPos offset, boolean useTargetPosition) {
-        super(Effect.SPAWN_ENTITY);
+    public SpawnEntityEffect withValues(EntityType<?> entityType, BlockPos offset, boolean affectTarget) {
         this.entityType = entityType;
         this.offset = offset;
-        this.useTargetPosition = useTargetPosition;
+        this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public SpawnEntityEffect getFromJson(JsonObject object) {
         EntityType<?> entityType = Registry.ENTITY_TYPE.get(Identifier.tryParse(object.get("entity_type").getAsString()));
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
-        boolean useTargetPosition = JsonHelper.getBoolean(object, "use_target_position", false);
-        return new SpawnEntityEffect(entityType, offset, useTargetPosition);
+        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
+        return withValues(entityType, offset, affectTarget);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class SpawnEntityEffect extends Effect {
     public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
         World world = target.getWorld();
         if (!world.isClient) {
-            BlockPos pos = useTargetPosition ? target.getBlockPos() : user.getBlockPos();
+            BlockPos pos = affectTarget ? target.getBlockPos() : user.getBlockPos();
             world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, null, pos.add(offset), SpawnReason.NATURAL, false, false));
         }
     }
@@ -73,7 +73,7 @@ public class SpawnEntityEffect extends Effect {
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         World world = entity.getWorld();
         if (!world.isClient) {
-            BlockPos pos = useTargetPosition ? entity.getBlockPos() : entity.getBlockPos();
+            BlockPos pos = affectTarget ? entity.getBlockPos() : entity.getBlockPos();
             world.spawnEntity(this.entityType.create((ServerWorld) world, null, null, null, pos.add(offset), SpawnReason.NATURAL, false, false));
         }
     }

@@ -16,19 +16,19 @@ import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 
 public class GameModeMatchesCondition extends Condition {
-    private final GameMode gameMode;
-    private final boolean affectTarget;
+    private GameMode gameMode;
+    private boolean affectTarget;
 
-    public GameModeMatchesCondition(GameMode gameMode, boolean affectTarget) {
-        super(Condition.GAMEMODE_MATCHES);
+    public GameModeMatchesCondition withValues(GameMode gameMode, boolean affectTarget) {
         this.gameMode = gameMode;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public GameModeMatchesCondition getFromJson(JsonObject object) {
         GameMode gameMode = GameMode.byName(JsonHelper.getString(object, "gamemode", "survival"));
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new GameModeMatchesCondition(gameMode, affectTarget);
+        return withValues(gameMode, affectTarget);
     }
 
     private boolean test(Entity entity) {

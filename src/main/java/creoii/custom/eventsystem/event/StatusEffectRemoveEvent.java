@@ -5,13 +5,15 @@ import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 
 public class StatusEffectRemoveEvent extends Event {
-    public StatusEffectRemoveEvent(Condition[] conditions, Effect[] effects) {
-        super(Event.STATUS_EFFECT_REMOVE, conditions, effects);
+    public StatusEffectRemoveEvent withValues(Condition[] conditions, Effect[] effects) {
+        this.conditions = conditions;
+        this.effects = effects;
+        return this;
     }
 
-    public static Event getFromJson(JsonObject object) {
+    public StatusEffectRemoveEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        return new StatusEffectRemoveEvent(conditions, effects);
+        return withValues(conditions, effects);
     }
 }

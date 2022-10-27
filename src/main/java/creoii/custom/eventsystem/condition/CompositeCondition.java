@@ -9,27 +9,28 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CompositeCondition extends Condition {
-    private final Condition first;
-    private final Condition second;
-    private final Comparison comparison;
+    private Condition first;
+    private Condition second;
+    private Comparison comparison;
 
-    public CompositeCondition(Condition first, Condition second, Comparison comparison) {
-        super(Condition.COMPOSITE);
+    public CompositeCondition withValues(Condition first, Condition second, Comparison comparison) {
         this.first = first;
         this.second = second;
         this.comparison = comparison;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
-        Condition first = getCondition(object, "first");
-        Condition second = getCondition(object, "second");
+    public CompositeCondition getFromJson(JsonObject object) {
+        Condition first = Condition.getCondition(object, Identifier.tryParse(JsonHelper.getString(object, "first")));
+        Condition second = Condition.getCondition(object, Identifier.tryParse(JsonHelper.getString(object, "second")));
         Comparison comparison = Comparison.byName(JsonHelper.getString(object, "comparison", "and"));
-        return new CompositeCondition(first, second, comparison);
+        return withValues(first, second, comparison);
     }
 
     @Override

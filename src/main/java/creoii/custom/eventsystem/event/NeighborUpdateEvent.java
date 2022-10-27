@@ -7,6 +7,7 @@ import creoii.custom.eventsystem.effect.Effect;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,10 +22,12 @@ public class NeighborUpdateEvent extends Event {
     private Condition[] neighborConditions;
     private Effect[] neighborEffects;
 
-    public NeighborUpdateEvent(Condition[] conditions, Effect[] effects, Condition[] neighborConditions, Effect[] neighborEffects) {
-        super(Event.NEIGHBOR_UPDATE, conditions, effects);
+    public NeighborUpdateEvent withValues(Condition[] conditions, Effect[] effects, Condition[] neighborConditions, Effect[] neighborEffects) {
+        this.conditions = conditions;
+        this.effects = effects;
         this.neighborConditions = neighborConditions;
         this.neighborEffects = neighborEffects;
+        return this;
     }
 
     public void setNeighborState(BlockState neighborState) {
@@ -35,20 +38,12 @@ public class NeighborUpdateEvent extends Event {
         this.neighborPos = neighborPos;
     }
 
-    public BlockState getNeighborState() {
-        return neighborState;
-    }
-
-    public BlockPos getNeighborPos() {
-        return neighborPos;
-    }
-
-    public static Event getFromJson(JsonObject object) {
+    public NeighborUpdateEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
         Condition[] neighborConditions = getNeighborConditions(object);
         Effect[] neighborEffects = getNeighborEffects(object);
-        return new NeighborUpdateEvent(conditions, effects, neighborConditions, neighborEffects);
+        return withValues(conditions, effects, neighborConditions, neighborEffects);
     }
 
     public static Condition[] getNeighborConditions(JsonObject object) {
@@ -59,7 +54,7 @@ public class NeighborUpdateEvent extends Event {
             for (int i = 0; i < conditions.length; ++i) {
                 if (array.get(i).isJsonObject()) {
                     JsonObject eventObj = array.get(i).getAsJsonObject();
-                    conditions[i] = Condition.getCondition(eventObj, eventObj.get("name").getAsString());
+                    conditions[i] = Condition.getCondition(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
                 }            }
         } else conditions = new Condition[0];
         return conditions;
@@ -73,7 +68,7 @@ public class NeighborUpdateEvent extends Event {
             for (int i = 0; i < effects.length; ++i) {
                 if (array.get(i).isJsonObject()) {
                     JsonObject eventObj = array.get(i).getAsJsonObject();
-                    effects[i] = Effect.getEffect(eventObj, eventObj.get("name").getAsString());
+                    effects[i] = Effect.getEffect(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
                 }
             }
         } else effects = new Effect[0];

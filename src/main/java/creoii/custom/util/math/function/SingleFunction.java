@@ -2,12 +2,13 @@ package creoii.custom.util.math.function;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import creoii.custom.util.math.DoubleValueHolder;
 import creoii.custom.util.math.ValueHolder;
 import creoii.custom.util.math.number.NumberProvider;
 import net.minecraft.util.JsonHelper;
 
 public abstract class SingleFunction extends Function {
-    private ValueHolder value;
+    private DoubleValueHolder value;
 
     public SingleFunction(String name) {
         super(name);
@@ -17,7 +18,7 @@ public abstract class SingleFunction extends Function {
     public static SingleFunction getFromJson(JsonObject object) {
         if (object.has("value")) {
             SingleFunction function = SingleFunction.getByType(JsonHelper.getString(object, "type"));
-            ValueHolder value = null;
+            DoubleValueHolder value = null;
             JsonObject object1 = JsonHelper.getObject(object, "input");
             if (Function.isSingleFunction(object1) || Function.isDoubleFunction(object1)) {
                 value = Function.getByType(object1);
@@ -29,7 +30,7 @@ public abstract class SingleFunction extends Function {
         throw new JsonSyntaxException("Function is missing \"input\"");
     }
 
-    public SingleFunction withValue(ValueHolder value) {
+    public SingleFunction withValue(DoubleValueHolder value) {
         this.value = value;
         return this;
     }
@@ -42,7 +43,7 @@ public abstract class SingleFunction extends Function {
         };
     }
 
-    public abstract double compute(ValueHolder value);
+    public abstract double compute(DoubleValueHolder value);
 
     @Override
     public double getValue() {

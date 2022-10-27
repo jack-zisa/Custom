@@ -18,23 +18,23 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 public class BiomeMatchesCondition extends Condition {
-    private final Biome biome;
-    private final Biome.Precipitation precipitation;
-    private final boolean affectTarget;
+    private Biome biome;
+    private Biome.Precipitation precipitation;
+    private boolean affectTarget;
 
-    public BiomeMatchesCondition(Biome biome, Biome.Precipitation precipitation, boolean affectTarget) {
-        super(Condition.BIOME_MATCHES);
+    public BiomeMatchesCondition withValues(Biome biome, Biome.Precipitation precipitation, boolean affectTarget) {
         this.biome = biome;
         this.precipitation = precipitation;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public BiomeMatchesCondition getFromJson(JsonObject object) {
         Biome biome = BuiltinRegistries.BIOME.get(Identifier.tryParse(JsonHelper.getString(object, "biome")));
         Biome.Precipitation precipitation = null;
         if (JsonHelper.hasString(object, "precipitation")) precipitation = Biome.Precipitation.valueOf(JsonHelper.getString(object, "precipitation", "rain"));
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new BiomeMatchesCondition(biome, precipitation, affectTarget);
+        return withValues(biome, precipitation, affectTarget);
     }
 
     private boolean test(World world, BlockPos pos) {

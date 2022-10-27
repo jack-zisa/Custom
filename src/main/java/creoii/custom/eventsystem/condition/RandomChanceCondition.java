@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.math.DoubleValueHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -15,20 +16,20 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class RandomChanceCondition extends Condition {
-    private final float chance;
+    private DoubleValueHolder chance;
 
-    public RandomChanceCondition(float chance) {
-        super(Condition.RANDOM_CHANCE);
+    public RandomChanceCondition withValues(DoubleValueHolder chance) {
         this.chance = chance;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
-        float chance = JsonHelper.getFloat(object, "chance", 0f);
-        return new RandomChanceCondition(chance);
+    public RandomChanceCondition getFromJson(JsonObject object) {
+        DoubleValueHolder chance = DoubleValueHolder.getFromJson(object, "chance");
+        return withValues(chance);
     }
 
     private boolean test(Random random) {
-        return random.nextFloat() < chance;
+        return random.nextFloat() < chance.getValue();
     }
 
     @Override

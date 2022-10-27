@@ -1,6 +1,5 @@
 package creoii.custom.util.json;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -179,14 +178,5 @@ public class CustomJsonHelper {
             return new BlockPos(x, y, z);
         }
         throw new JsonSyntaxException("Expected " + name + " to be block pos, was " + JsonHelper.getType(element));
-    }
-
-    public static BlockState getBlockState(JsonElement element, String name) {
-        if (element.isJsonObject()) {
-            JsonObject object = JsonHelper.asObject(element, "block state");
-            Block block = Registry.BLOCK.get(Identifier.tryParse(object.get("block").getAsString()));
-            return block.getDefaultState();
-        }
-        throw new JsonSyntaxException("Expected " + name + " to be block state, was " + JsonHelper.getType(element));
     }
 }

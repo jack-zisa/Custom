@@ -1,22 +1,34 @@
 package creoii.custom;
 
-import creoii.custom.custom.CustomTrade;
 import creoii.custom.custom.block.CustomBlock;
 import creoii.custom.data.*;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import creoii.custom.eventsystem.condition.Condition;
+import creoii.custom.eventsystem.condition.Conditions;
+import creoii.custom.eventsystem.effect.Effect;
+import creoii.custom.eventsystem.effect.Effects;
+import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.Events;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.village.TradeOffers;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.DefaultedRegistry;
+import net.minecraft.util.registry.SimpleRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
+import java.util.Random;
 
 public class Custom implements ModInitializer, ClientModInitializer {
-    public static final String MOD_ID = "custom";
+    public static final String NAMESPACE = "custom";
     public static final Logger LOGGER = LogManager.getLogger();
+    public static final Random RANDOM = new Random();
+
+    public static final DefaultedRegistry<Event> EVENT = FabricRegistryBuilder.createDefaulted(Event.class, new Identifier(NAMESPACE, "event"), new Identifier(NAMESPACE, "empty")).buildAndRegister();
+    public static final DefaultedRegistry<Condition> CONDITION = FabricRegistryBuilder.createDefaulted(Condition.class, new Identifier(NAMESPACE, "condition"), new Identifier(NAMESPACE, "empty")).buildAndRegister();
+    public static final DefaultedRegistry<Effect> EFFECT = FabricRegistryBuilder.createDefaulted(Effect.class, new Identifier(NAMESPACE, "effect"), new Identifier(NAMESPACE, "empty")).buildAndRegister();
+
     public static final BlocksManager BLOCKS_MANAGER = new BlocksManager();
     public static final ItemsManager ITEMS_MANAGER = new ItemsManager();
     public static final ItemGroupsManager ITEM_GROUPS_MANAGER = new ItemGroupsManager();
@@ -29,34 +41,20 @@ public class Custom implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitialize() {
-        if (VILLAGER_TRADES_MANAGER.values != null) {
-            TradeOffers.Factory[] trades;
-            for (CustomTrade trade : VILLAGER_TRADES_MANAGER.values.values()) {
-                if (trade.isTraderTrade()) {
-                    TradeOffers.Factory[] temp1 = TradeOffers.WANDERING_TRADER_TRADES.remove(trade.getTradeLevel()).clone();
-                    trades = Arrays.copyOf(temp1, temp1.length + 1);
-                    trades[temp1.length] = trade.get();
-                    TradeOffers.WANDERING_TRADER_TRADES.put(trade.getTradeLevel(), trades);
-                } else {
-                    Int2ObjectMap<TradeOffers.Factory[]> temp1 = VillagerTradesManager.professionToTradeMap(trade.getProfession().toString());
-                    TradeOffers.Factory[] temp2 = temp1.remove(trade.getTradeLevel()).clone();
-                    trades = Arrays.copyOf(temp2, temp2.length + 1);
-                    trades[temp2.length] = trade.get();
-                    temp1.put(trade.getTradeLevel(), trades);
-                    TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(
-                            trade.getProfession(), temp1
-                    );
-                }
-            }
-        }
+        Events.register();
+        Conditions.register();
+        Effects.register();
 
-        //JsonElement element = JsonReflection.serializeClass(AbstractBlock.class);
-        //System.out.println(element);
-        //System.out.println(JsonReflection.deserializeClass(element, true));
+        System.out.println(EVENT.getDefaultId());
+        System.out.println(CONDITION.getDefaultId());
+        System.out.println(EFFECT.getDefaultId());
 
-        //BuiltinRegistries.CONFIGURED_FEATURE.forEach(feature -> {
-        //    System.out.println(BuiltinRegistries.CONFIGURED_FEATURE.getId(feature).toString());
-        //});
+        System.out.println("===== EVENTS =====");
+        EVENT.forEach(event -> System.out.println(event.getId()));
+        System.out.println("===== CONDITIONS =====");
+        CONDITION.forEach(condition -> System.out.println(condition.getId()));
+        System.out.println("===== EFFECTS =====");
+        EFFECT.forEach(effect -> System.out.println(effect.getId()));
 
         LOGGER.info("Custom has been successfully initialized");
     }

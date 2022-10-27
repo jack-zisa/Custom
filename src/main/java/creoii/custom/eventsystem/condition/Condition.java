@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.Custom;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -9,62 +10,27 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class Condition {
-    public static final String HOLDING_ITEM = "holding_item";
-    public static final String IN_TAG = "in_tag";
-    public static final String RANDOM_CHANCE = "random_chance";
-    public static final String ENTITY_SNEAKING = "entity_sneaking";
-    public static final String ENTITY_SPRINTING = "entity_sprinting";
-    public static final String ENTITY_SWIMMING = "entity_swimming";
-    public static final String ENTITY_JUMPING = "entity_jumping";
-    public static final String BIOME_MATCHES = "biome_matches";
-    public static final String DIFFICULTY_MATCHES = "difficulty_matches";
-    public static final String BLOCK_MATCHES = "block_matches";
-    public static final String HAS_ENCHANTMENT = "has_enchantment";
-    public static final String HAS_STATUS_EFFECT = "has_status_effect";
-    public static final String WEATHER_MATCHES = "weather_matches";
-    public static final String GAMEMODE_MATCHES = "gamemode_matches";
-    public static final String WITHIN_Y = "within_y";
-    public static final String TIME_WITHIN = "time_within";
-    public static final String PLAYER_LEVEL_WITHIN = "player_level_within";
-    public static final String COMPOSITE = "composite";
-
-    private final String name;
-
-    public Condition(String name) {
-        this.name = name;
+    @Nullable
+    public static Condition getCondition(JsonObject object, Identifier id) {
+        return Custom.CONDITION.get(id).getFromJson(object);
     }
 
-    public String getName() {
-        return name;
+    public static Condition register(Identifier id, Condition condition) {
+        return Registry.register(Custom.CONDITION, id, condition);
     }
 
-    public static Condition getCondition(JsonObject object, String str) {
-        return switch (str) {
-            case HOLDING_ITEM -> HoldingItemCondition.getFromJson(object);
-            case IN_TAG -> InTagCondition.getFromJson(object);
-            case RANDOM_CHANCE -> RandomChanceCondition.getFromJson(object);
-            case ENTITY_SNEAKING -> EntitySneakingCondition.getFromJson(object);
-            case ENTITY_SPRINTING -> EntitySprintingCondition.getFromJson(object);
-            case ENTITY_SWIMMING -> EntitySwimmingCondition.getFromJson(object);
-            case ENTITY_JUMPING -> EntityJumpingCondition.getFromJson(object);
-            case BIOME_MATCHES -> BiomeMatchesCondition.getFromJson(object);
-            case DIFFICULTY_MATCHES -> DifficultyMatchesCondition.getFromJson(object);
-            case GAMEMODE_MATCHES -> GameModeMatchesCondition.getFromJson(object);
-            case BLOCK_MATCHES -> BlockMatchesCondition.getFromJson(object);
-            case HAS_ENCHANTMENT -> HasEnchantmentCondition.getFromJson(object);
-            case HAS_STATUS_EFFECT -> HasStatusEffectCondition.getFromJson(object);
-            case WEATHER_MATCHES -> WeatherMatchesCondition.getFromJson(object);
-            case WITHIN_Y -> WithinYCondition.getFromJson(object);
-            case TIME_WITHIN -> TimeWithinCondition.getFromJson(object);
-            case PLAYER_LEVEL_WITHIN -> PlayerLevelWithinCondition.getFromJson(object);
-            case COMPOSITE -> CompositeCondition.getFromJson(object);
-            default -> new NoCondition();
-        };
+    public Identifier getId() {
+        return Custom.CONDITION.getId(this);
     }
+
+    public abstract Condition getFromJson(JsonObject object);
 
     public abstract boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand);
     public abstract boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand);

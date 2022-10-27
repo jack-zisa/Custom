@@ -5,13 +5,15 @@ import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 
 public class LeftClickEvent extends Event {
-    public LeftClickEvent(Condition[] conditions, Effect[] effects) {
-        super(Event.LEFT_CLICK, conditions, effects);
+    public LeftClickEvent withValues(Condition[] conditions, Effect[] effects) {
+        this.conditions = conditions;
+        this.effects = effects;
+        return this;
     }
 
-    public static Event getFromJson(JsonObject object) {
+    public LeftClickEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        return new LeftClickEvent(conditions, effects);
+        return withValues(conditions, effects);
     }
 }

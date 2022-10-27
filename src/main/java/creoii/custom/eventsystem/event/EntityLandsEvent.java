@@ -8,14 +8,16 @@ import net.minecraft.entity.Entity;
 public class EntityLandsEvent extends Event {
     private Entity entity;
 
-    public EntityLandsEvent(Condition[] conditions, Effect[] effects) {
-        super(Event.ENTITY_LANDS, conditions, effects);
+    public EntityLandsEvent withValues(Condition[] conditions, Effect[] effects) {
+        this.conditions = conditions;
+        this.effects = effects;
+        return this;
     }
 
-    public static Event getFromJson(JsonObject object) {
+    public EntityLandsEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        return new EntityLandsEvent(conditions, effects);
+        return withValues(conditions, effects);
     }
 
     public Entity getEntity() {

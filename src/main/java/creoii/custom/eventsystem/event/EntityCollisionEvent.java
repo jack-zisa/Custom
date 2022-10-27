@@ -8,14 +8,16 @@ import net.minecraft.entity.Entity;
 public class EntityCollisionEvent extends Event {
     private Entity entity;
 
-    public EntityCollisionEvent(Condition[] conditions, Effect[] effects) {
-        super(Event.ENTITY_COLLISION, conditions, effects);
+    public EntityCollisionEvent withValues(Condition[] conditions, Effect[] effects) {
+        this.conditions = conditions;
+        this.effects = effects;
+        return this;
     }
 
-    public static Event getFromJson(JsonObject object) {
+    public EntityCollisionEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        return new EntityCollisionEvent(conditions, effects);
+        return withValues(conditions, effects);
     }
 
     public Entity getEntity() {

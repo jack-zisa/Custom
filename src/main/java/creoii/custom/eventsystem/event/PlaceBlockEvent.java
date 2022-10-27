@@ -5,13 +5,15 @@ import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 
 public class PlaceBlockEvent extends Event {
-    public PlaceBlockEvent(Condition[] conditions, Effect[] effects) {
-        super(Event.PLACE_BLOCK, conditions, effects);
+    public PlaceBlockEvent withValues(Condition[] conditions, Effect[] effects) {
+        this.conditions = conditions;
+        this.effects = effects;
+        return this;
     }
 
-    public static Event getFromJson(JsonObject object) {
+    public PlaceBlockEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        return new PlaceBlockEvent(conditions, effects);
+        return withValues(conditions, effects);
     }
 }

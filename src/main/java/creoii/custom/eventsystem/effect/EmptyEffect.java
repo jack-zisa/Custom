@@ -1,5 +1,6 @@
 package creoii.custom.eventsystem.effect;
 
+import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -11,9 +12,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class NoEffect extends Effect {
-    public NoEffect() {
-        super("none");
+public class EmptyEffect extends Effect {
+    public EmptyEffect getFromJson(JsonObject object) {
+        return new EmptyEffect();
     }
 
     @Override

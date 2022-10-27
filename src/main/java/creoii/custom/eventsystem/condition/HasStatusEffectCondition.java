@@ -16,19 +16,19 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class HasStatusEffectCondition extends Condition {
-    private final StatusEffect statusEffect;
-    private final boolean affectTarget;
+    private StatusEffect statusEffect;
+    private boolean affectTarget;
 
-    public HasStatusEffectCondition(StatusEffect statusEffect, boolean affectTarget) {
-        super(Condition.HAS_STATUS_EFFECT);
+    public HasStatusEffectCondition withValues(StatusEffect statusEffect, boolean affectTarget) {
         this.statusEffect = statusEffect;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public HasStatusEffectCondition getFromJson(JsonObject object) {
         StatusEffect statusEffect = Registry.STATUS_EFFECT.get(Identifier.tryParse(JsonHelper.getString(object , "status_effect")));
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new HasStatusEffectCondition(statusEffect, affectTarget);
+        return withValues(statusEffect, affectTarget);
     }
 
     private boolean test(Entity entity) {

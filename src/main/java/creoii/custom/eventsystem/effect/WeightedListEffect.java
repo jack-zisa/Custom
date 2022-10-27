@@ -10,6 +10,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DataPool;
 import net.minecraft.util.math.BlockPos;
@@ -17,22 +18,22 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class WeightedListEffect extends Effect {
-    private final DataPool<Effect> effects;
+    private DataPool<Effect> effects;
 
-    public WeightedListEffect(DataPool<Effect> effects) {
-        super(Effect.WEIGHTED_LIST);
+    public WeightedListEffect withValues(DataPool<Effect> effects) {
         this.effects = effects;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public WeightedListEffect getFromJson(JsonObject object) {
         JsonArray effects = JsonHelper.getArray(object, "effects");
         DataPool.Builder<Effect> list = DataPool.builder();
         effects.forEach(element -> {
             JsonObject object1 = element.getAsJsonObject();
             JsonObject effect = object1.getAsJsonObject("effect");
-            list.add(Effect.getEffect(effect, effect.get("name").getAsString()), object1.get("weight").getAsInt());
+            list.add(Effect.getEffect(effect, Identifier.tryParse(effect.get("name").getAsString())), object1.get("weight").getAsInt());
         });
-        return new WeightedListEffect(list.build());
+        return withValues(list.build());
     }
 
     public Effect getRandom(Random random) {

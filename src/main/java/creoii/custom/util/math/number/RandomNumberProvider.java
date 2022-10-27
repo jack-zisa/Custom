@@ -3,10 +3,9 @@ package creoii.custom.util.math.number;
 import com.google.gson.JsonObject;
 import net.minecraft.util.JsonHelper;
 
-import java.util.Random;
+import static creoii.custom.Custom.RANDOM;
 
 public class RandomNumberProvider extends NumberProvider {
-    private static final Random RANDOM = new Random();
     private double min;
     private double max;
 

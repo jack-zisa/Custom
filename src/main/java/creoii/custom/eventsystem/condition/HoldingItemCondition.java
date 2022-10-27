@@ -17,22 +17,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class HoldingItemCondition extends Condition {
-    private final Item item;
-    private final Hand hand;
-    private final boolean affectTarget;
+    private Item item;
+    private Hand hand;
+    private boolean affectTarget;
 
-    public HoldingItemCondition(Item item, Hand hand, boolean affectTarget) {
-        super(Condition.HOLDING_ITEM);
+    public HoldingItemCondition withValues(Item item, Hand hand, boolean affectTarget) {
         this.item = item;
         this.hand = hand;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public HoldingItemCondition getFromJson(JsonObject object) {
         Item item = JsonHelper.getItem(object, "item", Items.AIR);
         Hand hand = StringToObject.hand(JsonHelper.getString(object, "hand", "mainhand"));
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new HoldingItemCondition(item, hand, affectTarget);
+        return withValues(item, hand, affectTarget);
     }
 
     private boolean test(Entity entity) {

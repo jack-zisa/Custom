@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.math.DoubleValueHolder;
 import creoii.custom.util.math.ValueHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -18,21 +19,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class DropItemEffect extends Effect {
-    private final Item item;
-    private final ValueHolder amount;
+    private Item item;
+    private DoubleValueHolder amount;
 
     private ItemEntity itemEntity;
 
-    public DropItemEffect(Item item, ValueHolder amount) {
-        super(Effect.DROP_ITEM);
+    public DropItemEffect withValues(Item item, DoubleValueHolder amount) {
         this.item = item;
         this.amount = amount;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public Effect getFromJson(JsonObject object) {
         Item item = JsonHelper.getItem(object, "item", Items.AIR);
-        ValueHolder amount = ValueHolder.getFromJson(object, "amount");
-        return new DropItemEffect(item, amount);
+        DoubleValueHolder amount = DoubleValueHolder.getFromJson(object, "amount");
+        return withValues(item, amount);
     }
 
     @Override

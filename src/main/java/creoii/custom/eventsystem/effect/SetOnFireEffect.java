@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.math.DoubleValueHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -15,45 +16,45 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class SetOnFireEffect extends Effect {
-    private final int duration;
-    private final float damage;
-    private final boolean affectTarget;
+    private DoubleValueHolder duration;
+    private DoubleValueHolder damage;
+    private boolean affectTarget;
 
-    public SetOnFireEffect(int duration, float damage, boolean affectTarget) {
-        super(Effect.SPAWN_ENTITY);
+    public SetOnFireEffect withValues(DoubleValueHolder duration, DoubleValueHolder damage, boolean affectTarget) {
         this.duration = duration;
         this.damage = damage;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
-        int duration = JsonHelper.getInt(object, "duration", 0);
-        float damage = JsonHelper.getFloat(object, "damage", 0f);
+    public SetOnFireEffect getFromJson(JsonObject object) {
+        DoubleValueHolder duration = DoubleValueHolder.getFromJson(object, "duration");
+        DoubleValueHolder damage = DoubleValueHolder.getFromJson(object, "damage");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new SetOnFireEffect(duration, damage, affectTarget);
+        return withValues(duration, damage, affectTarget);
     }
 
     @Override
     public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
         if (!living.isFireImmune()) {
-            living.setOnFireFor(duration);
-            living.damage(DamageSource.ON_FIRE, damage);
+            living.setOnFireFor((int) duration.getValue());
+            living.damage(DamageSource.ON_FIRE, (float) damage.getValue());
         }
     }
 
     @Override
     public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
         if (!player.isFireImmune()) {
-            player.setOnFireFor(duration);
-            player.damage(DamageSource.ON_FIRE, damage);
+            player.setOnFireFor((int) duration.getValue());
+            player.damage(DamageSource.ON_FIRE, (float) damage.getValue());
         }
     }
 
     @Override
     public void runEntity(Entity entity, PlayerEntity player, Hand hand) {
         if (!entity.isFireImmune()) {
-            entity.setOnFireFor(duration);
-            entity.damage(DamageSource.ON_FIRE, damage);
+            entity.setOnFireFor((int) duration.getValue());
+            entity.damage(DamageSource.ON_FIRE, (float) damage.getValue());
         }
     }
 
@@ -61,16 +62,16 @@ public class SetOnFireEffect extends Effect {
     public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
         Entity entity = affectTarget ? target : user;
         if (!entity.isFireImmune()) {
-            entity.setOnFireFor(duration);
-            entity.damage(DamageSource.ON_FIRE, damage);
+            entity.setOnFireFor((int) duration.getValue());
+            entity.damage(DamageSource.ON_FIRE, (float) damage.getValue());
         }
     }
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         if (!entity.isFireImmune()) {
-            entity.setOnFireFor(duration);
-            entity.damage(DamageSource.ON_FIRE, damage);
+            entity.setOnFireFor((int) duration.getValue());
+            entity.damage(DamageSource.ON_FIRE, (float) damage.getValue());
         }
     }
 

@@ -8,18 +8,20 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.JsonHelper;
 
 public class RightClickEvent extends Event {
-    private final ActionResult actionResult;
+    private ActionResult actionResult;
 
-    public RightClickEvent(ActionResult actionResult, Condition[] conditions, Effect[] effects) {
-        super(Event.RIGHT_CLICK, conditions, effects);
+    public RightClickEvent withValues(ActionResult actionResult, Condition[] conditions, Effect[] effects) {
         this.actionResult = actionResult;
+        this.conditions = conditions;
+        this.effects = effects;
+        return this;
     }
 
-    public static Event getFromJson(JsonObject object) {
+    public RightClickEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
         ActionResult actionResult = StringToObject.actionResult(JsonHelper.getString(object, "action_result", "pass"), JsonHelper.getBoolean(object, "swing_hand", true));
-        return new RightClickEvent(actionResult, conditions, effects);
+        return withValues(actionResult, conditions, effects);
     }
 
     public ActionResult getActionResult() {

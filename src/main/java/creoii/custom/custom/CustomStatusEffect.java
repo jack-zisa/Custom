@@ -3,6 +3,7 @@ package creoii.custom.custom;
 import com.google.gson.*;
 import creoii.custom.data.CustomObject;
 import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.Events;
 import creoii.custom.util.StringToObject;
 import creoii.custom.util.json.CustomJsonObjects;
 import net.minecraft.entity.Entity;
@@ -47,7 +48,7 @@ public class CustomStatusEffect extends StatusEffect implements CustomObject {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        Event event = Event.findEvent(events, Event.STATUS_EFFECT_UPDATE);
+        Event event = Event.findEvent(events, Events.STATUS_EFFECT_UPDATE);
         if (event != null) {
             event.applyStatusEffectEvent(this, entity, amplifier);
         }
@@ -56,7 +57,7 @@ public class CustomStatusEffect extends StatusEffect implements CustomObject {
 
     @Override
     public void applyInstantEffect(@Nullable Entity source, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
-        Event event = Event.findEvent(events, Event.STATUS_EFFECT_APPLY);
+        Event event = Event.findEvent(events, Events.STATUS_EFFECT_APPLY);
         if (event != null) {
             event.applyStatusEffectEvent(this, target, amplifier);
         }
@@ -65,7 +66,7 @@ public class CustomStatusEffect extends StatusEffect implements CustomObject {
 
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        Event event = Event.findEvent(events, Event.STATUS_EFFECT_APPLY);
+        Event event = Event.findEvent(events, Events.STATUS_EFFECT_APPLY);
         if (event != null) {
             event.applyStatusEffectEvent(this, entity, amplifier);
         }
@@ -74,7 +75,7 @@ public class CustomStatusEffect extends StatusEffect implements CustomObject {
 
     @Override
     public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        Event event = Event.findEvent(events, Event.STATUS_EFFECT_REMOVE);
+        Event event = Event.findEvent(events, Events.STATUS_EFFECT_REMOVE);
         if (event != null) {
             event.applyStatusEffectEvent(this, entity, amplifier);
         }
@@ -110,7 +111,7 @@ public class CustomStatusEffect extends StatusEffect implements CustomObject {
                     for (int i = 0; i < events.length; ++i) {
                         if (array.get(i).isJsonObject()) {
                             JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = Event.getEvent(eventObj, eventObj.get("name").getAsString());
+                            events[i] = Event.getEvent(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
                         }
                     }
                 }

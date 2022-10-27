@@ -1,6 +1,7 @@
 package creoii.custom.custom;
 
 import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.Events;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -27,7 +28,7 @@ public class EventCustomEnchantment extends CustomEnchantment {
     @Override
     public void onTargetDamaged(LivingEntity user, Entity target, int level) {
         super.onTargetDamaged(user, target, level);
-        Event event = Event.findEvent(events, Event.TARGET_DAMAGED);
+        Event event = Event.findEvent(events, Events.TARGET_DAMAGED);
         if (event != null) {
             event.applyEnchantmentEvent(this, user, target, level);
         }
@@ -36,7 +37,7 @@ public class EventCustomEnchantment extends CustomEnchantment {
     @Override
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
         super.onUserDamaged(user, attacker, level);
-        Event event = Event.findEvent(events, Event.USER_DAMAGED);
+        Event event = Event.findEvent(events, Events.USER_DAMAGED);
         if (event != null) {
             event.applyEnchantmentEvent(this, user, attacker, level);
         }

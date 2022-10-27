@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.math.DoubleValueHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -14,26 +15,26 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class WithinYCondition extends Condition {
-    private final int minY;
-    private final int maxY;
-    private final boolean affectTarget;
+    private DoubleValueHolder minY;
+    private DoubleValueHolder maxY;
+    private boolean affectTarget;
 
-    public WithinYCondition(int minY, int maxY, boolean affectTarget) {
-        super(Condition.WITHIN_Y);
+    public WithinYCondition withValues(DoubleValueHolder minY, DoubleValueHolder maxY, boolean affectTarget) {
         this.minY = minY;
         this.maxY = maxY;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
-        int minY = JsonHelper.getInt(object, "min_y", -64);
-        int maxY = JsonHelper.getInt(object, "max_y", 320);
+    public WithinYCondition getFromJson(JsonObject object) {
+        DoubleValueHolder minY = DoubleValueHolder.getFromJson(object, "min_y");
+        DoubleValueHolder maxY = DoubleValueHolder.getFromJson(object, "max_y");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new WithinYCondition(minY, maxY, affectTarget);
+        return withValues(minY, maxY, affectTarget);
     }
 
     private boolean test(BlockPos pos) {
-        return pos.getY() > minY && pos.getY() < maxY;
+        return pos.getY() > minY.getValue() && pos.getY() < maxY.getValue();
     }
 
     @Override

@@ -19,25 +19,25 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class HasEnchantmentCondition extends Condition {
-    private final Enchantment enchantment;
-    private final int level;
-    private final EquipmentSlot equipmentSlot;
-    private final boolean affectTarget;
+    private Enchantment enchantment;
+    private int level;
+    private EquipmentSlot equipmentSlot;
+    private boolean affectTarget;
 
-    public HasEnchantmentCondition(Enchantment enchantment, int level, EquipmentSlot equipmentSlot, boolean affectTarget) {
-        super(Condition.HAS_ENCHANTMENT);
+    public HasEnchantmentCondition withValues(Enchantment enchantment, int level, EquipmentSlot equipmentSlot, boolean affectTarget) {
         this.enchantment = enchantment;
         this.level = level;
         this.equipmentSlot = equipmentSlot;
         this.affectTarget = affectTarget;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public HasEnchantmentCondition getFromJson(JsonObject object) {
         Enchantment enchantment = Registry.ENCHANTMENT.get(Identifier.tryParse(JsonHelper.getString(object , "enchantment")));
         int level = JsonHelper.getInt(object, "level", 1);
         EquipmentSlot equipmentSlot = StringToObject.equipmentSlot(JsonHelper.getString(object, "equipment_slot"));
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return new HasEnchantmentCondition(enchantment, level, equipmentSlot, affectTarget);
+        return withValues(enchantment, level, equipmentSlot, affectTarget);
     }
 
     private boolean test(ItemStack stack) {

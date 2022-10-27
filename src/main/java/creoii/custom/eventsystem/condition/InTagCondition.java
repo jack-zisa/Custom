@@ -20,16 +20,16 @@ import net.minecraft.world.World;
 import java.util.Optional;
 
 public class InTagCondition extends Condition {
-    private final String tag;
+    private String tag;
 
-    public InTagCondition(String tag) {
-        super(Condition.IN_TAG);
+    public InTagCondition withValues(String tag) {
         this.tag = tag;
+        return this;
     }
 
-    public static Condition getFromJson(JsonObject object) {
+    public InTagCondition getFromJson(JsonObject object) {
         String tag = object.get("tag").getAsString();
-        return new InTagCondition(tag);
+        return withValues(tag);
     }
 
     @Override
@@ -49,7 +49,9 @@ public class InTagCondition extends Condition {
 
     @Override
     public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        return false;
+        RegistryKey<Enchantment> key = RegistryKey.of(Registry.ENCHANTMENT.getKey(), Registry.ENCHANTMENT.getId(enchantment));
+        Optional<RegistryEntry<Enchantment>> entry = Registry.ENCHANTMENT.getEntry(key);
+        return entry.isPresent() && entry.get().isIn(TagKey.of(Registry.ENCHANTMENT.getKey(), Identifier.tryParse(tag)));
     }
 
     @Override

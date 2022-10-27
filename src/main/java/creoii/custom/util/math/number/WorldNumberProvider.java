@@ -41,7 +41,7 @@ public class WorldNumberProvider extends NumberProvider {
 
     @Override
     public double getValue() {
-        return getValue("");
+        return value;
     }
 
     public WorldNumberProvider getFromJson(JsonObject object) {

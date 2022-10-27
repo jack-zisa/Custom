@@ -15,16 +15,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class DestroyEffect extends Effect {
-    private final boolean blocksDropItem;
+    private boolean blocksDropItem;
 
-    public DestroyEffect(boolean blocksDropItem) {
-        super(Effect.DESTROY);
+    public DestroyEffect withValues(boolean blocksDropItem) {
         this.blocksDropItem = blocksDropItem;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public Effect getFromJson(JsonObject object) {
         boolean blocksDropItem = JsonHelper.getBoolean(object, "blocks_drop_item", true);
-        return new DestroyEffect(blocksDropItem);
+        return withValues(blocksDropItem);
     }
 
     @Override

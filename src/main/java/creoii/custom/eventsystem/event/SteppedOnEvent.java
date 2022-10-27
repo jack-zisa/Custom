@@ -5,13 +5,15 @@ import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 
 public class SteppedOnEvent extends Event {
-    public SteppedOnEvent(Condition[] conditions, Effect[] effects) {
-        super(Event.STEPPED_ON, conditions, effects);
+    public SteppedOnEvent withValues(Condition[] conditions, Effect[] effects) {
+        this.conditions = conditions;
+        this.effects = effects;
+        return this;
     }
 
-    public static Event getFromJson(JsonObject object) {
+    public SteppedOnEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        return new SteppedOnEvent(conditions, effects);
+        return withValues(conditions, effects);
     }
 }

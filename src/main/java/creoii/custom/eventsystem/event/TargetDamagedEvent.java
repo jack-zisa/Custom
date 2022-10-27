@@ -5,13 +5,15 @@ import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 
 public class TargetDamagedEvent extends Event {
-    public TargetDamagedEvent(Condition[] conditions, Effect[] effects) {
-        super(Event.TARGET_DAMAGED, conditions, effects);
+    public TargetDamagedEvent withValues(Condition[] conditions, Effect[] effects) {
+        this.conditions = conditions;
+        this.effects = effects;
+        return this;
     }
 
-    public static Event getFromJson(JsonObject object) {
+    public TargetDamagedEvent getFromJson(JsonObject object) {
         Condition[] conditions = Event.getConditions(object);
         Effect[] effects = Event.getEffects(object);
-        return new TargetDamagedEvent(conditions, effects);
+        return withValues(conditions, effects);
     }
 }

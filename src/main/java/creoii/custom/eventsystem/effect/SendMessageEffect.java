@@ -20,25 +20,25 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class SendMessageEffect extends Effect {
-    private final Text text;
-    private final CustomJsonObjects.TextFormatting formatting;
-    private final boolean actionBar;
+    private Text text;
+    private CustomJsonObjects.TextFormatting formatting;
+    private boolean actionBar;
 
-    public SendMessageEffect(Text text, CustomJsonObjects.TextFormatting formatting, boolean actionBar) {
-        super(Effect.SEND_MESSAGE);
+    public SendMessageEffect withValues(Text text, CustomJsonObjects.TextFormatting formatting, boolean actionBar) {
         this.text = text;
         this.formatting = formatting;
         this.actionBar = actionBar;
+        return this;
     }
 
-    public static Effect getFromJson(JsonObject object) {
+    public SendMessageEffect getFromJson(JsonObject object) {
         CustomJsonObjects.TextFormatting formatting = CustomJsonObjects.TextFormatting.get(object);
         MutableText text = MutableText.of(new LiteralTextContent(JsonHelper.getString(object, "text", ""))).formatted(formatting.formatting());
         for (Formatting formatting1 : formatting.formatting()) {
             text.formatted(formatting1);
         }
         boolean actionBar = JsonHelper.getBoolean(object, "action_bar", false);
-        return new SendMessageEffect(text, formatting, actionBar);
+        return withValues(text, formatting, actionBar);
     }
 
     @Override
