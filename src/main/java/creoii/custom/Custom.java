@@ -13,17 +13,16 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Random;
-
 public class Custom implements ModInitializer, ClientModInitializer {
     public static final String NAMESPACE = "custom";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final Random RANDOM = new Random();
+    public static final Random RANDOM = Random.create();
 
     public static final DefaultedRegistry<Event> EVENT = FabricRegistryBuilder.createDefaulted(Event.class, new Identifier(NAMESPACE, "event"), new Identifier(NAMESPACE, "empty")).buildAndRegister();
     public static final DefaultedRegistry<Condition> CONDITION = FabricRegistryBuilder.createDefaulted(Condition.class, new Identifier(NAMESPACE, "condition"), new Identifier(NAMESPACE, "empty")).buildAndRegister();

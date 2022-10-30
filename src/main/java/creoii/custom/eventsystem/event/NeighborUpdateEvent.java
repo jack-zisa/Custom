@@ -55,7 +55,8 @@ public class NeighborUpdateEvent extends Event {
                 if (array.get(i).isJsonObject()) {
                     JsonObject eventObj = array.get(i).getAsJsonObject();
                     conditions[i] = Condition.getCondition(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
-                }            }
+                }
+            }
         } else conditions = new Condition[0];
         return conditions;
     }
