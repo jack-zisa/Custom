@@ -1,8 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.math.DoubleValueHolder;
-import creoii.custom.util.math.ValueHolder;
+import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -20,53 +19,54 @@ import net.minecraft.world.World;
 
 public class DropItemEffect extends Effect {
     private Item item;
-    private DoubleValueHolder amount;
+    private ValueProvider<Double> amount;
 
     private ItemEntity itemEntity;
 
-    public DropItemEffect withValues(Item item, DoubleValueHolder amount) {
+    public DropItemEffect withValues(Item item, ValueProvider<Double> amount) {
         this.item = item;
         this.amount = amount;
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public Effect getFromJson(JsonObject object) {
         Item item = JsonHelper.getItem(object, "item", Items.AIR);
-        DoubleValueHolder amount = DoubleValueHolder.getFromJson(object, "amount");
+        ValueProvider<Double> amount = (ValueProvider<Double>) ValueProvider.getFromJson(object, "amount");
         return withValues(item, amount);
     }
 
     @Override
     public void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        itemEntity = new ItemEntity(world, pos.getX() + .5f, pos.getY() + .5f, pos.getZ() + .5f, new ItemStack(item, (int) amount.getValue()));
+        itemEntity = new ItemEntity(world, pos.getX() + .5f, pos.getY() + .5f, pos.getZ() + .5f, new ItemStack(item, amount.getValue().intValue()));
         itemEntity.setToDefaultPickupDelay();
         world.spawnEntity(itemEntity);
     }
 
     @Override
     public void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        itemEntity = new ItemEntity(world, pos.getX() + .5f, pos.getY() + .5f, pos.getZ() + .5f, new ItemStack(item, (int) amount.getValue()));
+        itemEntity = new ItemEntity(world, pos.getX() + .5f, pos.getY() + .5f, pos.getZ() + .5f, new ItemStack(item, amount.getValue().intValue()));
         itemEntity.setToDefaultPickupDelay();
         world.spawnEntity(itemEntity);
     }
 
     @Override
     public void runEntity(Entity entity, PlayerEntity player, Hand hand) {
-        itemEntity = new ItemEntity(entity.world, entity.getX() + .5f, entity.getY() + .5f, entity.getZ() + .5f, new ItemStack(item, (int) amount.getValue()));
+        itemEntity = new ItemEntity(entity.world, entity.getX() + .5f, entity.getY() + .5f, entity.getZ() + .5f, new ItemStack(item, amount.getValue().intValue()));
         itemEntity.setToDefaultPickupDelay();
         entity.world.spawnEntity(itemEntity);
     }
 
     @Override
     public void runEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        itemEntity = new ItemEntity(target.world, target.getX() + .5f, target.getY() + .5f, target.getZ() + .5f, new ItemStack(item, (int) amount.getValue()));
+        itemEntity = new ItemEntity(target.world, target.getX() + .5f, target.getY() + .5f, target.getZ() + .5f, new ItemStack(item, amount.getValue().intValue()));
         itemEntity.setToDefaultPickupDelay();
         target.world.spawnEntity(itemEntity);
     }
 
     @Override
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        itemEntity = new ItemEntity(entity.world, entity.getX() + .5f, entity.getY() + .5f, entity.getZ() + .5f, new ItemStack(item, (int) amount.getValue()));
+        itemEntity = new ItemEntity(entity.world, entity.getX() + .5f, entity.getY() + .5f, entity.getZ() + .5f, new ItemStack(item, amount.getValue().intValue()));
         itemEntity.setToDefaultPickupDelay();
         entity.world.spawnEntity(itemEntity);
     }

@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.event.Event;
 import creoii.custom.util.StringToObject;
 import net.minecraft.enchantment.Enchantment;
@@ -13,7 +13,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Type;
 
-public class CustomEnchantment extends Enchantment implements CustomObject {
+public class CustomEnchantment extends Enchantment implements Identifiable {
     private final Identifier identifier;
     private final boolean offeredByLibrarians;
     private final boolean randomlySelectable;

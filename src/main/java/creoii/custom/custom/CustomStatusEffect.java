@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.event.Event;
 import creoii.custom.eventsystem.event.Events;
 import creoii.custom.util.StringToObject;
@@ -17,8 +17,9 @@ import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 
-public class CustomStatusEffect extends StatusEffect implements CustomObject {
+public class CustomStatusEffect extends StatusEffect implements Identifiable {
     private final Identifier identifier;
     private final boolean instant;
     private final Event[] events;
@@ -97,8 +98,7 @@ public class CustomStatusEffect extends StatusEffect implements CustomObject {
                 if (attributeModifiers.length > 0) {
                     for (int i = 0; i < attributeModifiers.length; ++i) {
                         if (array.get(i).isJsonObject()) {
-                            JsonObject attributeObj = array.get(i).getAsJsonObject();
-                            attributeModifiers[i] = CustomJsonObjects.AttributeModifier.get(attributeObj);
+                            attributeModifiers[i] = CustomJsonObjects.AttributeModifier.get(array.get(i).getAsJsonObject());
                         }
                     }
                 }

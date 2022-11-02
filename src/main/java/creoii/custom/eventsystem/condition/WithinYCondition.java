@@ -1,7 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.math.DoubleValueHolder;
+import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -15,20 +15,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class WithinYCondition extends Condition {
-    private DoubleValueHolder minY;
-    private DoubleValueHolder maxY;
+    private ValueProvider<Double> minY;
+    private ValueProvider<Double> maxY;
     private boolean affectTarget;
 
-    public WithinYCondition withValues(DoubleValueHolder minY, DoubleValueHolder maxY, boolean affectTarget) {
+    public WithinYCondition withValues(ValueProvider<Double> minY, ValueProvider<Double> maxY, boolean affectTarget) {
         this.minY = minY;
         this.maxY = maxY;
         this.affectTarget = affectTarget;
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public WithinYCondition getFromJson(JsonObject object) {
-        DoubleValueHolder minY = DoubleValueHolder.getFromJson(object, "min_y");
-        DoubleValueHolder maxY = DoubleValueHolder.getFromJson(object, "max_y");
+        ValueProvider<Double> minY = (ValueProvider<Double>) ValueProvider.getFromJson(object, "min_y");
+        ValueProvider<Double> maxY = (ValueProvider<Double>) ValueProvider.getFromJson(object, "max_y");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
         return withValues(minY, maxY, affectTarget);
     }

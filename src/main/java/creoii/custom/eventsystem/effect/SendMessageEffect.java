@@ -81,6 +81,7 @@ public class SendMessageEffect extends Effect {
     public void runStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
         if (!entity.getWorld().isClient) {
             ((ServerWorld) entity.getWorld()).getPlayers().forEach(player1 -> {
+                System.out.println("sent message");
                 player1.sendMessage(text, actionBar);
             });
         }

@@ -2,7 +2,7 @@ package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
 import creoii.custom.util.json.CustomJsonHelper;
-import creoii.custom.util.math.DoubleValueHolder;
+import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -18,11 +18,11 @@ import net.minecraft.world.World;
 
 public class SetSpawnPointEffect extends Effect {
     private BlockPos offset;
-    private DoubleValueHolder angle;
+    private ValueProvider<Double> angle;
     private boolean sendMessage;
     private boolean affectTarget;
 
-    public SetSpawnPointEffect withValues(BlockPos offset, DoubleValueHolder angle, boolean sendMessage, boolean affectTarget) {
+    public SetSpawnPointEffect withValues(BlockPos offset, ValueProvider<Double> angle, boolean sendMessage, boolean affectTarget) {
         this.offset = offset;
         this.angle = angle;
         this.sendMessage = sendMessage;
@@ -30,9 +30,10 @@ public class SetSpawnPointEffect extends Effect {
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public SetSpawnPointEffect getFromJson(JsonObject object) {
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
-        DoubleValueHolder angle = DoubleValueHolder.getFromJson(object, "angle");
+        ValueProvider<Double> angle = (ValueProvider<Double>) ValueProvider.getFromJson(object, "angle");
         boolean sendMessage = JsonHelper.getBoolean(object, "send_message", false);
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
         return withValues(offset, angle, sendMessage, affectTarget);
@@ -41,7 +42,7 @@ public class SetSpawnPointEffect extends Effect {
     private void run(World world, Entity entity, BlockPos pos) {
         if (!world.isClient) {
             if (entity instanceof ServerPlayerEntity playerEntity) {
-                playerEntity.setSpawnPoint(world.getRegistryKey(), pos.add(offset), (float) angle.getValue(), false, sendMessage);
+                playerEntity.setSpawnPoint(world.getRegistryKey(), pos.add(offset), angle.getValue().floatValue(), false, sendMessage);
             }
         }
     }

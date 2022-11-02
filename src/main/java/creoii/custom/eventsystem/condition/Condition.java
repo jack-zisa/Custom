@@ -2,6 +2,7 @@ package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
 import creoii.custom.Custom;
+import creoii.custom.data.Identifiable;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -16,7 +17,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class Condition {
+public abstract class Condition implements Identifiable {
     @Nullable
     public static Condition getCondition(JsonObject object, Identifier id) {
         return Custom.CONDITION.get(id).getFromJson(object);
@@ -26,7 +27,8 @@ public abstract class Condition {
         return Registry.register(Custom.CONDITION, id, condition);
     }
 
-    public Identifier getId() {
+    @Override
+    public Identifier getIdentifier() {
         return Custom.CONDITION.getId(this);
     }
 

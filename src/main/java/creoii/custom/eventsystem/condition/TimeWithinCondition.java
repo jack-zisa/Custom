@@ -1,7 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.math.DoubleValueHolder;
+import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -10,24 +10,22 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TimeWithinCondition extends Condition {
-    private DoubleValueHolder minTime;
-    private DoubleValueHolder maxTime;
+    private ValueProvider<Double> minTime;
+    private ValueProvider<Double> maxTime;
 
-
-    public TimeWithinCondition withValues(DoubleValueHolder minTime, DoubleValueHolder maxTime) {
+    public TimeWithinCondition withValues(ValueProvider<Double> minTime, ValueProvider<Double> maxTime) {
         this.minTime = minTime;
         this.maxTime = maxTime;
         return this;
     }
 
     public TimeWithinCondition getFromJson(JsonObject object) {
-        DoubleValueHolder minTime = DoubleValueHolder.getFromJson(object, "min_time");
-        DoubleValueHolder maxTime = DoubleValueHolder.getFromJson(object, "max_time");
+        ValueProvider<Double> minTime = (ValueProvider<Double>) ValueProvider.getFromJson(object, "min_time");
+        ValueProvider<Double> maxTime = (ValueProvider<Double>) ValueProvider.getFromJson(object, "max_time");
         return withValues(minTime, maxTime);
     }
 

@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -9,7 +9,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Type;
 
-public class CustomPainting extends PaintingVariant implements CustomObject {
+public class CustomPainting extends PaintingVariant implements Identifiable {
     private final Identifier identifier;
 
     public CustomPainting(Identifier identifier, int width, int height) {

@@ -28,6 +28,7 @@ public class EntityJumpingCondition extends Condition {
 
     private boolean test(Entity entity) {
         if (entity instanceof LivingEntity livingEntity) {
+            System.out.println("tested");
             return livingEntity.jumping;
         }
         return false;

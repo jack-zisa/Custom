@@ -1,7 +1,7 @@
 package creoii.custom.eventsystem.global;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 import creoii.custom.eventsystem.event.Event;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.lang.reflect.Type;
 
-public record GlobalEvent(Identifier identifier, String type, Condition[] conditions, Effect[] effects) implements CustomObject {
+public record GlobalEvent(Identifier identifier, String type, Condition[] conditions, Effect[] effects) implements Identifiable {
     public static final String CLIENT_WORLD_TICK = "client_world_tick";
     public static final String SERVER_WORLD_TICK = "server_world_tick";
 

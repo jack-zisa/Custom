@@ -1,7 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.math.DoubleValueHolder;
+import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -15,19 +15,20 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class GiveExperienceEffect extends Effect {
-    private DoubleValueHolder amount;
+    private ValueProvider<Double> amount;
     private Type type;
     private boolean affectTarget;
 
-    public GiveExperienceEffect withValues(DoubleValueHolder amount, Type type, boolean affectTarget) {
+    public GiveExperienceEffect withValues(ValueProvider<Double> amount, Type type, boolean affectTarget) {
         this.amount = amount;
         this.type = type;
         this.affectTarget = affectTarget;
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public GiveExperienceEffect getFromJson(JsonObject object) {
-        DoubleValueHolder amount = DoubleValueHolder.getFromJson(object, "amount");
+        ValueProvider<Double> amount = (ValueProvider<Double>) ValueProvider.getFromJson(object, "amount");
         Type type = Type.valueOf(JsonHelper.getString(object, "type", "experience").toUpperCase());
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
         return withValues(amount, type, affectTarget);
@@ -35,8 +36,8 @@ public class GiveExperienceEffect extends Effect {
 
     private void run(Entity entity) {
         if (entity instanceof PlayerEntity playerEntity) {
-            if (type == Type.EXPERIENCE) playerEntity.addExperience((int) amount.getValue());
-            else playerEntity.addExperienceLevels((int) amount.getValue());
+            if (type == Type.EXPERIENCE) playerEntity.addExperience(amount.getValue().intValue());
+            else playerEntity.addExperienceLevels(amount.getValue().intValue());
         }
     }
 

@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -11,7 +11,7 @@ import net.minecraft.world.biome.Biome;
 
 import java.lang.reflect.Type;
 
-public class CustomVillagerType extends VillagerType implements CustomObject {
+public class CustomVillagerType extends VillagerType implements Identifiable {
     private final Identifier identifier;
     private final Biome[] biomes;
 

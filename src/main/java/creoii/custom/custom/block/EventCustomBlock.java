@@ -1,6 +1,6 @@
 package creoii.custom.custom.block;
 
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.event.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-public class EventCustomBlock extends CustomBlock implements CustomObject {
+public class EventCustomBlock extends CustomBlock implements Identifiable {
     private final Event[] events;
     private Event cachedEvent = null;
 

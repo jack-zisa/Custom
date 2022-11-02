@@ -1,7 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.math.DoubleValueHolder;
+import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -10,21 +10,21 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class RandomChanceCondition extends Condition {
-    private DoubleValueHolder chance;
+    private ValueProvider<Double> chance;
 
-    public RandomChanceCondition withValues(DoubleValueHolder chance) {
+    public RandomChanceCondition withValues(ValueProvider<Double> chance) {
         this.chance = chance;
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public RandomChanceCondition getFromJson(JsonObject object) {
-        DoubleValueHolder chance = DoubleValueHolder.getFromJson(object, "chance");
+        ValueProvider<Double> chance = (ValueProvider<Double>) ValueProvider.getFromJson(object, "chance");
         return withValues(chance);
     }
 

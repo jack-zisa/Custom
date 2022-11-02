@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
@@ -16,7 +16,7 @@ import net.minecraft.world.WorldView;
 
 import java.lang.reflect.Type;
 
-public class CustomFluid extends FlowableFluid implements CustomObject {
+public class CustomFluid extends FlowableFluid implements Identifiable {
     private final Identifier identifier;
     private final Item bucketItem;
     private final int flowSpeed;
@@ -99,12 +99,12 @@ public class CustomFluid extends FlowableFluid implements CustomObject {
 
     @Override
     public boolean isStill(FluidState state) {
-        return false;
+        return state.isStill();
     }
 
     @Override
     public int getLevel(FluidState state) {
-        return 0;
+        return state.getLevel();
     }
 
     public static class Serializer implements JsonSerializer<CustomFluid>, JsonDeserializer<CustomFluid> {

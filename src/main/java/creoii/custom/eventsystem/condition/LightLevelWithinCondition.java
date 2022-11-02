@@ -1,7 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.math.DoubleValueHolder;
+import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -12,17 +12,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 public class LightLevelWithinCondition extends Condition {
-    private DoubleValueHolder minLight;
-    private DoubleValueHolder maxLight;
+    private ValueProvider<Double> minLight;
+    private ValueProvider<Double> maxLight;
     private LightType lightType;
     private boolean affectTarget;
 
-    public LightLevelWithinCondition withValues(DoubleValueHolder minLight, DoubleValueHolder maxLight, LightType lightType, boolean affectTarget) {
+    public LightLevelWithinCondition withValues(ValueProvider<Double> minLight, ValueProvider<Double> maxLight, LightType lightType, boolean affectTarget) {
         this.minLight = minLight;
         this.maxLight = maxLight;
         this.lightType = lightType;
@@ -31,8 +30,8 @@ public class LightLevelWithinCondition extends Condition {
     }
 
     public LightLevelWithinCondition getFromJson(JsonObject object) {
-        DoubleValueHolder minLight = DoubleValueHolder.getFromJson(object, "min_light");
-        DoubleValueHolder maxLight = DoubleValueHolder.getFromJson(object, "max_light");
+        ValueProvider<Double> minLight = (ValueProvider<Double>) ValueProvider.getFromJson(object.getAsJsonObject("min_light"));
+        ValueProvider<Double> maxLight = (ValueProvider<Double>) ValueProvider.getFromJson(object.getAsJsonObject("max_light"));
         LightType lightType = LightType.valueOf(JsonHelper.getString(object, "light_type").toUpperCase());
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
         return withValues(minLight, maxLight, lightType, affectTarget);

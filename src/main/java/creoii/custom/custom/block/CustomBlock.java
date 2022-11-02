@@ -1,9 +1,7 @@
 package creoii.custom.custom.block;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
-import creoii.custom.eventsystem.condition.Condition;
-import creoii.custom.eventsystem.effect.Effect;
+import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.event.Event;
 import creoii.custom.util.BlockUtil;
 import creoii.custom.util.StringToObject;
@@ -30,7 +28,7 @@ import net.minecraft.world.World;
 
 import java.lang.reflect.Type;
 
-public class CustomBlock extends Block implements CustomObject {
+public class CustomBlock extends Block implements Identifiable {
     private final Identifier identifier;
     private final boolean hasItem;
     private final Settings blockSettings;

@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.event.Event;
 import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.client.item.TooltipContext;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class CustomItem extends Item implements CustomObject {
+public class CustomItem extends Item implements Identifiable {
     private final Identifier identifier;
     private final FoodComponent food;
     private final Text tooltipText;

@@ -1,8 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.math.DoubleValueHolder;
-import creoii.custom.util.math.ValueHolder;
+import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -17,13 +16,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class AddVelocityEffect extends Effect {
-    private DoubleValueHolder xVelocity;
-    private DoubleValueHolder yVelocity;
-    private DoubleValueHolder zVelocity;
+    private ValueProvider<Double> xVelocity;
+    private ValueProvider<Double> yVelocity;
+    private ValueProvider<Double> zVelocity;
     private boolean useLookVec;
     private boolean affectTarget;
 
-    public AddVelocityEffect withValues(DoubleValueHolder xVelocity, DoubleValueHolder yVelocity, DoubleValueHolder zVelocity, boolean useLookVec, boolean affectTarget) {
+    public AddVelocityEffect withValues(ValueProvider<Double> xVelocity, ValueProvider<Double> yVelocity, ValueProvider<Double> zVelocity, boolean useLookVec, boolean affectTarget) {
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
         this.zVelocity = zVelocity;
@@ -32,10 +31,11 @@ public class AddVelocityEffect extends Effect {
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public Effect getFromJson(JsonObject object) {
-        DoubleValueHolder xVelocity = DoubleValueHolder.getFromJson(object, "x_velocity");
-        DoubleValueHolder yVelocity = DoubleValueHolder.getFromJson(object, "y_velocity");
-        DoubleValueHolder zVelocity = DoubleValueHolder.getFromJson(object, "z_velocity");
+        ValueProvider<Double> xVelocity = (ValueProvider<Double>) ValueProvider.getFromJson(object, "x_velocity");
+        ValueProvider<Double> yVelocity = (ValueProvider<Double>) ValueProvider.getFromJson(object, "y_velocity");
+        ValueProvider<Double> zVelocity = (ValueProvider<Double>) ValueProvider.getFromJson(object, "z_velocity");
         boolean useLookVec = JsonHelper.getBoolean(object, "use_look_vec", true);
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
         return withValues(xVelocity, yVelocity, zVelocity, useLookVec, affectTarget);

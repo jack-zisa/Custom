@@ -6,8 +6,8 @@ import creoii.custom.eventsystem.global.GlobalEvent;
 
 import java.io.Reader;
 
-public class GlobalEventManager extends AbstractDataManager<GlobalEvent> {
-    public GlobalEventManager() {
+public class GlobalEventsManager extends AbstractDataManager<GlobalEvent> {
+    public GlobalEventsManager() {
         super("global_events", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(GlobalEvent.class, new GlobalEvent.Serializer()).create());
     }
 

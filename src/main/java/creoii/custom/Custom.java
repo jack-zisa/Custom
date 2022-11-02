@@ -8,54 +8,78 @@ import creoii.custom.eventsystem.effect.Effect;
 import creoii.custom.eventsystem.effect.Effects;
 import creoii.custom.eventsystem.event.Event;
 import creoii.custom.eventsystem.event.Events;
+import creoii.custom.util.provider.ValueProvider;
+import creoii.custom.util.provider.ValueProviders;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * CUSTOM OBJECTS TODO:
+ *  - {@link net.minecraft.entity.damage.DamageSource} DamageSource
+ *  - {@link net.minecraft.fluid.Fluid} Fluid
+ *  - {@link net.minecraft.potion.Potion} Potion
+ *  - {@link net.minecraft.stat.StatType} Stat
+ *  - {@link net.minecraft.sound.SoundEvent} SoundEvent
+ *  - {@link net.minecraft.world.event.GameEvent} GameEvent
+ *  - {@link net.minecraft.particle.ParticleType} ParticleType
+ *  - {@link net.minecraft.block.entity.BannerPattern} BannerPattern
+ *  - {@link net.minecraft.block.Material} Material
+ *  - {@link net.minecraft.item.Instrument} Instrument
+ */
 public class Custom implements ModInitializer, ClientModInitializer {
     public static final String NAMESPACE = "custom";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final Random RANDOM = Random.create();
 
-    public static final DefaultedRegistry<Event> EVENT = FabricRegistryBuilder.createDefaulted(Event.class, new Identifier(NAMESPACE, "event"), new Identifier(NAMESPACE, "empty")).buildAndRegister();
-    public static final DefaultedRegistry<Condition> CONDITION = FabricRegistryBuilder.createDefaulted(Condition.class, new Identifier(NAMESPACE, "condition"), new Identifier(NAMESPACE, "empty")).buildAndRegister();
-    public static final DefaultedRegistry<Effect> EFFECT = FabricRegistryBuilder.createDefaulted(Effect.class, new Identifier(NAMESPACE, "effect"), new Identifier(NAMESPACE, "empty")).buildAndRegister();
+    public static final SimpleRegistry<Event> EVENT = FabricRegistryBuilder.createSimple(Event.class, new Identifier(NAMESPACE, "event")).buildAndRegister();
+    public static final SimpleRegistry<Condition> CONDITION = FabricRegistryBuilder.createSimple(Condition.class, new Identifier(NAMESPACE, "condition")).buildAndRegister();
+    public static final SimpleRegistry<Effect> EFFECT = FabricRegistryBuilder.createSimple(Effect.class, new Identifier(NAMESPACE, "effect")).buildAndRegister();
+    public static final SimpleRegistry<ValueProvider> VALUE_PROVIDER = FabricRegistryBuilder.createSimple(ValueProvider.class, new Identifier(NAMESPACE, "value_provider")).buildAndRegister();
 
-    public static final BlocksManager BLOCKS_MANAGER = new BlocksManager();
-    public static final ItemsManager ITEMS_MANAGER = new ItemsManager();
-    public static final ItemGroupsManager ITEM_GROUPS_MANAGER = new ItemGroupsManager();
-    public static final EnchantmentsManager ENCHANTMENTS_MANAGER = new EnchantmentsManager();
-    public static final StatusEffectManager STATUS_EFFECT_MANAGER = new StatusEffectManager();
-    public static final PaintingsManager PAINTINGS_MANAGER = new PaintingsManager();
-    public static final VillagerTradesManager VILLAGER_TRADES_MANAGER = new VillagerTradesManager();
-    public static final VillagerTypeManager VILLAGER_TYPE_MANAGER = new VillagerTypeManager();
-    public static final GlobalEventManager GLOBAL_EVENT_MANAGER = new GlobalEventManager();
+    public static BlocksManager BLOCKS_MANAGER;
+    public static ItemsManager ITEMS_MANAGER;
+    public static ItemGroupsManager ITEM_GROUPS_MANAGER;
+    public static EnchantmentsManager ENCHANTMENTS_MANAGER;
+    public static StatusEffectsManager STATUS_EFFECTS_MANAGER;
+    public static PaintingsManager PAINTINGS_MANAGER;
+    public static VillagerTradesManager VILLAGER_TRADES_MANAGER;
+    public static VillagerTypesManager VILLAGER_TYPES_MANAGER;
+    public static GlobalEventsManager GLOBAL_EVENTS_MANAGER;
 
     @Override
     public void onInitialize() {
         Events.register();
         Conditions.register();
         Effects.register();
+        ValueProviders.register();
 
-        System.out.println(EVENT.getDefaultId());
-        System.out.println(CONDITION.getDefaultId());
-        System.out.println(EFFECT.getDefaultId());
-
-        System.out.println("===== EVENTS =====");
-        EVENT.forEach(event -> System.out.println(event.getId()));
-        System.out.println("===== CONDITIONS =====");
-        CONDITION.forEach(condition -> System.out.println(condition.getId()));
-        System.out.println("===== EFFECTS =====");
-        EFFECT.forEach(effect -> System.out.println(effect.getId()));
+        BLOCKS_MANAGER = new BlocksManager();
+        ITEMS_MANAGER = new ItemsManager();
+        ITEM_GROUPS_MANAGER = new ItemGroupsManager();
+        ENCHANTMENTS_MANAGER = new EnchantmentsManager();
+        STATUS_EFFECTS_MANAGER = new StatusEffectsManager();
+        PAINTINGS_MANAGER = new PaintingsManager();
+        VILLAGER_TRADES_MANAGER = new VillagerTradesManager();
+        VILLAGER_TYPES_MANAGER = new VillagerTypesManager();
+        GLOBAL_EVENTS_MANAGER = new GlobalEventsManager();
 
         LOGGER.info("Custom has been successfully initialized");
+        BLOCKS_MANAGER.printFailedLoads();
+        ITEMS_MANAGER.printFailedLoads();
+        ITEM_GROUPS_MANAGER.printFailedLoads();
+        ENCHANTMENTS_MANAGER.printFailedLoads();
+        STATUS_EFFECTS_MANAGER.printFailedLoads();
+        PAINTINGS_MANAGER.printFailedLoads();
+        VILLAGER_TRADES_MANAGER.printFailedLoads();
+        VILLAGER_TYPES_MANAGER.printFailedLoads();
+        GLOBAL_EVENTS_MANAGER.printFailedLoads();
     }
 
     @Override

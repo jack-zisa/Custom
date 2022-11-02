@@ -50,6 +50,10 @@ public class JsonReflection {
         return object;
     }
 
+    public static JsonElement serializeRecord(Record record) {
+        return serializeClass(record.getClass());
+    }
+
     public static JsonElement serializeAnnotation(Annotation annotation) {
         JsonObject object = new JsonObject();
         object.add(annotation.annotationType().getName(), serializeClass(annotation.annotationType()));
@@ -148,6 +152,10 @@ public class JsonReflection {
             return builder.toString();
         }
         throw new JsonSyntaxException("Json element is not a class.");
+    }
+
+    public static String deserializeRecord(JsonElement element, boolean includePackage) {
+        return deserializeClass(element, includePackage);
     }
 
     public static String deserializeField(JsonElement element) {

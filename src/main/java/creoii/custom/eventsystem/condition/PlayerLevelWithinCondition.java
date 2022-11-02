@@ -1,8 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.math.DoubleValueHolder;
-import creoii.custom.util.math.number.NumberProvider;
+import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -16,11 +15,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class PlayerLevelWithinCondition extends Condition {
-    private DoubleValueHolder minLevel;
-    private DoubleValueHolder maxLevel;
+    private ValueProvider<Double> minLevel;
+    private ValueProvider<Double> maxLevel;
     private boolean affectTarget;
 
-    public PlayerLevelWithinCondition withValues(DoubleValueHolder minLevel, DoubleValueHolder maxLevel, boolean affectTarget) {
+    public PlayerLevelWithinCondition withValues(ValueProvider<Double> minLevel, ValueProvider<Double> maxLevel, boolean affectTarget) {
         this.minLevel = minLevel;
         this.maxLevel = maxLevel;
         this.affectTarget = affectTarget;
@@ -28,8 +27,8 @@ public class PlayerLevelWithinCondition extends Condition {
     }
 
     public PlayerLevelWithinCondition getFromJson(JsonObject object) {
-        DoubleValueHolder minLevel = DoubleValueHolder.getFromJson(object, "min_level");
-        DoubleValueHolder maxLevel = DoubleValueHolder.getFromJson(object, "max_level");
+        ValueProvider<Double> minLevel = (ValueProvider<Double>) ValueProvider.getFromJson(object, "min_level");
+        ValueProvider<Double> maxLevel = (ValueProvider<Double>) ValueProvider.getFromJson(object, "max_level");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
         return withValues(minLevel, maxLevel, affectTarget);
     }

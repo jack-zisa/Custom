@@ -6,8 +6,8 @@ import creoii.custom.custom.CustomVillagerType;
 
 import java.io.Reader;
 
-public class VillagerTypeManager extends AbstractDataManager<CustomVillagerType> {
-    public VillagerTypeManager() {
+public class VillagerTypesManager extends AbstractDataManager<CustomVillagerType> {
+    public VillagerTypesManager() {
         super("villager/types", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomVillagerType.class, new CustomVillagerType.Serializer()).create());
     }
 

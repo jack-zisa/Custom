@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
 
-public class CustomMaterial implements CustomObject {
+public class CustomMaterial implements Identifiable {
     private final Identifier identifier;
     private final Type type;
     private final CustomArmorMaterial armorMaterial;

@@ -2,6 +2,7 @@ package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
 import creoii.custom.Custom;
+import creoii.custom.data.Identifiable;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -16,7 +17,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class Effect {
+public abstract class Effect implements Identifiable {
     @Nullable
     public static Effect getEffect(JsonObject object, Identifier id) {
         return Custom.EFFECT.get(id).getFromJson(object);
@@ -26,7 +27,8 @@ public abstract class Effect {
         return Registry.register(Custom.EFFECT, id, effect);
     }
 
-    public Identifier getId() {
+    @Override
+    public Identifier getIdentifier() {
         return Custom.EFFECT.getId(this);
     }
 

@@ -3,6 +3,7 @@ package creoii.custom.eventsystem.event;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import creoii.custom.Custom;
+import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 import net.minecraft.block.BlockState;
@@ -20,9 +21,9 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class Event {
-    public Condition[] conditions;
-    public Effect[] effects;
+public abstract class Event implements Identifiable {
+    protected Condition[] conditions;
+    protected Effect[] effects;
 
     public static Event register(Identifier id, Event event) {
         return Registry.register(Custom.EVENT, id, event);
@@ -33,7 +34,16 @@ public abstract class Event {
         return Custom.EVENT.get(id).getFromJson(object);
     }
 
-    public Identifier getId() {
+    public Condition[] getConditions() {
+        return conditions;
+    }
+
+    public Effect[] getEffects() {
+        return effects;
+    }
+
+    @Override
+    public Identifier getIdentifier() {
         return Custom.EVENT.getId(this);
     }
 
@@ -71,7 +81,7 @@ public abstract class Event {
 
     public static Event findEvent(Event[] events, Event event) {
         for (Event event1 : events) {
-            if (event1.getId().equals(event.getId())) return event1;
+            if (event1.getIdentifier().equals(event.getIdentifier())) return event1;
         } return null;
     }
 

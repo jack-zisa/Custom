@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 
 import static creoii.custom.util.StringToObject.villagerProfession;
 
-public class CustomTrade implements CustomObject, TradeOffers.Factory {
+public class CustomTrade implements Identifiable, TradeOffers.Factory {
     private final Identifier identifier;
     private final VillagerProfession profession;
     private boolean isTraderTrade;

@@ -1,7 +1,7 @@
 package creoii.custom.custom;
 
 import com.google.gson.*;
-import creoii.custom.data.CustomObject;
+import creoii.custom.data.Identifiable;
 import net.fabricmc.fabric.impl.item.group.ItemGroupExtensions;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -11,7 +11,7 @@ import net.minecraft.util.JsonHelper;
 
 import java.lang.reflect.Type;
 
-public class CustomItemGroup implements CustomObject {
+public class CustomItemGroup implements Identifiable {
     private final Identifier identifier;
     private final ItemStack icon;
     //private final Item[] defaultItems;
