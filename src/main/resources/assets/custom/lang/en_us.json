@@ -1,3 +1,7 @@
 {
-  "block.custom.test": "Test Block"
+  "block.custom.test_one": "Test Block",
+
+  "attribute.name.generic.gravity": "Gravity",
+  "attribute.name.generic.swim_speed": "Swim Speed",
+  "attribute.name.generic.jump_height": "Jump Height"
 }
