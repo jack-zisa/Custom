@@ -6,8 +6,8 @@ import creoii.custom.custom.CustomEnchantment;
 
 import java.io.Reader;
 
-public class EnchantmentsManager extends AbstractDataManager<CustomEnchantment> {
-    public EnchantmentsManager() {
+public class EnchantmentsLoader extends AbstractDataLoader<CustomEnchantment> {
+    public EnchantmentsLoader() {
         super("enchantments", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomEnchantment.class, new CustomEnchantment.Serializer()).create());
     }
 

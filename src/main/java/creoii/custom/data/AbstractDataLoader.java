@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDataManager<T extends Identifiable> {
+public abstract class AbstractDataLoader<T extends Identifiable> {
     private static final boolean useMinecraftDir = true;
 
     private Map<Identifier, T> values;
@@ -23,7 +23,7 @@ public abstract class AbstractDataManager<T extends Identifiable> {
     private final String prettyName;
     private final List<String> failedLoadNames;
 
-    public AbstractDataManager(String name, Gson gson) {
+    public AbstractDataLoader(String name, Gson gson) {
         this.name = name;
         prettyName = GeneralUtil.capitalizeAfterAll(StringUtils.replaceChars(StringUtils.replaceChars(StringUtils.removeEnd(name, "s"), '/', ' '), '_', ' '), ' ');
         failedLoadNames = new ArrayList<>();

@@ -6,8 +6,8 @@ import creoii.custom.custom.CustomStatusEffect;
 
 import java.io.Reader;
 
-public class StatusEffectsManager extends AbstractDataManager<CustomStatusEffect> {
-    public StatusEffectsManager() {
+public class StatusEffectsLoader extends AbstractDataLoader<CustomStatusEffect> {
+    public StatusEffectsLoader() {
         super("status_effects", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomStatusEffect.class, new CustomStatusEffect.Serializer()).create());
     }
 

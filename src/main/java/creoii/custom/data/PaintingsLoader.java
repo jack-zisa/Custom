@@ -6,8 +6,8 @@ import creoii.custom.custom.CustomPainting;
 
 import java.io.Reader;
 
-public class PaintingsManager extends AbstractDataManager<CustomPainting> {
-    public PaintingsManager() {
+public class PaintingsLoader extends AbstractDataLoader<CustomPainting> {
+    public PaintingsLoader() {
         super("paintings", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomPainting.class, new CustomPainting.Serializer()).create());
     }
 

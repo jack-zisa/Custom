@@ -6,8 +6,8 @@ import creoii.custom.custom.block.CustomBlock;
 
 import java.io.Reader;
 
-public class BlocksManager extends AbstractDataManager<CustomBlock> {
-    public BlocksManager() {
+public class BlocksLoader extends AbstractDataLoader<CustomBlock> {
+    public BlocksLoader() {
         super("blocks", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomBlock.class, new CustomBlock.Serializer()).create());
     }
 

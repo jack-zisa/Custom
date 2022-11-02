@@ -6,8 +6,8 @@ import creoii.custom.custom.CustomItemGroup;
 
 import java.io.Reader;
 
-public class ItemGroupsManager extends AbstractDataManager<CustomItemGroup> {
-    public ItemGroupsManager() {
+public class ItemGroupsLoader extends AbstractDataLoader<CustomItemGroup> {
+    public ItemGroupsLoader() {
         super("item_groups", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomItemGroup.class, new CustomItemGroup.Serializer()).create());
     }
 

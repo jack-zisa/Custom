@@ -40,19 +40,19 @@ public class Custom implements ModInitializer, ClientModInitializer {
     public static final SimpleRegistry<Effect> EFFECT = FabricRegistryBuilder.createSimple(Effect.class, new Identifier(NAMESPACE, "effect")).buildAndRegister();
     public static final SimpleRegistry<ValueProvider> VALUE_PROVIDER = FabricRegistryBuilder.createSimple(ValueProvider.class, new Identifier(NAMESPACE, "value_provider")).buildAndRegister();
 
-    public static BlocksManager BLOCKS_MANAGER;
-    public static ItemsManager ITEMS_MANAGER;
-    public static ItemGroupsManager ITEM_GROUPS_MANAGER;
-    public static EnchantmentsManager ENCHANTMENTS_MANAGER;
-    public static StatusEffectsManager STATUS_EFFECTS_MANAGER;
-    public static PotionsManager POTIONS_MANAGER;
-    public static PaintingsManager PAINTINGS_MANAGER;
-    public static InstrumentsManager INSTRUMENTS_MANAGER;
-    public static BannerPatternManager BANNER_PATTERNS_MANAGER;
-    public static DamageSourcesManager DAMAGE_SOURCES_MANAGER;
-    public static VillagerTradesManager VILLAGER_TRADES_MANAGER;
-    public static VillagerTypesManager VILLAGER_TYPES_MANAGER;
-    public static GlobalEventsManager GLOBAL_EVENTS_MANAGER;
+    public static BlocksLoader BLOCKS_LOADER;
+    public static ItemsLoader ITEMS_LOADER;
+    public static ItemGroupsLoader ITEM_GROUPS_LOADER;
+    public static EnchantmentsLoader ENCHANTMENTS_LOADER;
+    public static StatusEffectsLoader STATUS_EFFECTS_LOADER;
+    public static PotionsLoader POTIONS_LOADER;
+    public static PaintingsLoader PAINTINGS_LOADER;
+    public static InstrumentsLoader INSTRUMENTS_LOADER;
+    public static BannerPatternLoader BANNER_PATTERNS_LOADER;
+    public static DamageSourcesLoader DAMAGE_SOURCES_LOADER;
+    public static VillagerTradesLoader VILLAGER_TRADES_LOADER;
+    public static VillagerTypesLoader VILLAGER_TYPES_LOADER;
+    public static GlobalEventsLoader GLOBAL_EVENTS_LOADER;
 
     @Override
     public void onInitialize() {
@@ -62,39 +62,39 @@ public class Custom implements ModInitializer, ClientModInitializer {
         Effects.register();
         ValueProviders.register();
 
-        BLOCKS_MANAGER = new BlocksManager();
-        ITEMS_MANAGER = new ItemsManager();
-        ITEM_GROUPS_MANAGER = new ItemGroupsManager();
-        ENCHANTMENTS_MANAGER = new EnchantmentsManager();
-        STATUS_EFFECTS_MANAGER = new StatusEffectsManager();
-        POTIONS_MANAGER = new PotionsManager();
-        PAINTINGS_MANAGER = new PaintingsManager();
-        INSTRUMENTS_MANAGER = new InstrumentsManager();
-        BANNER_PATTERNS_MANAGER = new BannerPatternManager();
-        DAMAGE_SOURCES_MANAGER = new DamageSourcesManager();
-        VILLAGER_TRADES_MANAGER = new VillagerTradesManager();
-        VILLAGER_TYPES_MANAGER = new VillagerTypesManager();
-        GLOBAL_EVENTS_MANAGER = new GlobalEventsManager();
+        BLOCKS_LOADER = new BlocksLoader();
+        ITEMS_LOADER = new ItemsLoader();
+        ITEM_GROUPS_LOADER = new ItemGroupsLoader();
+        ENCHANTMENTS_LOADER = new EnchantmentsLoader();
+        STATUS_EFFECTS_LOADER = new StatusEffectsLoader();
+        POTIONS_LOADER = new PotionsLoader();
+        PAINTINGS_LOADER = new PaintingsLoader();
+        INSTRUMENTS_LOADER = new InstrumentsLoader();
+        BANNER_PATTERNS_LOADER = new BannerPatternLoader();
+        DAMAGE_SOURCES_LOADER = new DamageSourcesLoader();
+        VILLAGER_TRADES_LOADER = new VillagerTradesLoader();
+        VILLAGER_TYPES_LOADER = new VillagerTypesLoader();
+        GLOBAL_EVENTS_LOADER = new GlobalEventsLoader();
 
         LOGGER.info("Custom has been successfully initialized");
-        BLOCKS_MANAGER.printFailedLoads();
-        ITEMS_MANAGER.printFailedLoads();
-        ITEM_GROUPS_MANAGER.printFailedLoads();
-        ENCHANTMENTS_MANAGER.printFailedLoads();
-        STATUS_EFFECTS_MANAGER.printFailedLoads();
-        INSTRUMENTS_MANAGER.printFailedLoads();
-        POTIONS_MANAGER.printFailedLoads();
-        PAINTINGS_MANAGER.printFailedLoads();
-        BANNER_PATTERNS_MANAGER.printFailedLoads();
-        DAMAGE_SOURCES_MANAGER.printFailedLoads();
-        VILLAGER_TRADES_MANAGER.printFailedLoads();
-        VILLAGER_TYPES_MANAGER.printFailedLoads();
-        GLOBAL_EVENTS_MANAGER.printFailedLoads();
+        BLOCKS_LOADER.printFailedLoads();
+        ITEMS_LOADER.printFailedLoads();
+        ITEM_GROUPS_LOADER.printFailedLoads();
+        ENCHANTMENTS_LOADER.printFailedLoads();
+        STATUS_EFFECTS_LOADER.printFailedLoads();
+        INSTRUMENTS_LOADER.printFailedLoads();
+        POTIONS_LOADER.printFailedLoads();
+        PAINTINGS_LOADER.printFailedLoads();
+        BANNER_PATTERNS_LOADER.printFailedLoads();
+        DAMAGE_SOURCES_LOADER.printFailedLoads();
+        VILLAGER_TRADES_LOADER.printFailedLoads();
+        VILLAGER_TYPES_LOADER.printFailedLoads();
+        GLOBAL_EVENTS_LOADER.printFailedLoads();
     }
 
     @Override
     public void onInitializeClient() {
-        for (CustomBlock block : BLOCKS_MANAGER.getValues().values()) {
+        for (CustomBlock block : BLOCKS_LOADER.getValues().values()) {
             BlockRenderLayerMap.INSTANCE.putBlock(block, block.getRenderLayer());
         }
     }

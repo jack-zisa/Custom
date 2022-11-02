@@ -7,8 +7,8 @@ import creoii.custom.custom.CustomDamageSource;
 
 import java.io.Reader;
 
-public class DamageSourcesManager extends AbstractDataManager<CustomDamageSource> {
-    public DamageSourcesManager() {
+public class DamageSourcesLoader extends AbstractDataLoader<CustomDamageSource> {
+    public DamageSourcesLoader() {
         super("damage_sources", new GsonBuilder().setPrettyPrinting().registerTypeAdapter(CustomDamageSource.class, new CustomBannerPattern.Serializer()).create());
     }
 

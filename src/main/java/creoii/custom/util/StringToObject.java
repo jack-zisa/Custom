@@ -1,7 +1,6 @@
 package creoii.custom.util;
 
 import creoii.custom.Custom;
-import creoii.custom.data.DamageSourcesManager;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
