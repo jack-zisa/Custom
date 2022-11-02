@@ -32,14 +32,14 @@ public class CustomMaterial implements Identifiable {
     }
 
     public static class CustomArmorMaterial implements ArmorMaterial {
-        private String name;
-        private int durability;
-        private int protection;
-        private int enchantability;
-        private SoundEvent equipSound;
-        private ItemStack repairItem;
-        private float toughness;
-        private float knockbackResistance;
+        private final String name;
+        private final int durability;
+        private final int protection;
+        private final int enchantability;
+        private final SoundEvent equipSound;
+        private final ItemStack repairItem;
+        private final float toughness;
+        private final float knockbackResistance;
 
         public CustomArmorMaterial(String name,
                                    int durability, int protection, int enchantability,
@@ -98,12 +98,12 @@ public class CustomMaterial implements Identifiable {
     }
 
     public static class CustomToolMaterial implements ToolMaterial {
-        private int durability;
-        private int miningLevel;
-        private int enchantability;
-        private float miningSpeedMultiplier;
-        private float attackDamage;
-        private ItemStack repairItem;
+        private final int durability;
+        private final int miningLevel;
+        private final int enchantability;
+        private final float miningSpeedMultiplier;
+        private final float attackDamage;
+        private final ItemStack repairItem;
 
         public CustomToolMaterial(
                 int durability, int miningLevel, int enchantability,

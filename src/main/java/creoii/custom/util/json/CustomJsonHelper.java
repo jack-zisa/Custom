@@ -20,6 +20,8 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 
+import java.util.Optional;
+
 import static creoii.custom.util.StringToObject.*;
 
 public class CustomJsonHelper {
@@ -178,5 +180,25 @@ public class CustomJsonHelper {
             return new BlockPos(x, y, z);
         }
         throw new JsonSyntaxException("Expected " + name + " to be block pos, was " + JsonHelper.getType(element));
+    }
+
+    public static StatusEffectInstance getStatusEffectInstance(JsonElement element) {
+        if (element.isJsonObject()) {
+            JsonObject object = element.getAsJsonObject();
+            StatusEffect effect = Registry.STATUS_EFFECT.get(Identifier.tryParse(object.get("effect").getAsString()));
+            if (effect != null) {
+                int duration = JsonHelper.getInt(object, "duration", 0);
+                int amplifier = JsonHelper.getInt(object, "amplifier", 0);
+                boolean ambient = JsonHelper.getBoolean(object, "ambient", false);
+                boolean visible = JsonHelper.getBoolean(object, "visible", true);
+                boolean showIcon = JsonHelper.getBoolean(object, "show_icon", true);
+                if (object.has("hidden_effect")) {
+                    StatusEffectInstance hiddenEffect = getStatusEffectInstance(JsonHelper.getObject(object, "hidden_effect"));
+                    return new StatusEffectInstance(effect, duration, amplifier, ambient, visible, showIcon, hiddenEffect, Optional.empty());
+                }
+                return new StatusEffectInstance(effect, duration, amplifier, ambient, visible, showIcon);
+            }
+        }
+        throw new JsonSyntaxException("Expected to find status effect instance, was " + JsonHelper.getType(element));
     }
 }

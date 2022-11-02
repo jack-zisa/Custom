@@ -102,7 +102,7 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
                         }
                     }
                 }
-            } else attributeModifiers = new CustomJsonObjects.AttributeModifier[]{};
+            } else attributeModifiers = new CustomJsonObjects.AttributeModifier[0];
             Event[] events;
             if (JsonHelper.hasArray(object, "events")) {
                 JsonArray array = JsonHelper.getArray(object, "events");

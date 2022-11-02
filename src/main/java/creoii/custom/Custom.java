@@ -25,14 +25,12 @@ import org.apache.logging.log4j.Logger;
  * CUSTOM OBJECTS TODO:
  *  - {@link net.minecraft.entity.damage.DamageSource} DamageSource
  *  - {@link net.minecraft.fluid.Fluid} Fluid
- *  - {@link net.minecraft.potion.Potion} Potion
  *  - {@link net.minecraft.stat.StatType} Stat
  *  - {@link net.minecraft.sound.SoundEvent} SoundEvent
  *  - {@link net.minecraft.world.event.GameEvent} GameEvent
  *  - {@link net.minecraft.particle.ParticleType} ParticleType
  *  - {@link net.minecraft.block.entity.BannerPattern} BannerPattern
  *  - {@link net.minecraft.block.Material} Material
- *  - {@link net.minecraft.item.Instrument} Instrument
  */
 public class Custom implements ModInitializer, ClientModInitializer {
     public static final String NAMESPACE = "custom";
@@ -49,7 +47,9 @@ public class Custom implements ModInitializer, ClientModInitializer {
     public static ItemGroupsManager ITEM_GROUPS_MANAGER;
     public static EnchantmentsManager ENCHANTMENTS_MANAGER;
     public static StatusEffectsManager STATUS_EFFECTS_MANAGER;
+    public static PotionsManager POTIONS_MANAGER;
     public static PaintingsManager PAINTINGS_MANAGER;
+    public static InstrumentsManager INSTRUMENTS_MANAGER;
     public static VillagerTradesManager VILLAGER_TRADES_MANAGER;
     public static VillagerTypesManager VILLAGER_TYPES_MANAGER;
     public static GlobalEventsManager GLOBAL_EVENTS_MANAGER;
@@ -57,7 +57,6 @@ public class Custom implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitialize() {
         AttributeRegistry.register();
-
         Events.register();
         Conditions.register();
         Effects.register();
@@ -68,7 +67,9 @@ public class Custom implements ModInitializer, ClientModInitializer {
         ITEM_GROUPS_MANAGER = new ItemGroupsManager();
         ENCHANTMENTS_MANAGER = new EnchantmentsManager();
         STATUS_EFFECTS_MANAGER = new StatusEffectsManager();
+        POTIONS_MANAGER = new PotionsManager();
         PAINTINGS_MANAGER = new PaintingsManager();
+        INSTRUMENTS_MANAGER = new InstrumentsManager();
         VILLAGER_TRADES_MANAGER = new VillagerTradesManager();
         VILLAGER_TYPES_MANAGER = new VillagerTypesManager();
         GLOBAL_EVENTS_MANAGER = new GlobalEventsManager();
@@ -79,6 +80,8 @@ public class Custom implements ModInitializer, ClientModInitializer {
         ITEM_GROUPS_MANAGER.printFailedLoads();
         ENCHANTMENTS_MANAGER.printFailedLoads();
         STATUS_EFFECTS_MANAGER.printFailedLoads();
+        INSTRUMENTS_MANAGER.printFailedLoads();
+        POTIONS_MANAGER.printFailedLoads();
         PAINTINGS_MANAGER.printFailedLoads();
         VILLAGER_TRADES_MANAGER.printFailedLoads();
         VILLAGER_TYPES_MANAGER.printFailedLoads();
