@@ -174,10 +174,12 @@ public class CustomJsonHelper {
     public static BlockPos getBlockPos(JsonElement element, String name) {
         if (element.isJsonObject()) {
             JsonObject object = JsonHelper.asObject(element, "block pos");
-            int x = JsonHelper.getInt(object, "x", 0);
-            int y = JsonHelper.getInt(object, "y", 0);
-            int z = JsonHelper.getInt(object, "z", 0);
-            return new BlockPos(x, y, z);
+            if (object.has(name)) {
+                int x = JsonHelper.getInt(object, "x", 0);
+                int y = JsonHelper.getInt(object, "y", 0);
+                int z = JsonHelper.getInt(object, "z", 0);
+                return new BlockPos(x, y, z);
+            } else return BlockPos.ORIGIN;
         }
         throw new JsonSyntaxException("Expected " + name + " to be block pos, was " + JsonHelper.getType(element));
     }

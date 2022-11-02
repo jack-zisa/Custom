@@ -23,13 +23,11 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * CUSTOM OBJECTS TODO:
- *  - {@link net.minecraft.entity.damage.DamageSource} DamageSource
  *  - {@link net.minecraft.fluid.Fluid} Fluid
  *  - {@link net.minecraft.stat.StatType} Stat
  *  - {@link net.minecraft.sound.SoundEvent} SoundEvent
  *  - {@link net.minecraft.world.event.GameEvent} GameEvent
  *  - {@link net.minecraft.particle.ParticleType} ParticleType
- *  - {@link net.minecraft.block.entity.BannerPattern} BannerPattern
  *  - {@link net.minecraft.block.Material} Material
  */
 public class Custom implements ModInitializer, ClientModInitializer {
@@ -50,6 +48,8 @@ public class Custom implements ModInitializer, ClientModInitializer {
     public static PotionsManager POTIONS_MANAGER;
     public static PaintingsManager PAINTINGS_MANAGER;
     public static InstrumentsManager INSTRUMENTS_MANAGER;
+    public static BannerPatternManager BANNER_PATTERNS_MANAGER;
+    public static DamageSourcesManager DAMAGE_SOURCES_MANAGER;
     public static VillagerTradesManager VILLAGER_TRADES_MANAGER;
     public static VillagerTypesManager VILLAGER_TYPES_MANAGER;
     public static GlobalEventsManager GLOBAL_EVENTS_MANAGER;
@@ -70,6 +70,8 @@ public class Custom implements ModInitializer, ClientModInitializer {
         POTIONS_MANAGER = new PotionsManager();
         PAINTINGS_MANAGER = new PaintingsManager();
         INSTRUMENTS_MANAGER = new InstrumentsManager();
+        BANNER_PATTERNS_MANAGER = new BannerPatternManager();
+        DAMAGE_SOURCES_MANAGER = new DamageSourcesManager();
         VILLAGER_TRADES_MANAGER = new VillagerTradesManager();
         VILLAGER_TYPES_MANAGER = new VillagerTypesManager();
         GLOBAL_EVENTS_MANAGER = new GlobalEventsManager();
@@ -83,6 +85,8 @@ public class Custom implements ModInitializer, ClientModInitializer {
         INSTRUMENTS_MANAGER.printFailedLoads();
         POTIONS_MANAGER.printFailedLoads();
         PAINTINGS_MANAGER.printFailedLoads();
+        BANNER_PATTERNS_MANAGER.printFailedLoads();
+        DAMAGE_SOURCES_MANAGER.printFailedLoads();
         VILLAGER_TRADES_MANAGER.printFailedLoads();
         VILLAGER_TYPES_MANAGER.printFailedLoads();
         GLOBAL_EVENTS_MANAGER.printFailedLoads();
@@ -90,7 +94,7 @@ public class Custom implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        for (CustomBlock block : BLOCKS_MANAGER.values.values()) {
+        for (CustomBlock block : BLOCKS_MANAGER.getValues().values()) {
             BlockRenderLayerMap.INSTANCE.putBlock(block, block.getRenderLayer());
         }
     }

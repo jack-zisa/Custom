@@ -20,12 +20,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.registry.BuiltinRegistries;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.gen.structure.StructureKeys;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class GenerateStructureEffect extends Effect {
@@ -41,25 +45,31 @@ public class GenerateStructureEffect extends Effect {
     }
 
     public Effect getFromJson(JsonObject object) {
-        Structure structure = BuiltinRegistries.STRUCTURE.get(Identifier.tryParse(object.get("structure").getAsString()));
+        Identifier identifier = Identifier.tryParse(object.get("structure").getAsString());
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return withValues(RegistryEntry.of(structure), offset, affectTarget);
+        Optional<RegistryEntry<Structure>> entry = BuiltinRegistries.STRUCTURE.getEntry(RegistryKey.of(Registry.STRUCTURE_KEY, identifier));
+        if (entry.isPresent()) {
+            return withValues(entry.get(), offset, affectTarget);
+        }
+        throw new IllegalStateException("Could not find Structure Entry " + identifier);
     }
 
     private void run(World world, BlockPos pos) {
         if (!world.isClient && structure.hasKeyAndValue()) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            ChunkGenerator chunkGenerator = serverWorld.getChunkManager().getChunkGenerator();
-            StructureStart structureStart = structure.value().createStructureStart(world.getRegistryManager(), chunkGenerator, chunkGenerator.getBiomeSource(), serverWorld.getChunkManager().getNoiseConfig(), serverWorld.getStructureTemplateManager(), serverWorld.getSeed(), new ChunkPos(pos.add(offset)), 0, serverWorld, (registryEntry) -> true);
-            if (structureStart.hasChildren()) {
-                BlockBox blockBox = structureStart.getBoundingBox();
-                ChunkPos chunkPos = new ChunkPos(ChunkSectionPos.getSectionCoord(blockBox.getMinX()), ChunkSectionPos.getSectionCoord(blockBox.getMinZ()));
-                ChunkPos chunkPos2 = new ChunkPos(ChunkSectionPos.getSectionCoord(blockBox.getMaxX()), ChunkSectionPos.getSectionCoord(blockBox.getMaxZ()));
-                if (ChunkPos.stream(chunkPos, chunkPos2).anyMatch((chunkPos3) -> !serverWorld.canSetBlock(chunkPos3.getStartPos())))
-                ChunkPos.stream(chunkPos, chunkPos2).forEach((chunkPosx) -> {
-                    structureStart.place(serverWorld, serverWorld.getStructureAccessor(), chunkGenerator, serverWorld.getRandom(), new BlockBox(chunkPosx.getStartX(), serverWorld.getBottomY(), chunkPosx.getStartZ(), chunkPosx.getEndX(), serverWorld.getTopY(), chunkPosx.getEndZ()), chunkPosx);
-                });
+            if (structure.getKey().isPresent()) {
+                ServerWorld serverWorld = (ServerWorld) world;
+                ChunkGenerator chunkGenerator = serverWorld.getChunkManager().getChunkGenerator();
+                StructureStart structureStart = structure.value().createStructureStart(world.getRegistryManager(), chunkGenerator, chunkGenerator.getBiomeSource(), serverWorld.getChunkManager().getNoiseConfig(), serverWorld.getStructureTemplateManager(), serverWorld.getSeed(), new ChunkPos(pos.add(offset)), 0, serverWorld, (registryEntry) -> true);
+                if (structureStart.hasChildren()) {
+                    BlockBox blockBox = structureStart.getBoundingBox();
+                    ChunkPos chunkPos = new ChunkPos(ChunkSectionPos.getSectionCoord(blockBox.getMinX()), ChunkSectionPos.getSectionCoord(blockBox.getMinZ()));
+                    ChunkPos chunkPos2 = new ChunkPos(ChunkSectionPos.getSectionCoord(blockBox.getMaxX()), ChunkSectionPos.getSectionCoord(blockBox.getMaxZ()));
+                    if (ChunkPos.stream(chunkPos, chunkPos2).anyMatch(chunkPos3 -> !serverWorld.canSetBlock(chunkPos3.getStartPos())))
+                        ChunkPos.stream(chunkPos, chunkPos2).forEach(chunkPosx -> {
+                            structureStart.place(serverWorld, serverWorld.getStructureAccessor(), chunkGenerator, serverWorld.getRandom(), new BlockBox(chunkPosx.getStartX(), serverWorld.getBottomY(), chunkPosx.getStartZ(), chunkPosx.getEndX(), serverWorld.getTopY(), chunkPosx.getEndZ()), chunkPosx);
+                        });
+                }
             }
         }
     }

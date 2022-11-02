@@ -205,7 +205,7 @@ public class CustomBlock extends Block implements Identifiable {
             int droppedXp = JsonHelper.getInt(object, "dropped_xp", 0);
             int fuelPower = JsonHelper.getInt(object, "fuel_power", 0);
             float fallDamageMultiplier = JsonHelper.getFloat(object, "fall_damage_multiplier", 1f);
-            float bounceVelocity = JsonHelper.getFloat(object, "bounce_velocity_multiplier", 1f);
+            float bounceVelocity = JsonHelper.getFloat(object, "bounce_velocity_multiplier", 0f);
             float slideVelocity = JsonHelper.getFloat(object, "slide_velocity_multiplier", 1f);
             RenderLayer renderLayer = StringToObject.renderLayer(JsonHelper.getString(object, "render_layer", "solid"));
             PathNodeType pathNodeType = StringToObject.pathNodeType(JsonHelper.getString(object, "pathing_type", "walkable"));

@@ -18,7 +18,7 @@ import java.util.Map;
 public abstract class AbstractDataManager<T extends Identifiable> {
     private static final boolean useMinecraftDir = true;
 
-    public Map<Identifier, T> values;
+    private Map<Identifier, T> values;
     private final String name;
     private final String prettyName;
     private final List<String> failedLoadNames;
@@ -70,6 +70,10 @@ public abstract class AbstractDataManager<T extends Identifiable> {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Map<Identifier, T> getValues() {
+        return values;
     }
 
     public String getName() {

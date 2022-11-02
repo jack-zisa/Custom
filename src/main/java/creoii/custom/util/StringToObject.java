@@ -1,5 +1,7 @@
 package creoii.custom.util;
 
+import creoii.custom.Custom;
+import creoii.custom.data.DamageSourcesManager;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
@@ -11,6 +13,7 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
@@ -410,5 +413,35 @@ public class StringToObject {
 
     public static EntityAttributeModifier.Operation attributeModifierOperation(String str) {
         return str.equals("addition") ? EntityAttributeModifier.Operation.ADDITION : str.equals("multiply_base") ? EntityAttributeModifier.Operation.MULTIPLY_BASE : EntityAttributeModifier.Operation.MULTIPLY_TOTAL;
+    }
+
+    public static DamageSource damageSource(String str) {
+        return switch (str) {
+            case "all" -> DamageSource.FALL;
+            case "anvil" -> DamageSource.ANVIL;
+            case "cactus" -> DamageSource.CACTUS;
+            case "cramming" -> DamageSource.CRAMMING;
+            case "dragon_breath" -> DamageSource.DRAGON_BREATH;
+            case "drown" -> DamageSource.DROWN;
+            case "dryout" -> DamageSource.DRYOUT;
+            case "falling_block" -> DamageSource.FALLING_BLOCK;
+            case "falling_stalactite" -> DamageSource.FALLING_STALACTITE;
+            case "fly_into_wall" -> DamageSource.FLY_INTO_WALL;
+            case "freeze" -> DamageSource.FREEZE;
+            case "generic" -> DamageSource.GENERIC;
+            case "hot_floor" -> DamageSource.HOT_FLOOR;
+            case "in_fire" -> DamageSource.IN_FIRE;
+            case "in_wall" -> DamageSource.IN_WALL;
+            case "lava" -> DamageSource.LAVA;
+            case "lightning_bolt" -> DamageSource.LIGHTNING_BOLT;
+            case "magic" -> DamageSource.MAGIC;
+            case "on_fire" -> DamageSource.ON_FIRE;
+            case "out_of_world" -> DamageSource.OUT_OF_WORLD;
+            case "stalagmite" -> DamageSource.STALAGMITE;
+            case "starve" -> DamageSource.STARVE;
+            case "sweet_berry_bush" -> DamageSource.SWEET_BERRY_BUSH;
+            case "wither" -> DamageSource.WITHER;
+            default -> Custom.DAMAGE_SOURCES_MANAGER.getValues().get(str);
+        };
     }
 }
