@@ -3,7 +3,6 @@ package creoii.custom.eventsystem.effect;
 import com.google.gson.JsonObject;
 import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.block.BlockState;
-import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -25,12 +24,9 @@ import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.structure.Structure;
-import net.minecraft.world.gen.structure.StructureKeys;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class GenerateStructureEffect extends Effect {
     private RegistryEntry<Structure> structure;

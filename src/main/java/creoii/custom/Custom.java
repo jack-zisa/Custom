@@ -1,6 +1,5 @@
 package creoii.custom;
 
-import creoii.custom.custom.block.CustomBlock;
 import creoii.custom.data.*;
 import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.condition.Conditions;
@@ -8,6 +7,7 @@ import creoii.custom.eventsystem.effect.Effect;
 import creoii.custom.eventsystem.effect.Effects;
 import creoii.custom.eventsystem.event.Event;
 import creoii.custom.eventsystem.event.Events;
+import creoii.custom.objects.block.CustomBlock;
 import creoii.custom.registry.AttributeRegistry;
 import creoii.custom.util.provider.ValueProvider;
 import creoii.custom.util.provider.ValueProviders;

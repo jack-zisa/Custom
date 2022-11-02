@@ -2,7 +2,7 @@ package creoii.custom.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import creoii.custom.custom.CustomTrade;
+import creoii.custom.objects.CustomTrade;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;

@@ -1,4 +1,4 @@
-package creoii.custom.custom;
+package creoii.custom.objects;
 
 import com.google.gson.*;
 import creoii.custom.data.Identifiable;

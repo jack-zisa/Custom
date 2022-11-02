@@ -440,7 +440,7 @@ public class StringToObject {
             case "starve" -> DamageSource.STARVE;
             case "sweet_berry_bush" -> DamageSource.SWEET_BERRY_BUSH;
             case "wither" -> DamageSource.WITHER;
-            default -> Custom.DAMAGE_SOURCES_MANAGER.getValues().get(str);
+            default -> Custom.DAMAGE_SOURCES_LOADER.getValues().get(str);
         };
     }
 }

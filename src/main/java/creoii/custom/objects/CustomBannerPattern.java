@@ -1,9 +1,8 @@
-package creoii.custom.custom;
+package creoii.custom.objects;
 
 import com.google.gson.*;
 import creoii.custom.data.Identifiable;
 import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;

@@ -1,4 +1,4 @@
-package creoii.custom.custom.block;
+package creoii.custom.objects.block;
 
 import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.event.*;

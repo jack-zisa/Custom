@@ -64,6 +64,7 @@ public abstract class AbstractDataLoader<T extends Identifiable> {
                             }
                         }
                     }
+                    reader.close();
                     values = builder.build();
                 }
             } catch (IOException e) {

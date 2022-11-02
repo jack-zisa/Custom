@@ -1,4 +1,4 @@
-package creoii.custom.custom.block;
+package creoii.custom.objects.block;
 
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.*;

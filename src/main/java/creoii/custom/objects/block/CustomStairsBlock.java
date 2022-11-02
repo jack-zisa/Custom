@@ -1,4 +1,4 @@
-package creoii.custom.custom.block;
+package creoii.custom.objects.block;
 
 import net.minecraft.block.*;
 import net.minecraft.block.enums.BlockHalf;

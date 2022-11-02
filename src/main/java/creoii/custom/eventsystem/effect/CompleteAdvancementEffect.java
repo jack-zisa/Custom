@@ -2,7 +2,6 @@ package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
 import net.minecraft.advancement.Advancement;
-import net.minecraft.advancement.AdvancementProgress;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -17,8 +16,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.Iterator;
 
 public class CompleteAdvancementEffect extends Effect {
     private Identifier advancementId;

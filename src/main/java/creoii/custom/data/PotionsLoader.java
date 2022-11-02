@@ -2,7 +2,7 @@ package creoii.custom.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import creoii.custom.custom.CustomPotion;
+import creoii.custom.objects.CustomPotion;
 
 import java.io.Reader;
 

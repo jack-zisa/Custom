@@ -2,8 +2,8 @@ package creoii.custom.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import creoii.custom.custom.CustomBannerPattern;
-import creoii.custom.custom.CustomDamageSource;
+import creoii.custom.objects.CustomBannerPattern;
+import creoii.custom.objects.CustomDamageSource;
 
 import java.io.Reader;
 

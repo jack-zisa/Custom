@@ -3,7 +3,6 @@ package creoii.custom.util.provider.function;
 import creoii.custom.Custom;
 import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 
 public final class DoubleFunctions {
     public static final DoubleFunction<Double> ADD = new DoubleFunction<>() {

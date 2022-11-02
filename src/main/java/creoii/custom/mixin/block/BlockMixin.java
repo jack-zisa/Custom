@@ -3,7 +3,6 @@ package creoii.custom.mixin.block;
 import creoii.custom.util.tags.BlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.tag.TagKey;
 import net.minecraft.world.explosion.Explosion;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

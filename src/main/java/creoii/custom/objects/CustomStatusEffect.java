@@ -1,4 +1,4 @@
-package creoii.custom.custom;
+package creoii.custom.objects;
 
 import com.google.gson.*;
 import creoii.custom.data.Identifiable;
@@ -17,7 +17,6 @@ import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 
 public class CustomStatusEffect extends StatusEffect implements Identifiable {
     private final Identifier identifier;

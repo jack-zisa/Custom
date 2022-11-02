@@ -1,4 +1,4 @@
-package creoii.custom.custom;
+package creoii.custom.objects;
 
 import creoii.custom.eventsystem.event.Event;
 import creoii.custom.eventsystem.event.Events;
