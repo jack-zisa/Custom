@@ -14,7 +14,7 @@ public abstract class PlayerEntityMixin {
     @Shadow public abstract void disableShield(boolean sprinting);
 
     @Inject(method = "takeShieldHit", at = @At("TAIL"))
-    private void custom$applyShieldDisablers(LivingEntity attacker, CallbackInfo ci) {
+    private void custom_applyShieldDisablers(LivingEntity attacker, CallbackInfo ci) {
         if (attacker.getMainHandStack().isIn(ItemTags.SHIELD_DISABLERS)) {
             this.disableShield(true);
         }

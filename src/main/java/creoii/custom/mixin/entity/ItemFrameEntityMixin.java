@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemFrameEntity.class)
 public class ItemFrameEntityMixin {
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
-    private void custom$stopUnframeables(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+    private void custom_stopUnframeables(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (player.getStackInHand(hand).isIn(ItemTags.UNFRAMEABLE)) cir.setReturnValue(ActionResult.PASS);
     }
 }

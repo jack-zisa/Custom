@@ -25,7 +25,7 @@ public abstract class AbstractBlockMixin {
     @Shadow protected abstract Block asBlock();
 
     @Inject(method = "scheduledTick", at = @At("HEAD"))
-    private void custom$affectedByGravityTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+    private void custom_affectedByGravityTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
         if (state.isIn(BlockTags.AFFECTED_BY_GRAVITY) && !(state.getBlock() instanceof FallingBlock)) {
             if (FallingBlock.canFallThrough(world.getBlockState(pos.down())) && pos.getY() >= world.getBottomY()) {
                 FallingBlockEntity fallingBlockEntity = new FallingBlockEntity(world, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, world.getBlockState(pos));
@@ -35,7 +35,7 @@ public abstract class AbstractBlockMixin {
     }
 
     @Inject(method = "getStateForNeighborUpdate", at = @At("HEAD"), cancellable = true)
-    private void custom$affectedByGravityNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
+    private void custom_affectedByGravityNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
         if (state.isIn(BlockTags.AFFECTED_BY_GRAVITY) && !(state.getBlock() instanceof FallingBlock)) {
             world.getBlockTickScheduler().scheduleTick(OrderedTick.create(this.asBlock(), pos));
             cir.setReturnValue(state.getStateForNeighborUpdate(direction, neighborState, world, pos, neighborPos));
@@ -43,7 +43,7 @@ public abstract class AbstractBlockMixin {
     }
 
     @Inject(method = "onBlockAdded", at = @At("HEAD"))
-    private void custom$affectedByGravityAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify, CallbackInfo ci) {
+    private void custom_affectedByGravityAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify, CallbackInfo ci) {
         if (state.isIn(BlockTags.AFFECTED_BY_GRAVITY) && !(state.getBlock() instanceof FallingBlock)) {
             world.getBlockTickScheduler().scheduleTick(OrderedTick.create(this.asBlock(), pos));
         }

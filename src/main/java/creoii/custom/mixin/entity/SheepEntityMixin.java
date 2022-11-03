@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(SheepEntity.class)
 public class SheepEntityMixin {
     @Redirect(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z"))
-    private boolean custom$applyShearables(ItemStack stack, Item item) {
+    private boolean custom_applyShearables(ItemStack stack, Item item) {
         return stack.isIn(ItemTags.SHEARS_SHEEP);
     }
 }

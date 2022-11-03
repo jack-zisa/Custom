@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(CactusBlock.class)
 public class CactusBlockMixin {
     @Inject(method = "onEntityCollision", at = @At("HEAD"), cancellable = true)
-    private void custom$negateCactusDamage(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci) {
+    private void custom_negateCactusDamage(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci) {
         if (entity instanceof ItemEntity) {
             if (((ItemEntity) entity).getStack().isIn(ItemTags.CACTUS_IMMUNE)) {
                 ci.cancel();

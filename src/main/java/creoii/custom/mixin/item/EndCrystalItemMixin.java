@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(EndCrystalItem.class)
 public class EndCrystalItemMixin {
     @Redirect(method = "useOnBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z", ordinal = 1))
-    private boolean creo$applyEndCrystalBaseBlocks(BlockState instance, Block block) {
+    private boolean custom_applyEndCrystalBaseBlocks(BlockState instance, Block block) {
         return instance.isIn(BlockTags.END_CRYSTAL_BASE_BLOCKS);
     }
 }

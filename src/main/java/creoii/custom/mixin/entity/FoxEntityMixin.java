@@ -12,8 +12,7 @@ import java.util.function.Predicate;
 
 @Mixin(FoxEntity.class)
 public class FoxEntityMixin {
-    @Mutable
-    @Shadow @Final
+    @Mutable @Shadow @Final
     static Predicate<ItemEntity> PICKABLE_DROP_FILTER;
 
     static {

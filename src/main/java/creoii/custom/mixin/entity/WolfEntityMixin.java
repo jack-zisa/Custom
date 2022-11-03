@@ -13,8 +13,7 @@ import java.util.function.Predicate;
 
 @Mixin(WolfEntity.class)
 public class WolfEntityMixin {
-    @Mutable
-    @Shadow @Final public static Predicate<LivingEntity> FOLLOW_TAMED_PREDICATE;
+    @Mutable @Shadow @Final public static Predicate<LivingEntity> FOLLOW_TAMED_PREDICATE;
 
     static {
         FOLLOW_TAMED_PREDICATE = entity -> {

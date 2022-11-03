@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(BeaconBlockEntity.class)
 public class BeaconBlockEntityMixin {
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
-    private static boolean custom$applyBeaconBeamWhitelist(BlockState instance, Block block) {
+    private static boolean custom_applyBeaconBeamWhitelist(BlockState instance, Block block) {
         return instance.isIn(BlockTags.BEACON_BEAM_IGNORED);
     }
 }

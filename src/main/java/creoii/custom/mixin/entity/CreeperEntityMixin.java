@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(CreeperEntity.class)
 public class CreeperEntityMixin {
     @Redirect(method = "interactMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z"))
-    private boolean custom$injectCreeperLighters(ItemStack instance, Item item) {
+    private boolean custom_injectCreeperLighters(ItemStack instance, Item item) {
         return instance.isIn(ItemTags.LIGHTS_CREEPER_FUSE);
     }
 }

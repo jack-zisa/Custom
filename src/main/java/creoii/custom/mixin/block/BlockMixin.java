@@ -15,7 +15,7 @@ public abstract class BlockMixin {
     @Shadow public abstract BlockState getDefaultState();
 
     @Inject(method = "shouldDropItemsOnExplosion", at = @At("RETURN"), cancellable = true)
-    private void custom$applyExplosionDroppables(Explosion explosion, CallbackInfoReturnable<Boolean> cir) {
+    private void custom_applyExplosionDroppables(Explosion explosion, CallbackInfoReturnable<Boolean> cir) {
         cir.cancel();
         cir.setReturnValue(!getDefaultState().isIn(BlockTags.NO_DROPS_ON_EXPLOSION));
     }

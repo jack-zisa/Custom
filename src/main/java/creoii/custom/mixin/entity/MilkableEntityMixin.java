@@ -25,7 +25,7 @@ public abstract class MilkableEntityMixin extends Entity {
     }
 
     @Inject(method = "interactMob(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;", at = @At("HEAD"), cancellable = true)
-    private void custom$milkableMobs(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+    private void custom_milkableMobs(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (this.getType().isIn(EntityTypeTags.MILKABLES)) {
             ItemStack itemStack = player.getStackInHand(hand);
             if (itemStack.isOf(Items.BUCKET)) {

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SweetBerryBushBlock.class)
 public class SweetBerryBushBlockMixin {
     @Inject(method = "onEntityCollision", at = @At("RETURN"), cancellable = true)
-    private void custom$applyBerryBushImmunes(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci) {
+    private void custom_applyBerryBushImmunes(BlockState state, World world, BlockPos pos, Entity entity, CallbackInfo ci) {
         if (entity.getType().isIn(EntityTypeTags.BERRY_BUSH_IMMUNE)) ci.cancel();
     }
 }

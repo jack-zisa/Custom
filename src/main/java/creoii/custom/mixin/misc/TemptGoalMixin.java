@@ -17,7 +17,7 @@ public class TemptGoalMixin {
     @Shadow @Final protected PathAwareEntity mob;
 
     @Inject(method = "isTemptedBy(Lnet/minecraft/entity/LivingEntity;)Z", at = @At(value = "HEAD"), cancellable = true)
-    private void custom$applyAnimalFoodTags(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
+    private void custom_applyAnimalFoodTags(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         if (this.mob.getType() == EntityType.COW) {
             cir.setReturnValue(entity.getMainHandStack().isIn(ItemTags.COW_FOOD) || entity.getOffHandStack().isIn(ItemTags.COW_FOOD));
         } else if (this.mob.getType() == EntityType.SHEEP) {

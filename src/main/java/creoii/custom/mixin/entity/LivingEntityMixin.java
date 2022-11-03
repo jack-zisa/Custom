@@ -91,53 +91,53 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "canWalkOnFluid", at = @At("RETURN"), cancellable = true)
-    private void custom$injectFluidWalkers(FluidState state, CallbackInfoReturnable<Boolean> cir) {
+    private void custom_injectFluidWalkers(FluidState state, CallbackInfoReturnable<Boolean> cir) {
         cir.cancel();
         cir.setReturnValue(this.getType().isIn(EntityTypeTags.WALKS_ON_FLUIDS));
     }
 
     @Inject(method = "createLivingAttributes", at = @At("RETURN"))
-    private static void great_big_world_createNewAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
+    private static void custom_createNewAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
         cir.getReturnValue().add(AttributeRegistry.GENERIC_GRAVITY).add(AttributeRegistry.GENERIC_SWIM_SPEED);
     }
 
     @Inject(method = "knockDownwards", at = @At("HEAD"), cancellable = true)
-    private void great_big_world_applyKnockbackSwimSpeed(CallbackInfo ci) {
+    private void custom_applyKnockbackSwimSpeed(CallbackInfo ci) {
         setVelocity(getVelocity().add(0d, -.03999999910593033d * getAttributeValue(AttributeRegistry.GENERIC_GRAVITY), 0d));
         ci.cancel();
     }
 
     @Inject(method = "swimUpward", at = @At("HEAD"), cancellable = true)
-    private void great_big_world_applyUpwardSwimSpeed(TagKey<Fluid> fluid, CallbackInfo ci) {
+    private void custom_applyUpwardSwimSpeed(TagKey<Fluid> fluid, CallbackInfo ci) {
         setVelocity(getVelocity().add(0d, .03999999910593033d * getAttributeValue(AttributeRegistry.GENERIC_SWIM_SPEED), 0d));
         ci.cancel();
     }
 
     @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;updateVelocity(FLnet/minecraft/util/math/Vec3d;)V"))
-    private void great_big_world_applySwimSpeed(LivingEntity entity, float speed, Vec3d movementInput) {
+    private void custom_applySwimSpeed(LivingEntity entity, float speed, Vec3d movementInput) {
         speed *= getAttributeValue(AttributeRegistry.GENERIC_SWIM_SPEED);
         updateVelocity(speed, movementInput);
     }
 
     @Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyFluidMovingSpeed(DZLnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;"))
-    private Vec3d great_big_world_applyGravity(LivingEntity entity, double d, boolean bl, Vec3d vec3d) {
+    private Vec3d custom_applyGravity(LivingEntity entity, double d, boolean bl, Vec3d vec3d) {
         return applyFluidMovingSpeed(entity.getAttributeValue(AttributeRegistry.GENERIC_GRAVITY), bl, vec3d);
     }
 
     @ModifyVariable(method = "travel", at = @At("STORE"), ordinal = 0)
-    private double great_big_world_modifyGravityVariable(double d) {
+    private double custom_modifyGravityVariable(double d) {
         gravity = getAttributeInstance(AttributeRegistry.GENERIC_GRAVITY);
         if (hasStatusEffect(StatusEffects.SLOW_FALLING) && !gravity.hasModifier(SLOW_FALLING)) gravity.addTemporaryModifier(SLOW_FALLING);
         return gravity.getValue();
     }
 
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getFluidState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/fluid/FluidState;", shift = At.Shift.BEFORE))
-    private void great_big_world_removeSlowFallingModifier(Vec3d movementInput, CallbackInfo ci) {
+    private void custom_removeSlowFallingModifier(Vec3d movementInput, CallbackInfo ci) {
         if (gravity.hasModifier(SLOW_FALLING)) gravity.removeModifier(SLOW_FALLING);
     }
 
     @Redirect(method = "handleFallDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;computeFallDamage(FF)I"))
-    private int great_big_world_handleFallDamageGravity(LivingEntity entity, float fallDistance, float damageMultiplier) {
+    private int custom_handleFallDamageGravity(LivingEntity entity, float fallDistance, float damageMultiplier) {
         return computeFallDamage(fallDistance * (float) (entity.getAttributeValue(AttributeRegistry.GENERIC_GRAVITY) * 12.5f), damageMultiplier);
     }
 }

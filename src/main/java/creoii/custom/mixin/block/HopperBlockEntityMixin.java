@@ -22,12 +22,12 @@ import java.util.List;
 @Mixin(HopperBlockEntity.class)
 public class HopperBlockEntityMixin {
     @Inject(method = "getInputItemEntities", at = @At("RETURN"))
-    private static void custom$hopperImmunes(World world, Hopper hopper, CallbackInfoReturnable<List<ItemEntity>> cir) {
+    private static void custom_hopperImmunes(World world, Hopper hopper, CallbackInfoReturnable<List<ItemEntity>> cir) {
         cir.getReturnValue().stream().filter((entity) -> entity.getStack().isIn(ItemTags.HOPPER_IMMUNE)).toList();
     }
 
     @Inject(method = "onEntityCollided", at = @At("HEAD"), cancellable = true)
-    private static void custom$hopperImmunes(World world, BlockPos pos, BlockState state, Entity entity, HopperBlockEntity blockEntity, CallbackInfo ci) {
+    private static void custom_hopperImmunes(World world, BlockPos pos, BlockState state, Entity entity, HopperBlockEntity blockEntity, CallbackInfo ci) {
         if (entity instanceof ItemEntity) {
             if (((ItemEntity) entity).getStack().isIn(ItemTags.HOPPER_IMMUNE)) ci.cancel();
         }

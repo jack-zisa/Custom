@@ -5,4 +5,5 @@ accessible method net/minecraft/village/VillagerProfession <init> (Ljava/lang/St
 extendable class net/minecraft/village/VillagerType
 accessible method net/minecraft/entity/FallingBlockEntity <init> (Lnet/minecraft/world/World;DDDLnet/minecraft/block/BlockState;)V
 accessible method net/minecraft/village/VillagerType <init> (Ljava/lang/String;)V
+accessible method net/minecraft/advancement/criterion/AbstractCriterion trigger (Lnet/minecraft/server/network/ServerPlayerEntity;Ljava/util/function/Predicate;)V
 accessible field net/minecraft/entity/LivingEntity jumping Z

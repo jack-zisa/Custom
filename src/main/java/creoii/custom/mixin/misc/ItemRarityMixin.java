@@ -1,4 +1,4 @@
-package creoii.custom.mixin.item;
+package creoii.custom.mixin.misc;
 
 import creoii.custom.util.Constants;
 import net.minecraft.util.Formatting;

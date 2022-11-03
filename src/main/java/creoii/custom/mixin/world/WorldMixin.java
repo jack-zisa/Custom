@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(World.class)
 public class WorldMixin {
     @Inject(method = "breakBlock", at = @At(value = "HEAD"), cancellable = true)
-    public void creo$ravagerBreakables(BlockPos pos, boolean drop, Entity breakingEntity, int maxUpdateDepth, CallbackInfoReturnable<Boolean> cir) {
+    public void custom_ravagerBreakables(BlockPos pos, boolean drop, Entity breakingEntity, int maxUpdateDepth, CallbackInfoReturnable<Boolean> cir) {
         if (breakingEntity instanceof RavagerEntity && !breakingEntity.getEntityWorld().getBlockState(pos).isIn(BlockTags.RAVAGER_BREAKABLE)) {
             cir.setReturnValue(false);
         }
