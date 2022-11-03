@@ -27,7 +27,7 @@ public class EnchantmentRarityMixin {
     private static Enchantment.Rarity[] field_9092;
 
     @Inject(method = "<clinit>", at = @At(value = "FIELD", opcode = Opcodes.PUTSTATIC, target = "Lnet/minecraft/enchantment/Enchantment$Rarity;field_9092:[Lnet/minecraft/enchantment/Enchantment$Rarity;", shift = At.Shift.AFTER))
-    private static void addItemRarity(CallbackInfo ci) {
+    private static void addEnchantmentRarity(CallbackInfo ci) {
         ArrayList<Enchantment.Rarity> types = new ArrayList<>(Arrays.asList(field_9092));
         Enchantment.Rarity last = types.get(types.size() - 1);
 

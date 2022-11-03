@@ -9,4 +9,6 @@ import net.minecraft.util.registry.Registry;
 public final class EnchantmentTags {
     public static TagKey<Enchantment> CURSED = TagKey.of(Registry.ENCHANTMENT_KEY, new Identifier(Custom.NAMESPACE, "cursed"));
     public static TagKey<Enchantment> TREASURE = TagKey.of(Registry.ENCHANTMENT_KEY, new Identifier(Custom.NAMESPACE, "treasure"));
+    public static TagKey<Enchantment> PROTECTION = TagKey.of(Registry.ENCHANTMENT_KEY, new Identifier(Custom.NAMESPACE, "protection"));
+    public static TagKey<Enchantment> SHARPNESS = TagKey.of(Registry.ENCHANTMENT_KEY, new Identifier(Custom.NAMESPACE, "sharpness"));
 }

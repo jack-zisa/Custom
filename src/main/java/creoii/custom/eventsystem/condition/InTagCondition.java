@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.util.tags.TagUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -49,16 +50,12 @@ public class InTagCondition extends Condition {
 
     @Override
     public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        RegistryKey<Enchantment> key = RegistryKey.of(Registry.ENCHANTMENT.getKey(), Registry.ENCHANTMENT.getId(enchantment));
-        Optional<RegistryEntry<Enchantment>> entry = Registry.ENCHANTMENT.getEntry(key);
-        return entry.isPresent() && entry.get().isIn(TagKey.of(Registry.ENCHANTMENT.getKey(), Identifier.tryParse(tag)));
+        return TagUtil.isEnchantmentIn(enchantment, Identifier.tryParse(tag));
     }
 
     @Override
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        RegistryKey<StatusEffect> key = RegistryKey.of(Registry.STATUS_EFFECT.getKey(), Registry.STATUS_EFFECT.getId(statusEffect));
-        Optional<RegistryEntry<StatusEffect>> entry = Registry.STATUS_EFFECT.getEntry(key);
-        return entry.isPresent() && entry.get().isIn(TagKey.of(Registry.STATUS_EFFECT.getKey(), Identifier.tryParse(tag)));
+        return TagUtil.isStatusEffectIn(statusEffect, Identifier.tryParse(tag));
     }
 
     @Override
