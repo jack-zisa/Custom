@@ -1,9 +1,6 @@
 package creoii.custom.eventsystem.event;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import creoii.custom.Custom;
-import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 import net.minecraft.block.BlockState;
@@ -14,75 +11,21 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class Event implements Identifiable {
-    protected Condition[] conditions;
-    protected Effect[] effects;
-
-    public static Event register(Identifier id, Event event) {
-        return Registry.register(Custom.EVENT, id, event);
+public class BasicEvent extends AbstractEvent {
+    public BasicEvent withValues(Condition[] conditions, Effect[] effects) {
+        this.conditions = conditions;
+        this.effects = effects;
+        return this;
     }
 
-    @Nullable
-    public static Event getEvent(JsonObject object, Identifier id) {
-        return Custom.EVENT.get(id).getFromJson(object);
-    }
-
-    public Condition[] getConditions() {
-        return conditions;
-    }
-
-    public Effect[] getEffects() {
-        return effects;
-    }
-
-    @Override
-    public Identifier getIdentifier() {
-        return Custom.EVENT.getId(this);
-    }
-
-    public abstract Event getFromJson(JsonObject object);
-
-    public static Condition[] getConditions(JsonObject object) {
-        Condition[] conditions;
-        if (JsonHelper.hasArray(object, "conditions")) {
-            JsonArray array = JsonHelper.getArray(object, "conditions");
-            conditions = new Condition[array.size()];
-            for (int i = 0; i < conditions.length; ++i) {
-                if (array.get(i).isJsonObject()) {
-                    JsonObject eventObj = array.get(i).getAsJsonObject();
-                    conditions[i] = Condition.getCondition(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
-                }
-            }
-        } else conditions = new Condition[0];
-        return conditions;
-    }
-
-    public static Effect[] getEffects(JsonObject object) {
-        Effect[] effects;
-        if (JsonHelper.hasArray(object, "effects")) {
-            JsonArray array = JsonHelper.getArray(object, "effects");
-            effects = new Effect[array.size()];
-            for (int i = 0; i < effects.length; ++i) {
-                if (array.get(i).isJsonObject()) {
-                    JsonObject eventObj = array.get(i).getAsJsonObject();
-                    effects[i] = Effect.getEffect(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
-                }
-            }
-        } else effects = new Effect[0];
-        return effects;
-    }
-
-    public static Event findEvent(Event[] events, Event event) {
-        for (Event event1 : events) {
-            if (event1.getIdentifier().equals(event.getIdentifier())) return event1;
-        } return null;
+    public BasicEvent getFromJson(JsonObject object) {
+        Condition[] conditions = BasicEvent.getConditions(object);
+        Effect[] effects = BasicEvent.getEffects(object);
+        return withValues(conditions, effects);
     }
 
     public boolean applyBlockEvent(World world, BlockState state, BlockPos pos, @Nullable LivingEntity living, @Nullable Hand hand) {

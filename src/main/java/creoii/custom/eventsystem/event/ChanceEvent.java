@@ -16,19 +16,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class RandomTickEvent extends Event {
+public class ChanceEvent extends BasicEvent {
     private float chance;
 
-    public RandomTickEvent withValues(Condition[] conditions, Effect[] effects, float chance) {
+    public ChanceEvent withValues(Condition[] conditions, Effect[] effects, float chance) {
         this.conditions = conditions;
         this.effects = effects;
         this.chance = chance;
         return this;
     }
 
-    public RandomTickEvent getFromJson(JsonObject object) {
-        Condition[] conditions = Event.getConditions(object);
-        Effect[] effects = Event.getEffects(object);
+    public ChanceEvent getFromJson(JsonObject object) {
+        Condition[] conditions = AbstractEvent.getConditions(object);
+        Effect[] effects = AbstractEvent.getEffects(object);
         float chance = JsonHelper.getFloat(object, "chance", 0f);
         return withValues(conditions, effects, chance);
     }

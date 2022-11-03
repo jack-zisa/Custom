@@ -5,7 +5,7 @@ import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
 import net.minecraft.entity.Entity;
 
-public class EntityLandsEvent extends Event {
+public class EntityLandsEvent extends BasicEvent {
     private Entity entity;
 
     public EntityLandsEvent withValues(Condition[] conditions, Effect[] effects) {
@@ -15,8 +15,8 @@ public class EntityLandsEvent extends Event {
     }
 
     public EntityLandsEvent getFromJson(JsonObject object) {
-        Condition[] conditions = Event.getConditions(object);
-        Effect[] effects = Event.getEffects(object);
+        Condition[] conditions = AbstractEvent.getConditions(object);
+        Effect[] effects = AbstractEvent.getEffects(object);
         return withValues(conditions, effects);
     }
 

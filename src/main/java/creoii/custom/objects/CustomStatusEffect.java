@@ -2,7 +2,7 @@ package creoii.custom.objects;
 
 import com.google.gson.*;
 import creoii.custom.data.Identifiable;
-import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.AbstractEvent;
 import creoii.custom.eventsystem.event.Events;
 import creoii.custom.util.StringToObject;
 import creoii.custom.util.json.CustomJsonObjects;
@@ -21,10 +21,10 @@ import java.lang.reflect.Type;
 public class CustomStatusEffect extends StatusEffect implements Identifiable {
     private final Identifier identifier;
     private final boolean instant;
-    private final Event[] events;
+    private final AbstractEvent[] events;
 
     public CustomStatusEffect(Identifier identifier, boolean instant, StatusEffectCategory category, int color,
-                              CustomJsonObjects.AttributeModifier[] attributeModifiers, Event[] events) {
+                              CustomJsonObjects.AttributeModifier[] attributeModifiers, AbstractEvent[] events) {
         super(category, color);
         this.identifier = identifier;
         this.instant = instant;
@@ -48,7 +48,7 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        Event event = Event.findEvent(events, Events.STATUS_EFFECT_UPDATE);
+        AbstractEvent event = AbstractEvent.findEvent(events, Events.STATUS_EFFECT_UPDATE);
         if (event != null) {
             event.applyStatusEffectEvent(this, entity, amplifier);
         }
@@ -57,7 +57,7 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
 
     @Override
     public void applyInstantEffect(@Nullable Entity source, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
-        Event event = Event.findEvent(events, Events.STATUS_EFFECT_APPLY);
+        AbstractEvent event = AbstractEvent.findEvent(events, Events.STATUS_EFFECT_APPLY);
         if (event != null) {
             event.applyStatusEffectEvent(this, target, amplifier);
         }
@@ -66,7 +66,7 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
 
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        Event event = Event.findEvent(events, Events.STATUS_EFFECT_APPLY);
+        AbstractEvent event = AbstractEvent.findEvent(events, Events.STATUS_EFFECT_APPLY);
         if (event != null) {
             event.applyStatusEffectEvent(this, entity, amplifier);
         }
@@ -75,7 +75,7 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
 
     @Override
     public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        Event event = Event.findEvent(events, Events.STATUS_EFFECT_REMOVE);
+        AbstractEvent event = AbstractEvent.findEvent(events, Events.STATUS_EFFECT_REMOVE);
         if (event != null) {
             event.applyStatusEffectEvent(this, entity, amplifier);
         }
@@ -102,19 +102,19 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
                     }
                 }
             } else attributeModifiers = new CustomJsonObjects.AttributeModifier[0];
-            Event[] events;
+            AbstractEvent[] events;
             if (JsonHelper.hasArray(object, "events")) {
                 JsonArray array = JsonHelper.getArray(object, "events");
-                events = new Event[array.size()];
+                events = new AbstractEvent[array.size()];
                 if (events.length > 0) {
                     for (int i = 0; i < events.length; ++i) {
                         if (array.get(i).isJsonObject()) {
                             JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = Event.getEvent(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
+                            events[i] = AbstractEvent.getEvent(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
                         }
                     }
                 }
-            } else events = new Event[]{};
+            } else events = new AbstractEvent[]{};
             return new CustomStatusEffect(identifier, instant, category, color, attributeModifiers, events);
         }
 

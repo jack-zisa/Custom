@@ -4,7 +4,7 @@ import com.google.gson.*;
 import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.Effect;
-import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.AbstractEvent;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.util.Identifier;
@@ -51,8 +51,8 @@ public record GlobalEvent(Identifier identifier, String type, Condition[] condit
             JsonObject object = JsonHelper.asObject(json, "global event");
             Identifier identifier = Identifier.tryParse(JsonHelper.getString(object, "identifier"));
             String type = JsonHelper.getString(object, "type", "client_world_tick");
-            Condition[] conditions = Event.getConditions(object);
-            Effect[] effects = Event.getEffects(object);
+            Condition[] conditions = AbstractEvent.getConditions(object);
+            Effect[] effects = AbstractEvent.getEffects(object);
             return new GlobalEvent(identifier, type, conditions, effects);
         }
 

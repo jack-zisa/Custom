@@ -1,6 +1,6 @@
 package creoii.custom.objects;
 
-import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.AbstractEvent;
 import creoii.custom.eventsystem.event.Events;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.Entity;
@@ -9,14 +9,14 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 
 public class EventCustomEnchantment extends CustomEnchantment {
-    private final Event[] events;
+    private final AbstractEvent[] events;
 
     public EventCustomEnchantment(
             Identifier identifier,
             Rarity rarity, EnchantmentTarget type, EquipmentSlot[] slotTypes,
             boolean offeredByLibrarians, boolean randomlySelectable,
             int minPlayerLevel, int maxPlayerLevel, int maxLevel, int minLevel,
-            Identifier[] blacklist, Event[] events
+            Identifier[] blacklist, AbstractEvent[] events
     ) {
         super(identifier, rarity, type, slotTypes,
                 offeredByLibrarians, randomlySelectable,
@@ -28,7 +28,7 @@ public class EventCustomEnchantment extends CustomEnchantment {
     @Override
     public void onTargetDamaged(LivingEntity user, Entity target, int level) {
         super.onTargetDamaged(user, target, level);
-        Event event = Event.findEvent(events, Events.TARGET_DAMAGED);
+        AbstractEvent event = AbstractEvent.findEvent(events, Events.TARGET_DAMAGED);
         if (event != null) {
             event.applyEnchantmentEvent(this, user, target, level);
         }
@@ -37,7 +37,7 @@ public class EventCustomEnchantment extends CustomEnchantment {
     @Override
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
         super.onUserDamaged(user, attacker, level);
-        Event event = Event.findEvent(events, Events.USER_DAMAGED);
+        AbstractEvent event = AbstractEvent.findEvent(events, Events.USER_DAMAGED);
         if (event != null) {
             event.applyEnchantmentEvent(this, user, attacker, level);
         }

@@ -22,8 +22,8 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class EventCustomBlock extends CustomBlock implements Identifiable {
-    private final Event[] events;
-    private Event cachedEvent = null;
+    private final AbstractEvent[] events;
+    private AbstractEvent cachedEvent = null;
 
     public EventCustomBlock(
             Identifier identifier, boolean hasItem, Settings blockSettings, Item.Settings itemSettings,
@@ -32,7 +32,7 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
             float fallDamageMultiplier, float bounceVelocity, float slideVelocity,
             RenderLayer renderLayer, PathNodeType pathNodeType, OffsetType offsetType, Shape shape,
             int flammability, int fireSpread, float compostChance,
-            Event[] events
+            AbstractEvent[] events
     ) {
         super(identifier, hasItem,
                 blockSettings, itemSettings,
@@ -45,14 +45,14 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
         this.events = events;
     }
 
-    public Event[] getEvents() {
+    public AbstractEvent[] getEvents() {
         return events;
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.RANDOM_TICK);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.RANDOM_TICK);
         else if (cachedEvent == Events.RANDOM_TICK) {
             cachedEvent.applyBlockEvent(world, state, pos, null, null);
         }
@@ -62,7 +62,7 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
 
     @Override
     public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.ENTITY_LANDS);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.ENTITY_LANDS);
         else if (cachedEvent == Events.ENTITY_LANDS) {
             ((EntityLandsEvent) cachedEvent).setEntity(entity);
             cachedEvent.applyBlockEvent(world, state, pos, null, null);
@@ -73,7 +73,7 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
     @Override
     @SuppressWarnings("deprecation")
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.RIGHT_CLICK);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.RIGHT_CLICK);
         else if (cachedEvent == Events.RIGHT_CLICK && cachedEvent.applyBlockEvent(world, state, pos, player, hand)) {
             return ((RightClickEvent) cachedEvent).getActionResult();
         }
@@ -82,7 +82,7 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
 
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.STEPPED_ON);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.STEPPED_ON);
         else if (cachedEvent == Events.STEPPED_ON && entity instanceof LivingEntity living) {
             cachedEvent.applyBlockEvent(world, state, pos, living, living.getActiveHand());
         }
@@ -92,7 +92,7 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
     @Override
     @SuppressWarnings("deprecation")
     public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.PROJECTILE_HIT);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.PROJECTILE_HIT);
         else if (cachedEvent == Events.PROJECTILE_HIT && projectile.getOwner() instanceof LivingEntity living) {
             cachedEvent.applyBlockEvent(world, state, hit.getBlockPos(), living, living.getActiveHand());
         }
@@ -102,7 +102,7 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
     @Override
     @SuppressWarnings("deprecation")
     public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.LEFT_CLICK);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.LEFT_CLICK);
         else if (cachedEvent == Events.BREAK_BLOCK) cachedEvent.applyBlockEvent(world, state, pos, player, player.getActiveHand());
         super.onBlockBreakStart(state, world, pos, player);
     }
@@ -110,7 +110,7 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
     @Override
     @SuppressWarnings("deprecation")
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.NEIGHBOR_UPDATE);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.NEIGHBOR_UPDATE);
         else if (cachedEvent == Events.NEIGHBOR_UPDATE) {
             NeighborUpdateEvent neighborUpdateEvent = (NeighborUpdateEvent) cachedEvent;
             neighborUpdateEvent.setNeighborState(block.getDefaultState());
@@ -122,14 +122,14 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
 
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.PLACE_BLOCK);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.PLACE_BLOCK);
         else if (cachedEvent == Events.PLACE_BLOCK) cachedEvent.applyBlockEvent(world, state, pos, placer, placer.getActiveHand());
         super.onPlaced(world, pos, state, placer, itemStack);
     }
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.BREAK_BLOCK);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.BREAK_BLOCK);
         else if (cachedEvent == Events.BREAK_BLOCK) cachedEvent.applyBlockEvent(world, state, pos, player, player.getActiveHand());
         super.onBreak(world, pos, state, player);
     }
@@ -137,7 +137,7 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
     @Override
     @SuppressWarnings("deprecation")
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (cachedEvent == null) cachedEvent = Event.findEvent(events, Events.ENTITY_COLLISION);
+        if (cachedEvent == null) cachedEvent = AbstractEvent.findEvent(events, Events.ENTITY_COLLISION);
         else if (cachedEvent == Events.ENTITY_COLLISION && entity instanceof LivingEntity living) {
             cachedEvent.applyBlockEvent(world, state, pos, living, living.getActiveHand());
         }

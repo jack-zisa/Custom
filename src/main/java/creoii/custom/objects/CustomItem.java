@@ -2,7 +2,7 @@ package creoii.custom.objects;
 
 import com.google.gson.*;
 import creoii.custom.data.Identifiable;
-import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.AbstractEvent;
 import creoii.custom.util.Constants;
 import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.client.item.TooltipContext;
@@ -61,12 +61,12 @@ public class CustomItem extends Item implements Identifiable {
 
             if (JsonHelper.hasArray(object, "events")) {
                 JsonArray array = JsonHelper.getArray(object, "events");
-                Event[] events = new Event[array.size()];
+                AbstractEvent[] events = new AbstractEvent[array.size()];
                 if (events.length > 0) {
                     for (int i = 0; i < events.length; ++i) {
                         if (array.get(i).isJsonObject()) {
                             JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = Event.getEvent(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
+                            events[i] = AbstractEvent.getEvent(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
                         }
                     }
                 }

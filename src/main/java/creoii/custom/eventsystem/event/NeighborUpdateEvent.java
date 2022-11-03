@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class NeighborUpdateEvent extends Event {
+public class NeighborUpdateEvent extends BasicEvent {
     private BlockState neighborState;
     private BlockPos neighborPos;
 
@@ -39,8 +39,8 @@ public class NeighborUpdateEvent extends Event {
     }
 
     public NeighborUpdateEvent getFromJson(JsonObject object) {
-        Condition[] conditions = Event.getConditions(object);
-        Effect[] effects = Event.getEffects(object);
+        Condition[] conditions = AbstractEvent.getConditions(object);
+        Effect[] effects = AbstractEvent.getEffects(object);
         Condition[] neighborConditions = getNeighborConditions(object);
         Effect[] neighborEffects = getNeighborEffects(object);
         return withValues(conditions, effects, neighborConditions, neighborEffects);

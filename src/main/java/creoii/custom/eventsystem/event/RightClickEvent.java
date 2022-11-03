@@ -7,7 +7,7 @@ import creoii.custom.util.StringToObject;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.JsonHelper;
 
-public class RightClickEvent extends Event {
+public class RightClickEvent extends BasicEvent {
     private ActionResult actionResult;
 
     public RightClickEvent withValues(ActionResult actionResult, Condition[] conditions, Effect[] effects) {
@@ -18,8 +18,8 @@ public class RightClickEvent extends Event {
     }
 
     public RightClickEvent getFromJson(JsonObject object) {
-        Condition[] conditions = Event.getConditions(object);
-        Effect[] effects = Event.getEffects(object);
+        Condition[] conditions = AbstractEvent.getConditions(object);
+        Effect[] effects = AbstractEvent.getEffects(object);
         ActionResult actionResult = StringToObject.actionResult(JsonHelper.getString(object, "action_result", "pass"), JsonHelper.getBoolean(object, "swing_hand", true));
         return withValues(actionResult, conditions, effects);
     }

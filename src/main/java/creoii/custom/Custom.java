@@ -5,7 +5,7 @@ import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.condition.Conditions;
 import creoii.custom.eventsystem.effect.Effect;
 import creoii.custom.eventsystem.effect.Effects;
-import creoii.custom.eventsystem.event.Event;
+import creoii.custom.eventsystem.event.AbstractEvent;
 import creoii.custom.eventsystem.event.Events;
 import creoii.custom.objects.block.CustomBlock;
 import creoii.custom.registry.AttributeRegistry;
@@ -35,7 +35,7 @@ public class Custom implements ModInitializer, ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final Random RANDOM = Random.create();
 
-    public static final SimpleRegistry<Event> EVENT = FabricRegistryBuilder.createSimple(Event.class, new Identifier(NAMESPACE, "event")).buildAndRegister();
+    public static final SimpleRegistry<AbstractEvent> EVENT = FabricRegistryBuilder.createSimple(AbstractEvent.class, new Identifier(NAMESPACE, "event")).buildAndRegister();
     public static final SimpleRegistry<Condition> CONDITION = FabricRegistryBuilder.createSimple(Condition.class, new Identifier(NAMESPACE, "condition")).buildAndRegister();
     public static final SimpleRegistry<Effect> EFFECT = FabricRegistryBuilder.createSimple(Effect.class, new Identifier(NAMESPACE, "effect")).buildAndRegister();
     public static final SimpleRegistry<ValueProvider> VALUE_PROVIDER = FabricRegistryBuilder.createSimple(ValueProvider.class, new Identifier(NAMESPACE, "value_provider")).buildAndRegister();
