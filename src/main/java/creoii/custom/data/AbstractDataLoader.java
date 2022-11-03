@@ -89,11 +89,17 @@ public abstract class AbstractDataLoader<T extends Identifiable> {
         return failedLoadNames;
     }
 
-    public void printFailedLoads() {
+    public void printLoads() {
         if (getFailedLoads().size() > 0) {
             Custom.LOGGER.error("Failed " + getPrettyName() + " Loads: " + getFailedLoads().size());
             for (String name : getFailedLoads()) {
                 Custom.LOGGER.error("   at '" + name + "'");
+            }
+        }
+
+        if (values != null) {
+            if (values.size() > 0) {
+                Custom.LOGGER.info("Successful " + getPrettyName() + " Loads: " + (values.size() - getFailedLoads().size()));
             }
         }
     }

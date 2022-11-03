@@ -15,9 +15,16 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleType;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -318,6 +325,9 @@ public class StringToObject {
             case "uncommon" -> Rarity.UNCOMMON;
             case "rare" -> Rarity.RARE;
             case "epic" -> Rarity.EPIC;
+            case "legendary" -> Constants.LEGENDARY;
+            case "mythical" -> Constants.MYTHICAL;
+            case "unknown" -> Constants.UNKNOWN;
             default -> Rarity.COMMON;
         };
     }
@@ -442,5 +452,24 @@ public class StringToObject {
             case "wither" -> DamageSource.WITHER;
             default -> Custom.DAMAGE_SOURCES_LOADER.getValues().get(str);
         };
+    }
+
+    public static SoundCategory soundCategory(String str) {
+        return switch (str) {
+            case "ambient" -> SoundCategory.AMBIENT;
+            case "music" -> SoundCategory.MUSIC;
+            case "records" -> SoundCategory.RECORDS;
+            case "weather" -> SoundCategory.WEATHER;
+            case "blocks" -> SoundCategory.BLOCKS;
+            case "hostile" -> SoundCategory.HOSTILE;
+            case "neutral" -> SoundCategory.NEUTRAL;
+            case "players" -> SoundCategory.PLAYERS;
+            case "voice" -> SoundCategory.VOICE;
+            default -> SoundCategory.MASTER;
+        };
+    }
+
+    public static Property<?> property(String str) {
+        return Properties.AGE_1;
     }
 }

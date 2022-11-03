@@ -22,11 +22,11 @@ public abstract class ValueProvider<T> {
 
     public ValueProvider<?> getFunction(JsonObject object) {
         if (object.has("input")) {
-            return SingleFunction.getSingleFunction(object);
+            return SingleFunction.getSingleFunction(object).withValue(getFromJson(object.getAsJsonObject("input")));
         } else {
             ValueProvider<?> value1 = getFromJson(object.getAsJsonObject("input1"));
             ValueProvider<?> value2 = getFromJson(object.getAsJsonObject("input2"));
-            return DoubleFunction.getDoubleFunction(object);
+            return DoubleFunction.getDoubleFunction(object).withValues(value1, value2);
         }
     }
 

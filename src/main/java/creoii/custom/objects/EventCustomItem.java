@@ -18,8 +18,8 @@ import net.minecraft.world.World;
 public class EventCustomItem extends CustomItem {
     private final Event[] events;
 
-    public EventCustomItem(Identifier identifier, Settings settings, FoodComponent food, Text tooltipText, Event[] events) {
-        super(identifier, settings, food, tooltipText);
+    public EventCustomItem(Identifier identifier, Settings settings, Text tooltipText, Event[] events) {
+        super(identifier, settings, tooltipText);
         this.events = events;
     }
 

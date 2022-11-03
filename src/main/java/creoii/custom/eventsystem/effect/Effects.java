@@ -22,6 +22,10 @@ public class Effects {
     public static Effect SET_ON_FIRE;
     public static Effect RUN_FUNCTION;
     public static Effect COMPLETE_ADVANCEMENT;
+    public static Effect INCREMENT_STAT;
+    public static Effect PLAY_SOUND;
+    public static Effect SPAWN_PARTICLE;
+    public static Effect ENCHANT_ITEM;
 
     public static void register() {
         EMPTY = Effect.register(new Identifier(Custom.NAMESPACE, "empty"), new EmptyEffect());
@@ -42,5 +46,9 @@ public class Effects {
         SET_ON_FIRE = Effect.register(new Identifier(Custom.NAMESPACE, "set_on_fire"), new SetOnFireEffect());
         RUN_FUNCTION = Effect.register(new Identifier(Custom.NAMESPACE, "run_function"), new RunFunctionEffect());
         COMPLETE_ADVANCEMENT = Effect.register(new Identifier(Custom.NAMESPACE, "complete_advancement"), new CompleteAdvancementEffect());
+        INCREMENT_STAT = Effect.register(new Identifier(Custom.NAMESPACE, "increment_stat"), new IncrementStatEffect());
+        PLAY_SOUND = Effect.register(new Identifier(Custom.NAMESPACE, "play_sound"), new PlaySoundEffect());
+        SPAWN_PARTICLE = Effect.register(new Identifier(Custom.NAMESPACE, "spawn_particle"), new SpawnParticleEffect());
+        ENCHANT_ITEM = Effect.register(new Identifier(Custom.NAMESPACE, "enchant_item"), new EnchantItemEffect());
     }
 }

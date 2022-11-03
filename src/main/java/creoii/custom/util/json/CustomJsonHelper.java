@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import creoii.custom.objects.CustomMaterial;
+import creoii.custom.util.Constants;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
@@ -96,22 +97,12 @@ public class CustomJsonHelper {
             boolean meat = JsonHelper.getBoolean(object, "meat", false);
             boolean alwaysEdible = JsonHelper.getBoolean(object, "always_edible", false);
             boolean snack = JsonHelper.getBoolean(object, "snack", false);
-            FoodComponent.Builder food = new FoodComponent.Builder()
-                    .hunger(hunger).saturationModifier(saturationModifier);
+            FoodComponent.Builder food = new FoodComponent.Builder().hunger(hunger).saturationModifier(saturationModifier);
             if (JsonHelper.hasArray(object, "status_effects")) {
                 JsonArray array = JsonHelper.getArray(object, "status_effects");
                 for (int i = 0; i < array.size(); ++i) {
-                    if (array.get(i).isJsonObject()) {
-                        JsonObject object1 = array.get(i).getAsJsonObject();
-                        StatusEffect statusEffect = Registry.STATUS_EFFECT.get(Identifier.tryParse(JsonHelper.getString(object, "status_effect")));
-                        int amplifier = JsonHelper.getInt(object, "amplifier", 0);
-                        int duration = JsonHelper.getInt(object, "duration", 0);
-                        boolean ambient = JsonHelper.getBoolean(object, "ambient", false);
-                        boolean showParticles = JsonHelper.getBoolean(object, "show_particles", true);
-                        boolean showIcon = JsonHelper.getBoolean(object, "show_icon", true);
-                        float chance = JsonHelper.getFloat(object1, "chance", 1f);
-                        food.statusEffect(new StatusEffectInstance(statusEffect, amplifier, duration, ambient, showParticles, showIcon), chance);
-                    }
+                    float chance = JsonHelper.getFloat(array.get(i).getAsJsonObject(), "chance", 1f);
+                    food.statusEffect(getStatusEffectInstance(array.get(i)), chance);
                 }
             }
             if (meat) food.meat();
@@ -171,6 +162,19 @@ public class CustomJsonHelper {
             );
         }
         throw new JsonSyntaxException("Expected " + name + " to be tool material, was " + JsonHelper.getType(element));
+    }
+
+    public static BlockPos getBlockPos(JsonObject object) {
+        int x = JsonHelper.getInt(object, "x", 0);
+        int y = JsonHelper.getInt(object, "y", 0);
+        int z = JsonHelper.getInt(object, "z", 0);
+        return new BlockPos(x, y, z);
+    }
+
+    public static BlockPos getBlockPos(JsonObject object, String name) {
+        if (object.has(name)) {
+            return getBlockPos(object.getAsJsonObject(name));
+        } else return BlockPos.ORIGIN;
     }
 
     public static BlockPos getBlockPos(JsonElement element, String name) {

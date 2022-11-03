@@ -8,7 +8,7 @@ public class ValueProviders {
     public static final SingleFunction<Double> EMPTY = new SingleFunction<>() {
         @Override
         public Double compute(ValueProvider<Double> value) {
-            return value.getValue();
+            return 0d;
         }
     };
     public static ValueProvider<?> BOOLEAN;

@@ -77,19 +77,19 @@ public class Custom implements ModInitializer, ClientModInitializer {
         GLOBAL_EVENTS_LOADER = new GlobalEventsLoader();
 
         LOGGER.info("Custom has been successfully initialized");
-        BLOCKS_LOADER.printFailedLoads();
-        ITEMS_LOADER.printFailedLoads();
-        ITEM_GROUPS_LOADER.printFailedLoads();
-        ENCHANTMENTS_LOADER.printFailedLoads();
-        STATUS_EFFECTS_LOADER.printFailedLoads();
-        INSTRUMENTS_LOADER.printFailedLoads();
-        POTIONS_LOADER.printFailedLoads();
-        PAINTINGS_LOADER.printFailedLoads();
-        BANNER_PATTERNS_LOADER.printFailedLoads();
-        DAMAGE_SOURCES_LOADER.printFailedLoads();
-        VILLAGER_TRADES_LOADER.printFailedLoads();
-        VILLAGER_TYPES_LOADER.printFailedLoads();
-        GLOBAL_EVENTS_LOADER.printFailedLoads();
+        BLOCKS_LOADER.printLoads();
+        ITEMS_LOADER.printLoads();
+        ITEM_GROUPS_LOADER.printLoads();
+        ENCHANTMENTS_LOADER.printLoads();
+        STATUS_EFFECTS_LOADER.printLoads();
+        INSTRUMENTS_LOADER.printLoads();
+        POTIONS_LOADER.printLoads();
+        PAINTINGS_LOADER.printLoads();
+        BANNER_PATTERNS_LOADER.printLoads();
+        DAMAGE_SOURCES_LOADER.printLoads();
+        VILLAGER_TRADES_LOADER.printLoads();
+        VILLAGER_TYPES_LOADER.printLoads();
+        GLOBAL_EVENTS_LOADER.printLoads();
     }
 
     @Override

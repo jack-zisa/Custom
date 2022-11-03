@@ -3,6 +3,7 @@ package creoii.custom.objects;
 import com.google.gson.*;
 import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.event.Event;
+import creoii.custom.util.Constants;
 import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.FoodComponent;
@@ -20,16 +21,20 @@ import java.util.List;
 
 public class CustomItem extends Item implements Identifiable {
     private final Identifier identifier;
-    private final FoodComponent food;
+    private FoodComponent food;
     private final Text tooltipText;
 
-    public CustomItem(Identifier identifier, Settings settings, FoodComponent food, Text tooltipText) {
+    public CustomItem(Identifier identifier, Settings settings, Text tooltipText) {
         super(settings);
         this.identifier = identifier;
-        this.food = food;
         this.tooltipText = tooltipText;
 
         Registry.register(Registry.ITEM, identifier, this);
+    }
+
+    public CustomItem setFood(FoodComponent food) {
+        this.food = food;
+        return this;
     }
 
     @Override
@@ -37,13 +42,9 @@ public class CustomItem extends Item implements Identifiable {
         return identifier;
     }
 
-    public FoodComponent getFood() {
-        return food;
-    }
-
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(tooltipText);
+        if (tooltipText != null) tooltip.add(tooltipText);
     }
 
     public static class Serializer implements JsonDeserializer<CustomItem>, JsonSerializer<CustomItem> {
@@ -52,10 +53,12 @@ public class CustomItem extends Item implements Identifiable {
             JsonObject object = JsonHelper.asObject(json, "item");
             Identifier identifier = Identifier.tryParse(JsonHelper.getString(object, "identifier"));
             Item.Settings settings = CustomJsonHelper.getItemSettings(object, "item_settings");
+            Text tooltipText = Text.of(JsonHelper.getString(object, "tooltip", null));
+
             FoodComponent food;
             if (JsonHelper.hasJsonObject(object, "food")) food = CustomJsonHelper.getFood(object, "food");
             else food = null;
-            Text tooltipText = Text.of(JsonHelper.getString(object, "tooltip", ""));
+
             if (JsonHelper.hasArray(object, "events")) {
                 JsonArray array = JsonHelper.getArray(object, "events");
                 Event[] events = new Event[array.size()];
@@ -67,9 +70,23 @@ public class CustomItem extends Item implements Identifiable {
                         }
                     }
                 }
-                return new EventCustomItem(identifier, settings, food, tooltipText, events);
+                EventCustomItem eventCustomItem = new EventCustomItem(identifier, settings, tooltipText, events);
+                if (food != null) {
+                    JsonObject foodObj = object.getAsJsonObject("food");
+                    if (foodObj.has("eat_speed")) {
+                        Constants.FOOD_EATING_SPEEDS.put(identifier, JsonHelper.getInt(foodObj, "eat_speed", 32));
+                    }
+                    return eventCustomItem.setFood(food);
+                } else return eventCustomItem;
             } else {
-                return new CustomItem(identifier, settings, food, tooltipText);
+                CustomItem customItem = new CustomItem(identifier, settings, tooltipText);
+                if (food != null) {
+                    JsonObject foodObj = object.getAsJsonObject("food");
+                    if (foodObj.has("eat_speed")) {
+                        Constants.FOOD_EATING_SPEEDS.put(identifier, JsonHelper.getInt(foodObj, "eat_speed", 32));
+                    }
+                    return customItem.setFood(food);
+                } else return customItem;
             }
         }
 
