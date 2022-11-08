@@ -1,7 +1,10 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
-import creoii.custom.util.provider.ValueProvider;
+import creoii.custom.eventsystem.parameter.EntityParameter;
+import creoii.custom.eventsystem.parameter.EntityTypeParameter;
+import creoii.custom.eventsystem.parameter.EventParameter;
+import creoii.custom.eventsystem.parameter.EventParameters;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -14,30 +17,40 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PlayerLevelWithinCondition extends Condition {
-    private ValueProvider<Double> minLevel;
-    private ValueProvider<Double> maxLevel;
+import java.util.function.Predicate;
+
+public class EntityCondition extends Condition {
+    private final Predicate<Entity> predicate;
     private boolean affectTarget;
 
-    public PlayerLevelWithinCondition withValues(ValueProvider<Double> minLevel, ValueProvider<Double> maxLevel, boolean affectTarget) {
-        this.minLevel = minLevel;
-        this.maxLevel = maxLevel;
+    public EntityCondition(Predicate<Entity> predicate) {
+        this.predicate = predicate;
+    }
+
+    public EntityCondition withValues(boolean affectTarget) {
         this.affectTarget = affectTarget;
         return this;
     }
 
-    public PlayerLevelWithinCondition getFromJson(JsonObject object) {
-        ValueProvider<Double> minLevel = (ValueProvider<Double>) ValueProvider.getFromJson(object, "min_level");
-        ValueProvider<Double> maxLevel = (ValueProvider<Double>) ValueProvider.getFromJson(object, "max_level");
+    public EntityCondition getFromJson(JsonObject object) {
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return withValues(minLevel, maxLevel, affectTarget);
+        return withValues(affectTarget);
+    }
+
+    @Override
+    public EventParameter[] getParameters() {
+        return new EventParameter[]{EventParameters.ENTITY_TYPE};
+    }
+
+    @Override
+    public boolean test(EventParameter[] parameters) {
+        if (validate(parameters))
+            return predicate.test(((EntityParameter)parameters[0]).getEntity());
+        return false;
     }
 
     private boolean test(Entity entity) {
-        if (entity instanceof PlayerEntity player) {
-            return player.experienceLevel > minLevel.getValue() && player.experienceLevel < maxLevel.getValue();
-        }
-        return false;
+        return entity.isCrawling();
     }
 
     @Override

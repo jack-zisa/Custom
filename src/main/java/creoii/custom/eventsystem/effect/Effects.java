@@ -20,6 +20,7 @@ public class Effects {
     public static Effect SET_SPAWN;
     public static Effect SET_BLOCK;
     public static Effect SET_ON_FIRE;
+    public static Effect SET_WEATHER;
     public static Effect RUN_FUNCTION;
     public static Effect COMPLETE_ADVANCEMENT;
     public static Effect TRIGGER_CRITERION;
@@ -45,6 +46,7 @@ public class Effects {
         SET_SPAWN = Effect.register(new Identifier(Custom.NAMESPACE, "set_spawnpoint"), new SetSpawnPointEffect());
         SET_BLOCK = Effect.register(new Identifier(Custom.NAMESPACE, "set_block"), new SetBlockEffect());
         SET_ON_FIRE = Effect.register(new Identifier(Custom.NAMESPACE, "set_on_fire"), new SetOnFireEffect());
+        SET_WEATHER = Effect.register(new Identifier(Custom.NAMESPACE, "set_weather"), new SetWeatherEffect());
         RUN_FUNCTION = Effect.register(new Identifier(Custom.NAMESPACE, "run_function"), new RunFunctionEffect());
         COMPLETE_ADVANCEMENT = Effect.register(new Identifier(Custom.NAMESPACE, "complete_advancement"), new CompleteAdvancementEffect());
         TRIGGER_CRITERION = Effect.register(new Identifier(Custom.NAMESPACE, "trigger_criterion"), new TriggerCriterionEffect());

@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.eventsystem.parameter.EventParameter;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -8,58 +9,56 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 
-public class GameModeMatchesCondition extends Condition {
-    private GameMode gameMode;
-    private boolean affectTarget;
+import java.util.function.BiFunction;
 
-    public GameModeMatchesCondition withValues(GameMode gameMode, boolean affectTarget) {
-        this.gameMode = gameMode;
-        this.affectTarget = affectTarget;
-        return this;
+public class MatchingAtCondition<V, P, R> extends Condition<MatchingAtCondition.MatchingParameter<R>> {
+    private final BiFunction<V, P, R> value;
+
+    public MatchingAtCondition(BiFunction<V, P, R> value) {
+        this.value = value;
     }
 
-    public GameModeMatchesCondition getFromJson(JsonObject object) {
-        GameMode gameMode = GameMode.byName(JsonHelper.getString(object, "gamemode", "survival"));
-        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return withValues(gameMode, affectTarget);
+    public BiFunction<V, P, R> getValue() {
+        return value;
     }
 
-    private boolean test(Entity entity) {
-        if (entity instanceof ServerPlayerEntity player) {
-            return player.interactionManager.getGameMode() == gameMode;
-        } return false;
+    @Override
+    public MatchingAtCondition<?, ?, ?> getFromJson(JsonObject object) {
+        return null;
+    }
+
+    @Override
+    public boolean test(MatchingParameter<R> parameters) {
+        return value == parameters.value();
     }
 
     @Override
     public boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        return test(living);
+        return false;
     }
 
     @Override
     public boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        return test(player);
+        return false;
     }
 
     @Override
     public boolean testEntity(Entity entity, PlayerEntity player, Hand hand) {
-        return test(entity);
+        return false;
     }
 
     @Override
     public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        return test(affectTarget ? target : user);
+        return false;
     }
 
     @Override
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        return test(entity);
+        return false;
     }
 
     @Override

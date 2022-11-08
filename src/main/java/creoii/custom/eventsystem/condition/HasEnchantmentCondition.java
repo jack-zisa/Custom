@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.eventsystem.parameter.*;
 import creoii.custom.util.StringToObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -38,6 +39,25 @@ public class HasEnchantmentCondition extends Condition {
         EquipmentSlot equipmentSlot = StringToObject.equipmentSlot(JsonHelper.getString(object, "equipment_slot"));
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
         return withValues(enchantment, level, equipmentSlot, affectTarget);
+    }
+
+    @Override
+    public EventParameter[] getParameters() {
+        return new EventParameter[]{EventParameters.ENTITY, EventParameters.ENCHANTMENT, EventParameters.INTEGER, EventParameters.STRING};
+    }
+
+    @Override
+    public boolean test(EventParameter[] parameters) {
+        if (validate(parameters)) {
+            EntityParameter entityParameter = (EntityParameter) parameters[0];
+            if (entityParameter.getEntity() instanceof LivingEntity livingEntity) {
+                EnchantmentParameter enchantmentParameter = (EnchantmentParameter) parameters[1];
+                IntegerParameter intParameter = (IntegerParameter) parameters[2];
+                StringParameter stringParameter = (StringParameter) parameters[3];
+                return EnchantmentHelper.getLevel(enchantmentParameter.getEnchantment(), livingEntity.getEquippedStack(StringToObject.equipmentSlot(stringParameter.getString()))) >= intParameter.getInt();
+            }
+        }
+        return false;
     }
 
     private boolean test(ItemStack stack) {

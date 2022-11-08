@@ -1,6 +1,10 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.eventsystem.parameter.ConditionParameter;
+import creoii.custom.eventsystem.parameter.EventParameter;
+import creoii.custom.eventsystem.parameter.EventParameters;
+import creoii.custom.eventsystem.parameter.ParameterParameter;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -9,22 +13,30 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class InvertCondition extends Condition {
-    private Condition condition;
-
-    public InvertCondition withValues(Condition condition) {
-        this.condition = condition;
-        return this;
-    }
+    private final Condition condition = Conditions.EMPTY;
 
     public InvertCondition getFromJson(JsonObject object) {
-        Condition condition = Condition.getCondition(object, Identifier.tryParse(JsonHelper.getString(object, "condition")));
-        return withValues(condition);
+        return null;
+    }
+
+    // CUSTOM OVERRIDE VALIDATION METHOD
+
+    @Override
+    public boolean test(EventParameter[] parameters) {
+        if (validate(parameters)) {
+            ConditionParameter conditionParameter = (ConditionParameter) parameters[0];
+            return !conditionParameter.getCondition().test(conditionParameter.getCondition().getParameters());
+        }
+        return false;
+    }
+
+    @Override
+    public EventParameter[] getParameters() {
+        return new EventParameter[]{EventParameters.CONDITION};
     }
 
     @Override

@@ -1,6 +1,6 @@
 package creoii.custom.eventsystem.condition;
 
-import com.google.gson.JsonObject;
+import creoii.custom.eventsystem.parameter.EventParameter;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -9,26 +9,26 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-public class WeatherMatchesCondition extends Condition {
+public class WeatherMatchesCondition extends WorldMatchingAtCondition<World, String> {
     private String weather;
-    private boolean affectTarget;
 
-    public WeatherMatchesCondition withValues(String weather, boolean affectTarget) {
+    public WeatherMatchesCondition() {
+        super((world, pos) -> world.getBiome(pos).value().getPrecipitation().asString());
+    }
+
+    public WeatherMatchesCondition withValues(String weather) {
         this.weather = weather;
-        this.affectTarget = affectTarget;
         return this;
     }
 
-    public WeatherMatchesCondition getFromJson(JsonObject object) {
-        String weather = JsonHelper.getString(object, "weather", "none");
-        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return withValues(weather, affectTarget);
+    @Override
+    public boolean test(MatchingParameter<String> parameters) {
+        return weather.equals(parameters.value());
     }
 
     private boolean test(World world, BlockPos pos) {
@@ -58,7 +58,7 @@ public class WeatherMatchesCondition extends Condition {
 
     @Override
     public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        return test(user.getWorld(), affectTarget ? target.getBlockPos() : user.getBlockPos());
+        return test(user.getWorld(), user.getBlockPos());
     }
 
     @Override
@@ -70,4 +70,6 @@ public class WeatherMatchesCondition extends Condition {
     public boolean testWorld(World world) {
         return false;
     }
+
+    public static record WeatherParameter(String weather) implements EventParameter {}
 }

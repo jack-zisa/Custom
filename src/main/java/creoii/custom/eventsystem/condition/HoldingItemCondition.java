@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.eventsystem.parameter.*;
 import creoii.custom.util.StringToObject;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -12,27 +13,33 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class HoldingItemCondition extends Condition {
-    private Item item;
-    private Hand hand;
-    private boolean affectTarget;
-
-    public HoldingItemCondition withValues(Item item, Hand hand, boolean affectTarget) {
-        this.item = item;
-        this.hand = hand;
-        this.affectTarget = affectTarget;
-        return this;
-    }
+    private final Item item = Items.PAPER;
+    private final Hand hand = Hand.MAIN_HAND;
 
     public HoldingItemCondition getFromJson(JsonObject object) {
-        Item item = JsonHelper.getItem(object, "item", Items.AIR);
-        Hand hand = StringToObject.hand(JsonHelper.getString(object, "hand", "mainhand"));
-        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return withValues(item, hand, affectTarget);
+        return null;
+    }
+
+    @Override
+    public EventParameter[] getParameters() {
+        return new EventParameter[]{EventParameters.ENTITY, EventParameters.STRING, EventParameters.ITEMSTACK};
+    }
+
+    @Override
+    public boolean test(EventParameter[] parameters) {
+        if (validate(parameters)) {
+            EntityParameter entityParameter = (EntityParameter) parameters[0];
+            if (entityParameter.getEntity() instanceof PlayerEntity playerEntity) {
+                StringParameter stringParameter = (StringParameter) parameters[1];
+                ItemStackParameter itemStackParameter = (ItemStackParameter) parameters[2];
+                return playerEntity.getStackInHand(StringToObject.hand(stringParameter.getString())) == itemStackParameter.getItemStack();
+            }
+        }
+        return false;
     }
 
     private boolean test(Entity entity) {
@@ -59,7 +66,7 @@ public class HoldingItemCondition extends Condition {
 
     @Override
     public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        return test(affectTarget ? target : user);
+        return test(user);
     }
 
     @Override

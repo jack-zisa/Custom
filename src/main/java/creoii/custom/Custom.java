@@ -2,6 +2,7 @@ package creoii.custom;
 
 import creoii.custom.data.*;
 import creoii.custom.eventsystem.condition.Condition;
+import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.condition.Conditions;
 import creoii.custom.eventsystem.effect.Effect;
 import creoii.custom.eventsystem.effect.Effects;
@@ -39,6 +40,7 @@ public class Custom implements ModInitializer, ClientModInitializer {
     public static final SimpleRegistry<Condition> CONDITION = FabricRegistryBuilder.createSimple(Condition.class, new Identifier(NAMESPACE, "condition")).buildAndRegister();
     public static final SimpleRegistry<Effect> EFFECT = FabricRegistryBuilder.createSimple(Effect.class, new Identifier(NAMESPACE, "effect")).buildAndRegister();
     public static final SimpleRegistry<ValueProvider> VALUE_PROVIDER = FabricRegistryBuilder.createSimple(ValueProvider.class, new Identifier(NAMESPACE, "value_provider")).buildAndRegister();
+    public static final SimpleRegistry<EventParameter> EVENT_PARAMETER = FabricRegistryBuilder.createSimple(EventParameter.class, new Identifier(NAMESPACE, "event_parameter")).buildAndRegister();
 
     public static BlocksLoader BLOCKS_LOADER;
     public static ItemsLoader ITEMS_LOADER;

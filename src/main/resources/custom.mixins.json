@@ -26,10 +26,8 @@
     "entity.WolfEntityMixin",
     "item.EndCrystalItemMixin",
     "item.ItemMixin",
-    "misc.BrewingRecipeRegistryMixin",
     "misc.EnchantmentMixin",
     "misc.EnchantmentRarityMixin",
-    "misc.EnchantmentScreenHandlerMixin",
     "misc.ItemRarityMixin",
     "misc.TemptGoalMixin",
     "world.WorldMixin"

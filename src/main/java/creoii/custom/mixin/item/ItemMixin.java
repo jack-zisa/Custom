@@ -33,7 +33,6 @@ public abstract class ItemMixin {
         if (stack.getItem().isFood()) {
             Identifier identifier = Registry.ITEM.getId(stack.getItem());
             if (Constants.FOOD_EATING_SPEEDS.containsKey(identifier)) {
-                System.out.println(Constants.FOOD_EATING_SPEEDS.get(identifier));
                 cir.setReturnValue(Constants.FOOD_EATING_SPEEDS.get(identifier));
             }
         }

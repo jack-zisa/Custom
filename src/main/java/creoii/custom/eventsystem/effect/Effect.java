@@ -3,6 +3,7 @@ package creoii.custom.eventsystem.effect;
 import com.google.gson.JsonObject;
 import creoii.custom.Custom;
 import creoii.custom.data.Identifiable;
+import creoii.custom.eventsystem.parameter.EventParameter;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -32,7 +33,11 @@ public abstract class Effect implements Identifiable {
         return Custom.EFFECT.getId(this);
     }
 
+    public abstract EventParameter[] getEventParameters();
+
     public abstract Effect getFromJson(JsonObject object);
+
+    public abstract void run(EventParameter[] parameters);
 
     public abstract void runBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand);
     public abstract void runItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand);

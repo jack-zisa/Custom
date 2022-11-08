@@ -1,34 +1,45 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.eventsystem.parameter.EntityParameter;
+import creoii.custom.eventsystem.parameter.EventParameter;
+import creoii.custom.eventsystem.parameter.EventParameters;
+import creoii.custom.eventsystem.parameter.StatusEffectParameter;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class HasStatusEffectCondition extends Condition {
-    private StatusEffect statusEffect;
-    private boolean affectTarget;
+    private final StatusEffect statusEffect = StatusEffects.ABSORPTION;
 
-    public HasStatusEffectCondition withValues(StatusEffect statusEffect, boolean affectTarget) {
-        this.statusEffect = statusEffect;
-        this.affectTarget = affectTarget;
-        return this;
+    @Override
+    public Condition getFromJson(JsonObject object) {
+        return null;
     }
 
-    public HasStatusEffectCondition getFromJson(JsonObject object) {
-        StatusEffect statusEffect = Registry.STATUS_EFFECT.get(Identifier.tryParse(JsonHelper.getString(object , "status_effect")));
-        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return withValues(statusEffect, affectTarget);
+    @Override
+    public EventParameter[] getParameters() {
+        return new EventParameter[]{EventParameters.ENTITY, EventParameters.STATUS_EFFECT};
+    }
+
+    @Override
+    public boolean test(EventParameter[] parameters) {
+        if (validate(parameters)) {
+            EntityParameter entityParameter = (EntityParameter) parameters[0];
+            if (entityParameter.getEntity() instanceof LivingEntity livingEntity) {
+                StatusEffectParameter statusEffectParameter = (StatusEffectParameter) parameters[1];
+                return livingEntity.hasStatusEffect(statusEffectParameter.getStatusEffect());
+            }
+        }
+        return false;
     }
 
     private boolean test(Entity entity) {
@@ -55,7 +66,7 @@ public class HasStatusEffectCondition extends Condition {
 
     @Override
     public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        return test(affectTarget ? target : user);
+        return test(user);
     }
 
     @Override

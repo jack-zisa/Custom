@@ -1,6 +1,10 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.eventsystem.parameter.BlockPosParameter;
+import creoii.custom.eventsystem.parameter.EventParameter;
+import creoii.custom.eventsystem.parameter.EventParameters;
+import creoii.custom.eventsystem.parameter.WorldParameter;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -9,54 +13,61 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EntityJumpingCondition extends Condition {
-    private boolean affectTarget;
+import java.util.function.BiPredicate;
 
-    public EntityJumpingCondition withValues(boolean affectTarget) {
-        this.affectTarget = affectTarget;
-        return this;
+public class WorldAtPosCondition extends Condition {
+    private final BiPredicate<World, BlockPos> predicate;
+
+    public WorldAtPosCondition(BiPredicate<World, BlockPos> predicate) {
+        this.predicate = predicate;
     }
 
-    public EntityJumpingCondition getFromJson(JsonObject object) {
-        boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
-        return withValues(affectTarget);
+    @Override
+    public Condition getFromJson(JsonObject object) {
+        return null;
     }
 
-    private boolean test(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity) {
-            System.out.println("tested");
-            return livingEntity.jumping;
+    @Override
+    public EventParameter[] getParameters() {
+        return new EventParameter[]{EventParameters.WORLD, EventParameters.BLOCK_POS};
+    }
+
+    @Override
+    public boolean test(EventParameter[] parameters) {
+        if (validate(parameters)) {
+            WorldParameter worldParameter = (WorldParameter) parameters[0];
+            BlockPosParameter blockPosParameter = (BlockPosParameter) parameters[1];
+            return predicate.test(worldParameter.getWorld(), blockPosParameter.getPos());
         }
         return false;
     }
 
     @Override
     public boolean testBlock(World world, BlockState state, BlockPos pos, LivingEntity living, Hand hand) {
-        return test(living);
+        return false;
     }
 
     @Override
     public boolean testItem(World world, ItemStack stack, BlockPos pos, PlayerEntity player, Hand hand) {
-        return test(player);
+        return false;
     }
 
     @Override
     public boolean testEntity(Entity entity, PlayerEntity player, Hand hand) {
-        return test(entity);
+        return false;
     }
 
     @Override
     public boolean testEnchantment(Enchantment enchantment, Entity user, Entity target, int level) {
-        return test(affectTarget ? target : user);
+        return false;
     }
 
     @Override
     public boolean testStatusEffect(StatusEffect statusEffect, LivingEntity entity, int amplifier) {
-        return test(entity);
+        return false;
     }
 
     @Override

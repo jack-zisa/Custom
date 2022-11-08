@@ -1,6 +1,8 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.eventsystem.parameter.EmptyParameter;
+import creoii.custom.eventsystem.parameter.EventParameter;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -12,10 +14,20 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EmptyCondition extends Condition {
+public class EmptyCondition extends Condition<EmptyParameter> {
     @Override
     public EmptyCondition getFromJson(JsonObject object) {
         return new EmptyCondition();
+    }
+
+    @Override
+    public boolean test(EmptyParameter parameters) {
+        return false;
+    }
+
+    @Override
+    public EventParameter[] getParameters() {
+        return new EventParameter[0];
     }
 
     @Override

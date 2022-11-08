@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import creoii.custom.Custom;
 import creoii.custom.util.provider.ValueProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -14,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-public class RandomChanceCondition extends Condition {
+public class RandomChanceCondition extends Condition<Condition.OneParameter<Double>> {
     private ValueProvider<Double> chance;
 
     public RandomChanceCondition withValues(ValueProvider<Double> chance) {
@@ -26,6 +27,11 @@ public class RandomChanceCondition extends Condition {
     public RandomChanceCondition getFromJson(JsonObject object) {
         ValueProvider<Double> chance = (ValueProvider<Double>) ValueProvider.getFromJson(object, "chance");
         return withValues(chance);
+    }
+
+    @Override
+    public boolean test(OneParameter<Double> parameters) {
+        return Custom.RANDOM.nextDouble() < parameters.value();
     }
 
     private boolean test(Random random) {

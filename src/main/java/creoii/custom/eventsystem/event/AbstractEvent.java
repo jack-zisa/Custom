@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import creoii.custom.Custom;
 import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.condition.Condition;
+import creoii.custom.eventsystem.context.Context;
 import creoii.custom.eventsystem.effect.Effect;
+import creoii.custom.eventsystem.parameter.EventParameter;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
@@ -21,9 +23,17 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractEvent implements Identifiable {
-    protected Condition[] conditions;
+    private final List<Context> contexts;
+    protected Condition<?>[] conditions;
     protected Effect[] effects;
+
+    public AbstractEvent() {
+        contexts = new ArrayList<>();
+    }
 
     public static AbstractEvent register(Identifier id, AbstractEvent event) {
         return Registry.register(Custom.EVENT, id, event);
@@ -34,7 +44,7 @@ public abstract class AbstractEvent implements Identifiable {
         return Custom.EVENT.get(id).getFromJson(object);
     }
 
-    public Condition[] getConditions() {
+    public Condition<?>[] getConditions() {
         return conditions;
     }
 
@@ -42,17 +52,27 @@ public abstract class AbstractEvent implements Identifiable {
         return effects;
     }
 
+    public abstract EventParameter[] getParameters();
+
     @Override
     public Identifier getIdentifier() {
         return Custom.EVENT.getId(this);
     }
 
-    public abstract AbstractEvent withValues(Condition[] conditions, Effect[] effects) ;
+    public void addContext(Context context) {
+        contexts.add(context);
+    }
+
+    public List<Context> getContexts() {
+        return contexts;
+    }
+
+    public abstract AbstractEvent withValues(Condition<?>[] conditions, Effect[] effects) ;
 
     public abstract AbstractEvent getFromJson(JsonObject object);
 
-    public static Condition[] getConditions(JsonObject object) {
-        Condition[] conditions;
+    public static Condition<?>[] getConditions(JsonObject object) {
+        Condition<?>[] conditions;
         if (JsonHelper.hasArray(object, "conditions")) {
             JsonArray array = JsonHelper.getArray(object, "conditions");
             conditions = new Condition[array.size()];

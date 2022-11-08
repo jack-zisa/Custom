@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
@@ -34,6 +35,10 @@ public class EmitGameEventEffect extends Effect {
         BlockPos offset = CustomJsonHelper.getBlockPos(object, "offset");
         boolean affectTarget = JsonHelper.getBoolean(object, "affect_target", false);
         return withValues(event, offset, affectTarget);
+    }
+
+    @Override
+    public void run(EventParameter parameters) {
     }
 
     @Override
