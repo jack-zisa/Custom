@@ -8,6 +8,7 @@ import creoii.custom.eventsystem.effect.Effect;
 import creoii.custom.eventsystem.effect.Effects;
 import creoii.custom.eventsystem.event.AbstractEvent;
 import creoii.custom.eventsystem.event.Events;
+import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.objects.block.CustomBlock;
 import creoii.custom.registry.AttributeRegistry;
 import creoii.custom.util.provider.ValueProvider;
@@ -59,6 +60,7 @@ public class Custom implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitialize() {
         AttributeRegistry.register();
+        EventParameters.register();
         Events.register();
         Conditions.register();
         Effects.register();

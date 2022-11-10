@@ -36,13 +36,6 @@ public record GlobalEvent(Identifier identifier, String type, Condition[] condit
     }
 
     public void applyWorldEvent(World world) {
-        for (Condition condition : conditions) {
-            if (!condition.testWorld(world)) return;
-        }
-
-        for (Effect effect : effects) {
-            effect.runWorld(world);
-        }
     }
 
     public static class Serializer implements JsonDeserializer<GlobalEvent>, JsonSerializer<GlobalEvent> {

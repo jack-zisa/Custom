@@ -18,8 +18,13 @@ public class BooleanParameter implements EventParameter {
     }
 
     @Override
-    public EventParameter getFromJson(JsonObject object) {
-        param = object.get("param").getAsBoolean();
+    public EventParameter getType() {
+        return EventParameters.BOOLEAN;
+    }
+
+    @Override
+    public EventParameter getFromJson(JsonObject object, String name) {
+        param = object.get(name).getAsBoolean();
         return this;
     }
 }

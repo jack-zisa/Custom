@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
+import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 
 public class BlockPosParameter implements EventParameter {
@@ -25,8 +26,21 @@ public class BlockPosParameter implements EventParameter {
         return z;
     }
 
+    public BlockPosParameter withValue(BlockPos pos) {
+        this.x = pos.getX();
+        this.y = pos.getY();
+        this.z = pos.getZ();
+        this.pos = pos;
+        return this;
+    }
+
     @Override
-    public EventParameter getFromJson(JsonObject object) {
+    public EventParameter getType() {
+        return EventParameters.BLOCK_POS;
+    }
+
+    @Override
+    public EventParameter getFromJson(JsonObject object, String name) {
         x = object.get("x").getAsInt();
         y = object.get("y").getAsInt();
         z = object.get("z").getAsInt();

@@ -28,18 +28,10 @@ public class EventCustomEnchantment extends CustomEnchantment {
     @Override
     public void onTargetDamaged(LivingEntity user, Entity target, int level) {
         super.onTargetDamaged(user, target, level);
-        AbstractEvent event = AbstractEvent.findEvent(events, Events.TARGET_DAMAGED);
-        if (event != null) {
-            event.applyEnchantmentEvent(this, user, target, level);
-        }
     }
 
     @Override
     public void onUserDamaged(LivingEntity user, Entity attacker, int level) {
         super.onUserDamaged(user, attacker, level);
-        AbstractEvent event = AbstractEvent.findEvent(events, Events.USER_DAMAGED);
-        if (event != null) {
-            event.applyEnchantmentEvent(this, user, attacker, level);
-        }
     }
 }

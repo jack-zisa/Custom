@@ -13,8 +13,13 @@ public class ItemParameter implements EventParameter {
     }
 
     @Override
-    public ItemParameter getFromJson(JsonObject object) {
-        item = Registry.ITEM.get(Identifier.tryParse(object.get("item").getAsString()));
+    public EventParameter getType() {
+        return EventParameters.ITEM;
+    }
+
+    @Override
+    public ItemParameter getFromJson(JsonObject object, String name) {
+        item = Registry.ITEM.get(Identifier.tryParse(object.get(name).getAsString()));
         return this;
     }
 }

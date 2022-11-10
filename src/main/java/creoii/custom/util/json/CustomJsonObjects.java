@@ -23,9 +23,9 @@ public class CustomJsonObjects {
     }
 
     public record TextFormatting(Formatting[] formatting) {
-        public static TextFormatting get(JsonObject object) {
-            if (JsonHelper.hasArray(object, "formatting")) {
-                JsonArray array = JsonHelper.getArray(object, "formatting");
+        public static TextFormatting get(JsonObject object, String name) {
+            if (JsonHelper.hasArray(object, name)) {
+                JsonArray array = JsonHelper.getArray(object, name);
                 Formatting[] formatting = new Formatting[array.size()];
                 if (formatting.length > 0) {
                     for (int i = 0; i < formatting.length; ++i) {

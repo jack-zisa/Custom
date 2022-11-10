@@ -13,9 +13,19 @@ public class BlockStateParameter implements EventParameter {
         return state;
     }
 
+    public BlockStateParameter withValue(BlockState state) {
+        this.state = state;
+        return this;
+    }
+
     @Override
-    public EventParameter getFromJson(JsonObject object) {
-        state = Registry.BLOCK.get(Identifier.tryParse(object.get("block").getAsString())).getDefaultState();
+    public EventParameter getType() {
+        return EventParameters.BLOCKSTATE;
+    }
+
+    @Override
+    public EventParameter getFromJson(JsonObject object, String name) {
+        state = Registry.BLOCK.get(Identifier.tryParse(object.get(name).getAsString())).getDefaultState();
         return this;
     }
 }

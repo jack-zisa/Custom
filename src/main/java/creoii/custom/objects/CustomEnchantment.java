@@ -124,7 +124,7 @@ public class CustomEnchantment extends Enchantment implements Identifiable {
                     for (int i = 0; i < events.length; ++i) {
                         if (array.get(i).isJsonObject()) {
                             JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = AbstractEvent.getEvent(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
+                            events[i] = AbstractEvent.getEvent(Identifier.tryParse(eventObj.get("name").getAsString()));
                         }
                     }
                 }

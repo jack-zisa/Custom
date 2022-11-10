@@ -13,8 +13,13 @@ public class StatusEffectParameter implements EventParameter {
     }
 
     @Override
-    public StatusEffectParameter getFromJson(JsonObject object) {
-        statusEffect = Registry.STATUS_EFFECT.get(Identifier.tryParse(object.get("status_effect").getAsString()));
+    public EventParameter getType() {
+        return EventParameters.STATUS_EFFECT;
+    }
+
+    @Override
+    public StatusEffectParameter getFromJson(JsonObject object, String name) {
+        statusEffect = Registry.STATUS_EFFECT.get(Identifier.tryParse(object.get(name).getAsString()));
         return this;
     }
 }

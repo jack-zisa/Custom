@@ -16,7 +16,12 @@ public class ObjectParameter implements EventParameter {
     }
 
     @Override
-    public EventParameter getFromJson(JsonObject object) {
-        return null;
+    public EventParameter getType() {
+        return EventParameters.OBJECT;
+    }
+
+    @Override
+    public EventParameter getFromJson(JsonObject object, String name) {
+        return this;
     }
 }

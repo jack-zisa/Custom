@@ -5,9 +5,10 @@ import net.minecraft.util.Identifier;
 
 public class EventParameters {
     public static EmptyParameter EMPTY;
-    public static EmptyParameter INTEGER;
-    public static EmptyParameter BOOLEAN;
-    public static EmptyParameter STRING;
+    public static IntegerParameter INTEGER;
+    public static DoubleParameter DOUBLE;
+    public static BooleanParameter BOOLEAN;
+    public static StringParameter STRING;
     public static ObjectParameter OBJECT;
     public static BlockParameter BLOCK;
     public static BlockStateParameter BLOCKSTATE;
@@ -23,9 +24,10 @@ public class EventParameters {
 
     public static void register() {
         EMPTY = (EmptyParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "empty"), new EmptyParameter());
-        INTEGER = (EmptyParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "integer"), new IntegerParameter());
-        BOOLEAN = (EmptyParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "boolean"), new BooleanParameter());
-        STRING = (EmptyParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "string"), new StringParameter());
+        INTEGER = (IntegerParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "integer"), new IntegerParameter());
+        DOUBLE = (DoubleParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "double"), new DoubleParameter());
+        BOOLEAN = (BooleanParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "boolean"), new BooleanParameter());
+        STRING = (StringParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "string"), new StringParameter());
         OBJECT = (ObjectParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "object"), new ObjectParameter());
         BLOCK = (BlockParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "block"), new BlockParameter());
         BLOCKSTATE = (BlockStateParameter) EventParameter.register(new Identifier(Custom.NAMESPACE, "blockstate"), new BlockStateParameter());

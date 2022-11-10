@@ -12,8 +12,13 @@ public class ConditionParameter implements EventParameter {
     }
 
     @Override
-    public EventParameter getFromJson(JsonObject object) {
-        condition = Condition.getCondition(object, Identifier.tryParse(object.get("type").getAsString()));
+    public EventParameter getType() {
+        return EventParameters.CONDITION;
+    }
+
+    @Override
+    public EventParameter getFromJson(JsonObject object, String name) {
+        condition = Condition.getCondition(object, Identifier.tryParse(object.get(name).getAsString()));
         return this;
     }
 }

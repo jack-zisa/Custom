@@ -14,8 +14,13 @@ public class ItemStackParameter implements EventParameter {
     }
 
     @Override
-    public ItemStackParameter getFromJson(JsonObject object) {
-        stack = Registry.ITEM.get(Identifier.tryParse(object.get("item").getAsString())).getDefaultStack();
+    public EventParameter getType() {
+        return EventParameters.ITEMSTACK;
+    }
+
+    @Override
+    public ItemStackParameter getFromJson(JsonObject object, String name) {
+        stack = Registry.ITEM.get(Identifier.tryParse(object.get(name).getAsString())).getDefaultStack();
         return this;
     }
 }

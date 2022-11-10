@@ -18,8 +18,13 @@ public class BlockParameter implements EventParameter {
     }
 
     @Override
-    public EventParameter getFromJson(JsonObject object) {
-        block = Registry.BLOCK.get(Identifier.tryParse(object.get("block").getAsString()));
+    public EventParameter getType() {
+        return EventParameters.BLOCK;
+    }
+
+    @Override
+    public EventParameter getFromJson(JsonObject object, String name) {
+        block = Registry.BLOCK.get(Identifier.tryParse(object.get(name).getAsString()));
         return this;
     }
 }

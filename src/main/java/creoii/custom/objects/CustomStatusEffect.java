@@ -48,37 +48,21 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        AbstractEvent event = AbstractEvent.findEvent(events, Events.STATUS_EFFECT_UPDATE);
-        if (event != null) {
-            event.applyStatusEffectEvent(this, entity, amplifier);
-        }
         super.applyUpdateEffect(entity, amplifier);
     }
 
     @Override
     public void applyInstantEffect(@Nullable Entity source, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
-        AbstractEvent event = AbstractEvent.findEvent(events, Events.STATUS_EFFECT_APPLY);
-        if (event != null) {
-            event.applyStatusEffectEvent(this, target, amplifier);
-        }
         super.applyInstantEffect(source, attacker, target, amplifier, proximity);
     }
 
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        AbstractEvent event = AbstractEvent.findEvent(events, Events.STATUS_EFFECT_APPLY);
-        if (event != null) {
-            event.applyStatusEffectEvent(this, entity, amplifier);
-        }
         super.onApplied(entity, attributes, amplifier);
     }
 
     @Override
     public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        AbstractEvent event = AbstractEvent.findEvent(events, Events.STATUS_EFFECT_REMOVE);
-        if (event != null) {
-            event.applyStatusEffectEvent(this, entity, amplifier);
-        }
         super.onRemoved(entity, attributes, amplifier);
     }
 
@@ -110,7 +94,7 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
                     for (int i = 0; i < events.length; ++i) {
                         if (array.get(i).isJsonObject()) {
                             JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = AbstractEvent.getEvent(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
+                            events[i] = AbstractEvent.getEvent(Identifier.tryParse(eventObj.get("name").getAsString()));
                         }
                     }
                 }

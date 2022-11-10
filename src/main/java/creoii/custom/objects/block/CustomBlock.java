@@ -1,11 +1,16 @@
 package creoii.custom.objects.block;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.*;
 import creoii.custom.data.Identifiable;
+import creoii.custom.eventsystem.effect.Effect;
+import creoii.custom.eventsystem.effect.SendMessageEffect;
 import creoii.custom.eventsystem.event.AbstractEvent;
+import creoii.custom.eventsystem.event.Events;
 import creoii.custom.util.BlockUtil;
 import creoii.custom.util.StringToObject;
 import creoii.custom.util.json.CustomJsonHelper;
+import creoii.custom.util.json.JsonHelper2;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
@@ -27,6 +32,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class CustomBlock extends Block implements Identifiable {
     private final Identifier identifier;
@@ -47,8 +55,6 @@ public class CustomBlock extends Block implements Identifiable {
     private final int flammability;
     private final int fireSpread;
     private final float compostChance;
-
-    private AbstractEvent[] events;
 
     public CustomBlock(
             Identifier identifier, boolean hasItem, Settings blockSettings, Item.Settings itemSettings,
@@ -216,13 +222,21 @@ public class CustomBlock extends Block implements Identifiable {
             float compostChance = JsonHelper.getFloat(object, "compost_chance", 0f);
             if (JsonHelper.hasArray(object, "events")) {
                 JsonArray array = JsonHelper.getArray(object, "events");
-                AbstractEvent[] events = new AbstractEvent[array.size()];
-                if (events.length > 0) {
-                    for (int i = 0; i < events.length; ++i) {
-                        if (array.get(i).isJsonObject()) {
-                            JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = AbstractEvent.getEvent(eventObj, Identifier.tryParse(eventObj.get("name").getAsString()));
+                List<AbstractEvent> events = new ArrayList<>();
+                for (int i = 0; i < array.size(); ++i) {
+                    if (array.get(i).isJsonObject()) {
+                        JsonObject eventObj = array.get(i).getAsJsonObject();
+                        if (eventObj.getAsJsonArray("effects").size() > 0) {
+                            AbstractEvent event = AbstractEvent.getEvent(Identifier.tryParse(eventObj.get("type").getAsString()));
+                            if (event != null)
+                                events.add(event.getFromJson(eventObj));
                         }
+                    }
+                }
+                // now its only adding one event
+                for (AbstractEvent event : events) {
+                    for (Effect effect : event.getEffects()) {
+                        System.out.println(((SendMessageEffect)effect).text.toString());
                     }
                 }
                 return new EventCustomBlock(

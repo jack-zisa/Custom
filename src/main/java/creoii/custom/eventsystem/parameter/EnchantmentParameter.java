@@ -13,8 +13,13 @@ public class EnchantmentParameter implements EventParameter {
     }
 
     @Override
-    public EventParameter getFromJson(JsonObject object) {
-        this.enchantment = Registry.ENCHANTMENT.get(Identifier.tryParse(object.get("enchantment").getAsString()));
+    public EventParameter getType() {
+        return EventParameters.ENCHANTMENT;
+    }
+
+    @Override
+    public EventParameter getFromJson(JsonObject object, String name) {
+        this.enchantment = Registry.ENCHANTMENT.get(Identifier.tryParse(object.get(name).getAsString()));
         return this;
     }
 }

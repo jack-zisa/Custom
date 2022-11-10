@@ -2,26 +2,26 @@ package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
 
-public class IntegerParameter implements EventParameter {
-    private int param;
+public class DoubleParameter implements EventParameter {
+    private double param;
 
-    public int getInt() {
+    public double getDouble() {
         return param;
     }
 
-    public IntegerParameter withValue(int param) {
+    public DoubleParameter withValue(double param) {
         this.param = param;
         return this;
     }
 
     @Override
     public EventParameter getType() {
-        return EventParameters.INTEGER;
+        return EventParameters.DOUBLE;
     }
 
     @Override
     public EventParameter getFromJson(JsonObject object, String name) {
-        param = object.get(name).getAsInt();
+        param = object.get(name).getAsDouble();
         return this;
     }
 }

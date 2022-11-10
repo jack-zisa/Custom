@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
@@ -13,8 +14,18 @@ public class EntityParameter implements EventParameter {
         return entity;
     }
 
+    public EntityParameter withValue(Entity entity) {
+        this.entity = entity;
+        return this;
+    }
+
     @Override
-    public EventParameter getFromJson(JsonObject object) {
+    public EventParameter getType() {
+        return EventParameters.ENTITY;
+    }
+
+    @Override
+    public EventParameter getFromJson(JsonObject object, String name) {
         return this;
     }
 }
