@@ -26,7 +26,7 @@ public class RunFunctionEffect extends AbstractEffect {
     }
 
     public void run(List<EventParameter> parameters) {
-        EntityParameter entityParameter = (EntityParameter) EventParameter.find(parameters, EventParameters.ENTITY);
+        EntityParameter entityParameter = (EntityParameter) EventParameter.find(parameters, getModifications(), EventParameters.ENTITY);
         if (entityParameter != null) {
             if (entityParameter.getEntity() instanceof PlayerEntity playerEntity) {
                 ServerCommandSource source = playerEntity.getCommandSource();

@@ -28,11 +28,11 @@ public class CompleteAdvancementEffect extends AbstractEffect {
     }
 
     public void run(List<EventParameter> parameters) {
-        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, EventParameters.WORLD);
+        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, getModifications(), EventParameters.WORLD);
         if (worldParameter != null) {
             World world = worldParameter.getWorld();
             if (!world.isClient) {
-                EntityParameter entityParameter = (EntityParameter) EventParameter.find(parameters, EventParameters.ENTITY);
+                EntityParameter entityParameter = (EntityParameter) EventParameter.find(parameters, getModifications(), EventParameters.ENTITY);
                 if (entityParameter != null) {
                     if (entityParameter.getEntity() instanceof ServerPlayerEntity serverPlayerEntity) {
                         Advancement advancement = ((ServerWorld) world).getServer().getAdvancementLoader().get(advancementId);

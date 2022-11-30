@@ -1,6 +1,8 @@
 package creoii.custom.util;
 
 import creoii.custom.Custom;
+import creoii.custom.eventsystem.parameter.EventParameter;
+import creoii.custom.eventsystem.parameter.EventParameters;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
@@ -465,7 +467,23 @@ public class StringToObject {
         };
     }
 
-    public static Property<?> property(String str) {
-        return Properties.AGE_1;
+    public static EventParameter eventParameter(String str) {
+        return switch (str) {
+            case "block" -> EventParameters.BLOCK;
+            case "blockstate", "block_state" -> EventParameters.BLOCKSTATE;
+            case "pos", "blockpos", "block_pos" -> EventParameters.BLOCK_POS;
+            case "entity" -> EventParameters.ENTITY;
+            case "entitytype", "entity_type" -> EventParameters.ENTITY_TYPE;
+            case "enchantment" -> EventParameters.ENCHANTMENT;
+            case "statuseffect", "status_effect" -> EventParameters.STATUS_EFFECT;
+            case "world" -> EventParameters.WORLD;
+            case "int", "integer" -> EventParameters.INTEGER;
+            case "boolean" -> EventParameters.BOOLEAN;
+            case "double" -> EventParameters.DOUBLE;
+            case "string" -> EventParameters.STRING;
+            case "item" -> EventParameters.ITEM;
+            case "itemstack", "item_stack" -> EventParameters.ITEMSTACK;
+            default -> EventParameters.EMPTY;
+        };
     }
 }

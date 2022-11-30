@@ -41,16 +41,16 @@ public interface EventParameter {
     /**
      * Returns a parameter if modified, otherwise if matching type
      */
-    //static EventParameter find(List<EventParameter> parameters, ParameterModification modification, EventParameter type) {
-    //    for (EventParameter param : parameters) {
-    //        if (modification != null && modification.modifies(param.getType())) {
-    //            if (modification.getModifications().get(param.getType()).equals(param.getName())) return param;
-    //        } else {
-    //            if (param.getType() == type.getType()) return param;
-    //        }
-    //    }
-    //    return null;
-    //}
+    static EventParameter find(List<EventParameter> parameters, ParameterModifications modification, EventParameter type) {
+        for (EventParameter param : parameters) {
+            if (modification != null && modification.modifies(param.getType())) {
+                if (modification.getModifications().get(param.getType()).equals(param.getName())) return param;
+            } else {
+                if (param.getType() == type.getType()) return param;
+            }
+        }
+        return null;
+    }
 
     // checks if we have the correct parameters to perform whatever method
     static boolean invalidate(List<EventParameter> toValidate, List<EventParameter> validater) {
@@ -82,6 +82,19 @@ public interface EventParameter {
     static Object getValue(EventParameter parameter) {
         if (parameter.getType() == EventParameters.BLOCK) return ((BlockParameter)parameter).getBlock();
         else if (parameter.getType() == EventParameters.BLOCK_POS) return ((BlockPosParameter)parameter).getPos();
+        else if (parameter.getType() == EventParameters.BLOCKSTATE) return ((BlockStateParameter)parameter).getBlockState();
+        else if (parameter.getType() == EventParameters.BOOLEAN) return ((BooleanParameter)parameter).getBoolean();
+        else if (parameter.getType() == EventParameters.CONDITION) return ((ConditionParameter)parameter).getCondition();
+        else if (parameter.getType() == EventParameters.DOUBLE) return ((DoubleParameter)parameter).getDouble();
+        else if (parameter.getType() == EventParameters.ENCHANTMENT) return ((EnchantmentParameter)parameter).getEnchantment();
+        else if (parameter.getType() == EventParameters.ENTITY) return ((EntityParameter)parameter).getEntity();
+        else if (parameter.getType() == EventParameters.ENTITY_TYPE) return ((EntityTypeParameter)parameter).getEntityType();
+        else if (parameter.getType() == EventParameters.INTEGER) return ((IntegerParameter)parameter).getInt();
+        else if (parameter.getType() == EventParameters.ITEM) return ((ItemParameter)parameter).getItem();
+        else if (parameter.getType() == EventParameters.ITEMSTACK) return ((ItemStackParameter)parameter).getItemStack();
+        else if (parameter.getType() == EventParameters.STATUS_EFFECT) return ((StatusEffectParameter)parameter).getStatusEffect();
+        else if (parameter.getType() == EventParameters.STRING) return ((StringParameter)parameter).getString();
+        else if (parameter.getType() == EventParameters.WORLD) return ((WorldParameter)parameter).getWorld();
         else return null;
     }
 

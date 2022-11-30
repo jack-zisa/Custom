@@ -40,10 +40,10 @@ public class ApplyStatusEffectEffect extends AbstractEffect {
     }
 
     public void run(List<EventParameter> parameters) {
-        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, EventParameters.WORLD);
+        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, getModifications(), EventParameters.WORLD);
         if (worldParameter != null) {
             if (!worldParameter.getWorld().isClient) {
-                EntityParameter entityParameter = (EntityParameter) EventParameter.find(parameters, EventParameters.ENTITY);
+                EntityParameter entityParameter = (EntityParameter) EventParameter.find(parameters, getModifications(), EventParameters.ENTITY);
                 if (entityParameter != null) {
                     if (entityParameter.getEntity() instanceof LivingEntity livingEntity) {
                         System.out.println("Apply status effect to " + livingEntity.getType().toString());

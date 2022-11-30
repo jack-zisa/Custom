@@ -35,7 +35,7 @@ public class SendMessageEffect extends AbstractEffect {
 
     @Override
     public void run(List<EventParameter> parameters) {
-        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, EventParameters.WORLD);
+        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, getModifications(), EventParameters.WORLD);
         if (worldParameter != null) {
             if (!worldParameter.getWorld().isClient) {
                 ((ServerWorld) worldParameter.getWorld()).getPlayers().forEach(player -> player.sendMessage(text, actionBar));

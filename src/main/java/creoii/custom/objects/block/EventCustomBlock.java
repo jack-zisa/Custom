@@ -146,6 +146,7 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
             parameters.add(new BlockParameter().withValue(state.getBlock()));
             if (projectile.getOwner() != null) {
                 parameters.add(new EntityParameter().withValue(projectile.getOwner()).name("owner"));
+                parameters.add(new BlockPosParameter().withValue(projectile.getOwner().getBlockPos()).name("owner_pos"));
                 parameters.add(new EntityTypeParameter().withValue(projectile.getOwner().getType()).name("owner_type"));
             }
             parameters.add(new EntityParameter().withValue(projectile).name("projectile"));

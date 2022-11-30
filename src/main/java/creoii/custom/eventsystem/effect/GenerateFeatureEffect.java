@@ -37,10 +37,10 @@ public class GenerateFeatureEffect extends AbstractEffect {
     }
 
     public void run(List<EventParameter> parameters) {
-        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, EventParameters.WORLD);
+        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, getModifications(), EventParameters.WORLD);
         if (worldParameter != null) {
             World world = worldParameter.getWorld();
-            BlockPosParameter blockPosParameter = (BlockPosParameter) EventParameter.find(parameters, EventParameters.BLOCK_POS);
+            BlockPosParameter blockPosParameter = (BlockPosParameter) EventParameter.find(parameters, getModifications(), EventParameters.BLOCK_POS);
             if (blockPosParameter != null) {
                 if (!world.isClient && configuredFeature.get().hasKeyAndValue()) {
                     if (removeBlock) world.removeBlock(blockPosParameter.getPos(), false);

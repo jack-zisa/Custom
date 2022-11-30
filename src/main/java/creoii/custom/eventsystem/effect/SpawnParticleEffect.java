@@ -44,9 +44,9 @@ public class SpawnParticleEffect extends AbstractEffect {
 
     @Override
     public void run(List<EventParameter> parameters) {
-        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, EventParameters.WORLD);
+        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, getModifications(), EventParameters.WORLD);
         if (worldParameter != null) {
-            BlockPosParameter blockPosParameter = (BlockPosParameter) EventParameter.find(parameters, EventParameters.BLOCK_POS);
+            BlockPosParameter blockPosParameter = (BlockPosParameter) EventParameter.find(parameters, getModifications(), EventParameters.BLOCK_POS);
             if (blockPosParameter != null) {
                 World world = worldParameter.getWorld();
                 BlockPos pos = blockPosParameter.getPos();

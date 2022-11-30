@@ -1,9 +1,8 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
+import creoii.custom.Custom;
 import creoii.custom.eventsystem.parameter.EventParameter;
-import creoii.custom.eventsystem.parameter.EventParameters;
-import creoii.custom.eventsystem.parameter.WorldParameter;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DataPool;
@@ -16,7 +15,7 @@ public class WeightedListEffect extends AbstractEffect {
 
     @Override
     public List<EventParameter> getParameters() {
-        return List.of(EventParameters.WORLD);
+        return List.of();
     }
 
     public WeightedListEffect getFromJson(JsonObject object) {
@@ -36,9 +35,6 @@ public class WeightedListEffect extends AbstractEffect {
 
     @Override
     public void run(List<EventParameter> parameters) {
-        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, EventParameters.WORLD);
-        if (worldParameter != null) {
-            getRandom(worldParameter.getWorld().getRandom()).run(parameters);
-        }
+        getRandom(Custom.RANDOM).run(parameters);
     }
 }
