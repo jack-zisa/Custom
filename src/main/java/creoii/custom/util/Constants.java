@@ -8,7 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Constants {
-    /* Controls eating speeds for custom and vanilla foods */
+    /**
+     * Controls eating speeds for custom and vanilla foods
+     * Should be runtime dynamic - you can change eating speed during the game
+    */
     public static final Map<Identifier, Integer> FOOD_EATING_SPEEDS = new HashMap<>();
 
     /* Formatted in Gold */
@@ -20,4 +23,6 @@ public class Constants {
 
     /* Has a weight of 20 */
     public static Enchantment.Rarity VERY_COMMON;
+
+    public static final double MINECART_BASE_SPEED = 8d;
 }

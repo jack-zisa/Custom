@@ -23,17 +23,17 @@ public class DirectionValueProvider extends ValueProvider<Direction> {
     public static ValueProvider<Direction> getFromJson(JsonObject object) {
         if (object.has("value")) {
             ValueProvider<?> provider = Custom.VALUE_PROVIDER.get(Identifier.tryParse(object.get("type").getAsString()));
-            if (provider instanceof DirectionValueProvider doubleValueProvider) {
+            if (provider instanceof DirectionValueProvider directionValueProvider) {
                 JsonElement element = object.get("value");
                 if (element.isJsonPrimitive()) {
-                    return doubleValueProvider.withValue(Direction.valueOf(element.getAsString()));
+                    return directionValueProvider.withValue(Direction.valueOf(element.getAsString()));
                 } else if (element.isJsonObject()) {
                     String type = object.get("type").getAsString();
                     return switch (type) {
-                        case "random" -> doubleValueProvider.withValue(Direction.random(Custom.RANDOM));
-                        case "horizontal_random" -> doubleValueProvider.withValue(Direction.Type.HORIZONTAL.random(Custom.RANDOM));
-                        case "vertical_random" -> doubleValueProvider.withValue(Direction.Type.VERTICAL.random(Custom.RANDOM));
-                        default -> doubleValueProvider.withValue(Direction.UP);
+                        case "random" -> directionValueProvider.withValue(Direction.random(Custom.RANDOM));
+                        case "horizontal_random" -> directionValueProvider.withValue(Direction.Type.HORIZONTAL.random(Custom.RANDOM));
+                        case "vertical_random" -> directionValueProvider.withValue(Direction.Type.VERTICAL.random(Custom.RANDOM));
+                        default -> directionValueProvider.withValue(Direction.UP);
                     };
                 }
             }

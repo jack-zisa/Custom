@@ -13,6 +13,7 @@
     "block.HopperBlockEntityMixin",
     "block.PointedDripstoneBlockMixin",
     "block.SweetBerryBushBlockMixin",
+    "entity.AbstractMinecartEntityMixin",
     "entity.CreeperEntityMixin",
     "entity.FoxEntityMixin",
     "entity.GoatBrainMixin",
