@@ -124,7 +124,7 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
             JsonObject object = JsonHelper.asObject(json, "status effect");
             Identifier identifier = Identifier.tryParse(JsonHelper.getString(object, "identifier"));
             boolean instant = JsonHelper.getBoolean(object, "instant", false);
-            StatusEffectCategory category = StringToObject.statusEffectCategory(JsonHelper.getString(object, "category", "neutral"));
+            StatusEffectCategory category = StatusEffectCategory.valueOf(JsonHelper.getString(object, "category", "neutral"));
             int color = JsonHelper.getInt(object, "color", 0);
             CustomJsonObjects.AttributeModifier[] attributeModifiers;
             if (JsonHelper.hasArray(object, "attribute_modifiers")) {

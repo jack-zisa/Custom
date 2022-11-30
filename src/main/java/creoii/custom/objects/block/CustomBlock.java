@@ -208,8 +208,8 @@ public class CustomBlock extends Block implements Identifiable {
             float bounceVelocity = JsonHelper.getFloat(object, "bounce_velocity_multiplier", 0f);
             float slideVelocity = JsonHelper.getFloat(object, "slide_velocity_multiplier", 1f);
             RenderLayer renderLayer = StringToObject.renderLayer(JsonHelper.getString(object, "render_layer", "solid"));
-            PathNodeType pathNodeType = StringToObject.pathNodeType(JsonHelper.getString(object, "pathing_type", "walkable"));
-            OffsetType offsetType = StringToObject.offsetType(JsonHelper.getString(object, "offset_type", "none"));
+            PathNodeType pathNodeType = PathNodeType.valueOf(JsonHelper.getString(object, "pathing_type", "walkable"));
+            OffsetType offsetType = OffsetType.valueOf(JsonHelper.getString(object, "offset_type", "none"));
             Shape shape = Shape.get(object);
             int flammability = JsonHelper.getInt(object, "flammability", 0);
             int fireSpread = JsonHelper.getInt(object, "fire_spread", 0);

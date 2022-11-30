@@ -23,6 +23,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
 import java.util.List;
 
@@ -251,5 +252,23 @@ public class EventCustomBlock extends CustomBlock implements Identifiable {
             }
         }
         super.onEntityCollision(state, world, pos, entity);
+    }
+
+    @Override
+    public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
+        List<AbstractEvent> events1 = AbstractEvent.findAll(events, BlockEvents.DESTROYED_BY_EXPLOSION);
+        if (events1 != null) {
+            for (AbstractEvent event : events1) {
+                event.apply(List.of(
+                        new WorldParameter().withValue(world),
+                        new BlockPosParameter().withValue(pos),
+                        new BooleanParameter().withValue(explosion.createFire).name("create_fire"),
+                        new StringParameter().withValue(explosion.destructionType.toString()).name("destruction_type"),
+                        new StringParameter().withValue(explosion.damageSource.getName()).name("damage_source"),
+                        new DoubleParameter().withValue(explosion.power).name("power")
+                ));
+            }
+        }
+        super.onDestroyedByExplosion(world, pos, explosion);
     }
 }

@@ -154,16 +154,6 @@ public class StringToObject {
         };
     }
 
-    public static PistonBehavior pistonBehavior(String str) {
-        return switch (str) {
-            case "destroy" -> PistonBehavior.DESTROY;
-            case "block" -> PistonBehavior.BLOCK;
-            case "ignore" -> PistonBehavior.IGNORE;
-            case "push_only" -> PistonBehavior.PUSH_ONLY;
-            default -> PistonBehavior.NORMAL;
-        };
-    }
-
     public static BlockSoundGroup blockSoundGroup(String str) {
         return switch (str) {
             case "wood" -> BlockSoundGroup.WOOD;
@@ -245,44 +235,6 @@ public class StringToObject {
         };
     }
 
-    public static AbstractBlock.OffsetType offsetType(String str) {
-        return switch (str) {
-            case "xz" -> AbstractBlock.OffsetType.XZ;
-            case "xyz" -> AbstractBlock.OffsetType.XYZ;
-            default -> AbstractBlock.OffsetType.NONE;
-        };
-    }
-
-    public static PathNodeType pathNodeType(String str) {
-        return switch (str) {
-            case "blocked" -> PathNodeType.BLOCKED;
-            case "open" -> PathNodeType.OPEN;
-            case "walkable_door" -> PathNodeType.WALKABLE_DOOR;
-            case "trapdoor" -> PathNodeType.TRAPDOOR;
-            case "powder_snow" -> PathNodeType.POWDER_SNOW;
-            case "fence" -> PathNodeType.FENCE;
-            case "lava" -> PathNodeType.LAVA;
-            case "water" -> PathNodeType.WATER;
-            case "water_border" -> PathNodeType.WATER_BORDER;
-            case "rail" -> PathNodeType.RAIL;
-            case "unpassable_rail" -> PathNodeType.UNPASSABLE_RAIL;
-            case "danger_fire" -> PathNodeType.DANGER_FIRE;
-            case "damage_fire" -> PathNodeType.DAMAGE_FIRE;
-            case "danger_cactus" -> PathNodeType.DANGER_CACTUS;
-            case "damage_cactus" -> PathNodeType.DAMAGE_CACTUS;
-            case "danger_other" -> PathNodeType.DANGER_OTHER;
-            case "damage_other" -> PathNodeType.DAMAGE_OTHER;
-            case "door_open" -> PathNodeType.DOOR_OPEN;
-            case "door_wood_closed" -> PathNodeType.DOOR_WOOD_CLOSED;
-            case "door_iron_closed" -> PathNodeType.DOOR_IRON_CLOSED;
-            case "breach" -> PathNodeType.BREACH;
-            case "leaves" -> PathNodeType.LEAVES;
-            case "sticky_honey" -> PathNodeType.STICKY_HONEY;
-            case "cocoa" -> PathNodeType.COCOA;
-            default -> PathNodeType.WALKABLE;
-        };
-    }
-
     public static RenderLayer renderLayer(String str) {
         return switch (str) {
             case "cutout" -> RenderLayer.getCutout();
@@ -318,57 +270,6 @@ public class StringToObject {
         return ItemGroup.SEARCH;
     }
 
-    public static Rarity itemRarity(String str) {
-        return switch (str) {
-            case "uncommon" -> Rarity.UNCOMMON;
-            case "rare" -> Rarity.RARE;
-            case "epic" -> Rarity.EPIC;
-            case "legendary" -> Constants.LEGENDARY;
-            case "mythical" -> Constants.MYTHICAL;
-            case "unknown" -> Constants.UNKNOWN;
-            default -> Rarity.COMMON;
-        };
-    }
-
-    public static Enchantment.Rarity enchantmentRarity(String str) {
-        return switch (str) {
-            case "uncommon" -> Enchantment.Rarity.UNCOMMON;
-            case "rare" -> Enchantment.Rarity.RARE;
-            case "very_rare" -> Enchantment.Rarity.VERY_RARE;
-            default -> Enchantment.Rarity.COMMON;
-        };
-    }
-
-    public static EnchantmentTarget enchantmentTarget(String str) {
-        return switch (str) {
-            case "armor" -> EnchantmentTarget.ARMOR;
-            case "armor_feet" -> EnchantmentTarget.ARMOR_FEET;
-            case "armor_legs" -> EnchantmentTarget.ARMOR_LEGS;
-            case "armor_chest" -> EnchantmentTarget.ARMOR_CHEST;
-            case "armor_head" -> EnchantmentTarget.ARMOR_HEAD;
-            case "weapon" -> EnchantmentTarget.WEAPON;
-            case "digger" -> EnchantmentTarget.DIGGER;
-            case "fishing_rod" -> EnchantmentTarget.FISHING_ROD;
-            case "trident" -> EnchantmentTarget.TRIDENT;
-            case "bow" -> EnchantmentTarget.BOW;
-            case "wearable" -> EnchantmentTarget.WEARABLE;
-            case "crossbow" -> EnchantmentTarget.CROSSBOW;
-            case "vanishable" -> EnchantmentTarget.VANISHABLE;
-            default -> EnchantmentTarget.BREAKABLE;
-        };
-    }
-
-    public static EquipmentSlot equipmentSlot(String str) {
-        return switch (str) {
-            case "offhand" -> EquipmentSlot.OFFHAND;
-            case "head" -> EquipmentSlot.HEAD;
-            case "chest" -> EquipmentSlot.CHEST;
-            case "legs" -> EquipmentSlot.LEGS;
-            case "feet" -> EquipmentSlot.FEET;
-            default -> EquipmentSlot.MAINHAND;
-        };
-    }
-
     public static SoundEvent equipSoundEvent(String str) {
         return switch (str) {
             case "iron" -> SoundEvents.ITEM_ARMOR_EQUIP_IRON;
@@ -400,28 +301,6 @@ public class StringToObject {
         };
     }
 
-    public static Hand hand(String str) {
-        return str.equals("offhand") ? Hand.OFF_HAND : Hand.MAIN_HAND;
-    }
-
-    public static ActionResult actionResult(String str, boolean swingHand) {
-        return switch (str) {
-            case "consume_partial" -> ActionResult.CONSUME_PARTIAL;
-            case "success" -> ActionResult.success(swingHand);
-            case "fail" -> ActionResult.FAIL;
-            case "consume" -> ActionResult.CONSUME;
-            default -> ActionResult.PASS;
-        };
-    }
-
-    public static StatusEffectCategory statusEffectCategory(String str) {
-        return str.equals("beneficial") ? StatusEffectCategory.BENEFICIAL : str.equals("harmful") ? StatusEffectCategory.HARMFUL : StatusEffectCategory.NEUTRAL;
-    }
-
-    public static EntityAttributeModifier.Operation attributeModifierOperation(String str) {
-        return str.equals("addition") ? EntityAttributeModifier.Operation.ADDITION : str.equals("multiply_base") ? EntityAttributeModifier.Operation.MULTIPLY_BASE : EntityAttributeModifier.Operation.MULTIPLY_TOTAL;
-    }
-
     public static DamageSource damageSource(String str) {
         return switch (str) {
             case "all" -> DamageSource.FALL;
@@ -449,21 +328,6 @@ public class StringToObject {
             case "sweet_berry_bush" -> DamageSource.SWEET_BERRY_BUSH;
             case "wither" -> DamageSource.WITHER;
             default -> Custom.DAMAGE_SOURCES_LOADER.getValues().get(str);
-        };
-    }
-
-    public static SoundCategory soundCategory(String str) {
-        return switch (str) {
-            case "ambient" -> SoundCategory.AMBIENT;
-            case "music" -> SoundCategory.MUSIC;
-            case "records" -> SoundCategory.RECORDS;
-            case "weather" -> SoundCategory.WEATHER;
-            case "blocks" -> SoundCategory.BLOCKS;
-            case "hostile" -> SoundCategory.HOSTILE;
-            case "neutral" -> SoundCategory.NEUTRAL;
-            case "players" -> SoundCategory.PLAYERS;
-            case "voice" -> SoundCategory.VOICE;
-            default -> SoundCategory.MASTER;
         };
     }
 

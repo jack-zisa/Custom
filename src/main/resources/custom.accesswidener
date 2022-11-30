@@ -7,3 +7,7 @@ accessible method net/minecraft/entity/FallingBlockEntity <init> (Lnet/minecraft
 accessible method net/minecraft/village/VillagerType <init> (Ljava/lang/String;)V
 accessible method net/minecraft/advancement/criterion/AbstractCriterion trigger (Lnet/minecraft/server/network/ServerPlayerEntity;Ljava/util/function/Predicate;)V
 accessible field net/minecraft/entity/LivingEntity jumping Z
+accessible field net/minecraft/world/explosion/Explosion createFire Z
+accessible field net/minecraft/world/explosion/Explosion destructionType Lnet/minecraft/world/explosion/Explosion$DestructionType;
+accessible field net/minecraft/world/explosion/Explosion damageSource Lnet/minecraft/entity/damage/DamageSource;
+accessible field net/minecraft/world/explosion/Explosion power F

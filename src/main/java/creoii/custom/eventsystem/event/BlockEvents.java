@@ -12,6 +12,7 @@ public class BlockEvents {
     public static AbstractEvent PLACE_BLOCK;
     public static AbstractEvent BREAK_BLOCK;
     public static AbstractEvent ENTITY_COLLISION;
+    public static AbstractEvent DESTROYED_BY_EXPLOSION;
     public static AbstractEvent NEIGHBOR_UPDATE;
     public static AbstractEvent RANDOM_TICK;
 
@@ -24,6 +25,7 @@ public class BlockEvents {
         PLACE_BLOCK = AbstractEvent.register(new Identifier(Custom.NAMESPACE, "place_block"), new BasicEvent());
         BREAK_BLOCK = AbstractEvent.register(new Identifier(Custom.NAMESPACE, "break_block"), new BasicEvent());
         ENTITY_COLLISION = AbstractEvent.register(new Identifier(Custom.NAMESPACE, "entity_collision"), new BasicEvent());
+        DESTROYED_BY_EXPLOSION = AbstractEvent.register(new Identifier(Custom.NAMESPACE, "destroyed_by_explosion"), new BasicEvent());
         NEIGHBOR_UPDATE = AbstractEvent.register(new Identifier(Custom.NAMESPACE, "neighbor_update"), new BasicEvent());
         RANDOM_TICK = AbstractEvent.register(new Identifier(Custom.NAMESPACE, "random_tick"), new BasicEvent());
     }

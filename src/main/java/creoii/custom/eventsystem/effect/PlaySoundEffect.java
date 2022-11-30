@@ -28,7 +28,7 @@ public class PlaySoundEffect extends AbstractEffect {
     public PlaySoundEffect getFromJson(JsonObject object) {
         PlaySoundEffect effect = new PlaySoundEffect();
         effect.soundEvent = Registry.SOUND_EVENT.get(Identifier.tryParse(object.get("sound").getAsString()));
-        effect.soundCategory = StringToObject.soundCategory(JsonHelper.getString(object, "category"));
+        effect.soundCategory = SoundCategory.valueOf(JsonHelper.getString(object, "category"));
         effect.volume = JsonHelper.getFloat(object, "volume", 0f);
         effect.pitch = JsonHelper.getFloat(object, "pitch", 0f);
         return effect;

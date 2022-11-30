@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.FoodComponent;
@@ -19,6 +20,7 @@ import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
@@ -105,7 +107,7 @@ public class CustomJsonHelper {
             Item.Settings settings = new FabricItemSettings();
             settings.maxCount(JsonHelper.getInt(object, "max_count", 64));
             settings.group(itemGroup(JsonHelper.getString(object, "item_group", "search")));
-            settings.rarity(itemRarity(JsonHelper.getString(object, "rarity", "common")));
+            settings.rarity(Rarity.valueOf(JsonHelper.getString(object, "rarity", "common")));
             if (JsonHelper.getBoolean(object, "fireproof", false)) settings.fireproof();
             if (object.has("food")) {
                 settings.food(getFood(object.get("food"), "food"));
@@ -150,7 +152,7 @@ public class CustomJsonHelper {
                     JsonHelper.getBoolean(object, "blocks_light", true),
                     JsonHelper.getBoolean(object, "burnable", false),
                     JsonHelper.getBoolean(object, "replaceable", false),
-                    pistonBehavior(JsonHelper.getString(object, "piston_behavior", "normal"))
+                    PistonBehavior.valueOf(JsonHelper.getString(object, "piston_behavior", "normal"))
             );
         }
         throw new JsonSyntaxException("Expected " + name + " to be block material, was " + JsonHelper.getType(element));

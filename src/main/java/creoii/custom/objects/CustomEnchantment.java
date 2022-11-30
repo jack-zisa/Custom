@@ -95,14 +95,14 @@ public class CustomEnchantment extends Enchantment implements Identifiable {
         public CustomEnchantment deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject object = JsonHelper.asObject(json, "enchantment");
             Identifier identifier = Identifier.tryParse(JsonHelper.getString(object, "identifier"));
-            Rarity rarity = StringToObject.enchantmentRarity(JsonHelper.getString(object, "rarity", "common"));
-            EnchantmentTarget target = StringToObject.enchantmentTarget(JsonHelper.getString(object, "target", "breakable"));
+            Rarity rarity = Enchantment.Rarity.valueOf(JsonHelper.getString(object, "rarity", "common"));
+            EnchantmentTarget target = EnchantmentTarget.valueOf(JsonHelper.getString(object, "target", "breakable"));
             EquipmentSlot[] slots;
             if (JsonHelper.hasArray(object, "equipment_slots")) {
                 JsonArray array = JsonHelper.getArray(object, "equipment_slots");
                 slots = new EquipmentSlot[array.size()];
                 for (int i = 0; i < slots.length; ++i) {
-                    if (array.get(i).isJsonPrimitive()) slots[i] = StringToObject.equipmentSlot(array.get(i).getAsString());
+                    if (array.get(i).isJsonPrimitive()) slots[i] = EquipmentSlot.valueOf(array.get(i).getAsString());
                 }
             } else slots = new EquipmentSlot[]{};
             boolean offeredByLibrarians = JsonHelper.getBoolean(object, "offered_by_librarians", true);
