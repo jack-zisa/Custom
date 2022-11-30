@@ -6,6 +6,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class BlockParameter implements EventParameter {
+    private String name = "block";
     private Block block;
 
     public Block getBlock() {
@@ -14,6 +15,11 @@ public class BlockParameter implements EventParameter {
 
     public BlockParameter withValue(Block block) {
         this.block = block;
+        return this;
+    }
+
+    public BlockParameter name(String name) {
+        this.name = name;
         return this;
     }
 
@@ -26,5 +32,10 @@ public class BlockParameter implements EventParameter {
     public EventParameter getFromJson(JsonObject object, String name) {
         block = Registry.BLOCK.get(Identifier.tryParse(object.get(name).getAsString()));
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

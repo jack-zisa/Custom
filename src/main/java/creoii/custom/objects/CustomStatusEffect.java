@@ -1,9 +1,10 @@
 package creoii.custom.objects;
 
 import com.google.gson.*;
-import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.event.AbstractEvent;
 import creoii.custom.eventsystem.event.Events;
+import creoii.custom.eventsystem.parameter.*;
+import creoii.custom.loaders.Identifiable;
 import creoii.custom.util.StringToObject;
 import creoii.custom.util.json.CustomJsonObjects;
 import net.minecraft.entity.Entity;
@@ -17,14 +18,16 @@ import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomStatusEffect extends StatusEffect implements Identifiable {
     private final Identifier identifier;
     private final boolean instant;
-    private final AbstractEvent[] events;
+    private final List<AbstractEvent> events;
 
     public CustomStatusEffect(Identifier identifier, boolean instant, StatusEffectCategory category, int color,
-                              CustomJsonObjects.AttributeModifier[] attributeModifiers, AbstractEvent[] events) {
+                              CustomJsonObjects.AttributeModifier[] attributeModifiers, List<AbstractEvent> events) {
         super(category, color);
         this.identifier = identifier;
         this.instant = instant;
@@ -48,21 +51,70 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
+        List<AbstractEvent> events1 = AbstractEvent.findAll(events, Events.STATUS_EFFECT_UPDATE);
+        if (events1 != null) {
+            for (AbstractEvent event : events1) {
+                event.apply(List.of(
+                        new WorldParameter().withValue(entity.getWorld()),
+                        new BlockPosParameter().withValue(entity.getBlockPos()),
+                        new EntityParameter().withValue(entity),
+                        new EntityTypeParameter().withValue(entity.getType()),
+                        new IntegerParameter().withValue(amplifier).name("amplifier")
+                ));
+            }
+        }
         super.applyUpdateEffect(entity, amplifier);
     }
 
     @Override
     public void applyInstantEffect(@Nullable Entity source, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
+        List<AbstractEvent> events1 = AbstractEvent.findAll(events, Events.STATUS_EFFECT_APPLY);
+        if (events1 != null) {
+            for (AbstractEvent event : events1) {
+                event.apply(List.of(
+                        new WorldParameter().withValue(target.getWorld()),
+                        new BlockPosParameter().withValue(target.getBlockPos()),
+                        new EntityParameter().withValue(target),
+                        new EntityTypeParameter().withValue(target.getType()),
+                        new IntegerParameter().withValue(amplifier).name("amplifier"),
+                        new DoubleParameter().withValue(proximity).name("proximity")
+                ));
+            }
+        }
         super.applyInstantEffect(source, attacker, target, amplifier, proximity);
     }
 
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+        List<AbstractEvent> events1 = AbstractEvent.findAll(events, Events.STATUS_EFFECT_APPLY);
+        if (events1 != null) {
+            for (AbstractEvent event : events1) {
+                event.apply(List.of(
+                        new WorldParameter().withValue(entity.getWorld()),
+                        new BlockPosParameter().withValue(entity.getBlockPos()),
+                        new EntityParameter().withValue(entity),
+                        new EntityTypeParameter().withValue(entity.getType()),
+                        new IntegerParameter().withValue(amplifier).name("amplifier")
+                ));
+            }
+        }
         super.onApplied(entity, attributes, amplifier);
     }
 
     @Override
     public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+        List<AbstractEvent> events1 = AbstractEvent.findAll(events, Events.STATUS_EFFECT_REMOVE);
+        if (events1 != null) {
+            for (AbstractEvent event : events1) {
+                event.apply(List.of(
+                        new WorldParameter().withValue(entity.getWorld()),
+                        new BlockPosParameter().withValue(entity.getBlockPos()),
+                        new EntityParameter().withValue(entity),
+                        new EntityTypeParameter().withValue(entity.getType()),
+                        new IntegerParameter().withValue(amplifier).name("amplifier")
+                ));
+            }
+        }
         super.onRemoved(entity, attributes, amplifier);
     }
 
@@ -86,19 +138,18 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
                     }
                 }
             } else attributeModifiers = new CustomJsonObjects.AttributeModifier[0];
-            AbstractEvent[] events;
+            List<AbstractEvent> events = new ArrayList<>();
             if (JsonHelper.hasArray(object, "events")) {
                 JsonArray array = JsonHelper.getArray(object, "events");
-                events = new AbstractEvent[array.size()];
-                if (events.length > 0) {
-                    for (int i = 0; i < events.length; ++i) {
+                if (array.size() > 0) {
+                    for (int i = 0; i < array.size(); ++i) {
                         if (array.get(i).isJsonObject()) {
                             JsonObject eventObj = array.get(i).getAsJsonObject();
-                            events[i] = AbstractEvent.getEvent(Identifier.tryParse(eventObj.get("name").getAsString()));
+                            events.add(AbstractEvent.getEvent(Identifier.tryParse(eventObj.get("name").getAsString())));
                         }
                     }
                 }
-            } else events = new AbstractEvent[]{};
+            }
             return new CustomStatusEffect(identifier, instant, category, color, attributeModifiers, events);
         }
 

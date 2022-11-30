@@ -1,7 +1,7 @@
 package creoii.custom.objects;
 
 import com.google.gson.*;
-import creoii.custom.data.Identifiable;
+import creoii.custom.loaders.Identifiable;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;

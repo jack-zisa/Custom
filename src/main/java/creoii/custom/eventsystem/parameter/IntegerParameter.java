@@ -3,6 +3,7 @@ package creoii.custom.eventsystem.parameter;
 import com.google.gson.JsonObject;
 
 public class IntegerParameter implements EventParameter {
+    private String name;
     private int param;
 
     public int getInt() {
@@ -11,6 +12,11 @@ public class IntegerParameter implements EventParameter {
 
     public IntegerParameter withValue(int param) {
         this.param = param;
+        return this;
+    }
+
+    public IntegerParameter name(String name) {
+        this.name = name;
         return this;
     }
 
@@ -23,5 +29,10 @@ public class IntegerParameter implements EventParameter {
     public EventParameter getFromJson(JsonObject object, String name) {
         param = object.get(name).getAsInt();
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

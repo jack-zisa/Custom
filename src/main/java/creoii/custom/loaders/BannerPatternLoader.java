@@ -1,4 +1,4 @@
-package creoii.custom.data;
+package creoii.custom.loaders;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

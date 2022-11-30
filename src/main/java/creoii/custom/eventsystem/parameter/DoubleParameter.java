@@ -3,6 +3,7 @@ package creoii.custom.eventsystem.parameter;
 import com.google.gson.JsonObject;
 
 public class DoubleParameter implements EventParameter {
+    private String name;
     private double param;
 
     public double getDouble() {
@@ -11,6 +12,11 @@ public class DoubleParameter implements EventParameter {
 
     public DoubleParameter withValue(double param) {
         this.param = param;
+        return this;
+    }
+
+    public DoubleParameter name(String name) {
+        this.name = name;
         return this;
     }
 
@@ -23,5 +29,10 @@ public class DoubleParameter implements EventParameter {
     public EventParameter getFromJson(JsonObject object, String name) {
         param = object.get(name).getAsDouble();
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

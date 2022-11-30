@@ -1,4 +1,4 @@
-package creoii.custom.data;
+package creoii.custom.loaders;
 
 import net.minecraft.util.Identifier;
 

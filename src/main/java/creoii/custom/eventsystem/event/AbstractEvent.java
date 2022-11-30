@@ -3,22 +3,20 @@ package creoii.custom.eventsystem.event;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import creoii.custom.Custom;
-import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.condition.Condition;
-import creoii.custom.eventsystem.effect.Effect;
-import creoii.custom.eventsystem.effect.SendMessageEffect;
+import creoii.custom.eventsystem.effect.AbstractEffect;
 import creoii.custom.eventsystem.parameter.EventParameter;
+import creoii.custom.loaders.Identifiable;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.registry.Registry;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractEvent implements Identifiable {
     protected Condition[] conditions;
-    protected Effect[] effects;
+    protected AbstractEffect[] effects;
 
     public static AbstractEvent register(Identifier id, AbstractEvent event) {
         return Registry.register(Custom.EVENT, id, event);
@@ -26,14 +24,6 @@ public abstract class AbstractEvent implements Identifiable {
 
     public static AbstractEvent getEvent(Identifier id) {
         return Custom.EVENT.get(id);
-    }
-
-    public Condition[] getConditions() {
-        return conditions;
-    }
-
-    public Effect[] getEffects() {
-        return effects;
     }
 
     @Override
@@ -66,18 +56,18 @@ public abstract class AbstractEvent implements Identifiable {
         return conditions;
     }
 
-    public static Effect[] getEffects(JsonObject object) {
-        Effect[] effects;
+    public static AbstractEffect[] getEffects(JsonObject object) {
+        AbstractEffect[] effects;
         if (JsonHelper.hasArray(object, "effects")) {
             JsonArray array = JsonHelper.getArray(object, "effects");
-            effects = new Effect[array.size()];
+            effects = new AbstractEffect[array.size()];
             for (int i = 0; i < effects.length; ++i) {
                 if (array.get(i).isJsonObject()) {
                     JsonObject eventObj = array.get(i).getAsJsonObject();
-                    effects[i] = Effect.getEffect(eventObj, Identifier.tryParse(eventObj.get("type").getAsString()));
+                    effects[i] = AbstractEffect.getEffect(eventObj, Identifier.tryParse(eventObj.get("type").getAsString()));
                 }
             }
-        } else effects = new Effect[0];
+        } else effects = new AbstractEffect[0];
         return effects;
     }
 
@@ -95,5 +85,14 @@ public abstract class AbstractEvent implements Identifiable {
             }
         }
         return ret.size() > 0 ? ret : null;
+    }
+
+    public static boolean hasEvent(List<AbstractEvent> events, AbstractEvent type) {
+        for (AbstractEvent event : events) {
+            if (event.getType() == type.getType()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

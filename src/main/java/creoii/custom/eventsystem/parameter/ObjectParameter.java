@@ -1,9 +1,9 @@
 package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
 
 public class ObjectParameter implements EventParameter {
+    private String name;
     private Object object;
 
     public Object getObject() {
@@ -15,6 +15,11 @@ public class ObjectParameter implements EventParameter {
         return this;
     }
 
+    public ObjectParameter name(String name) {
+        this.name = name;
+        return this;
+    }
+
     @Override
     public EventParameter getType() {
         return EventParameters.OBJECT;
@@ -23,5 +28,10 @@ public class ObjectParameter implements EventParameter {
     @Override
     public EventParameter getFromJson(JsonObject object, String name) {
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

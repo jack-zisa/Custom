@@ -1,11 +1,9 @@
 package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class BooleanParameter implements EventParameter {
+    private String name;
     private boolean param;
 
     public boolean getBoolean() {
@@ -14,6 +12,11 @@ public class BooleanParameter implements EventParameter {
 
     public BooleanParameter withValue(boolean param) {
         this.param = param;
+        return this;
+    }
+
+    public BooleanParameter name(String name) {
+        this.name = name;
         return this;
     }
 
@@ -26,5 +29,10 @@ public class BooleanParameter implements EventParameter {
     public EventParameter getFromJson(JsonObject object, String name) {
         param = object.get(name).getAsBoolean();
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

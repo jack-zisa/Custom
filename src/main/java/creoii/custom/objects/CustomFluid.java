@@ -1,7 +1,7 @@
 package creoii.custom.objects;
 
 import com.google.gson.*;
-import creoii.custom.data.Identifiable;
+import creoii.custom.loaders.Identifiable;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;

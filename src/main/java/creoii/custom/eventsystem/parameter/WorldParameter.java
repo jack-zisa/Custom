@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.world.World;
 
 public class WorldParameter implements EventParameter {
+    private String name = "world";
     private World world;
 
     public World getWorld() {
@@ -15,6 +16,11 @@ public class WorldParameter implements EventParameter {
         return this;
     }
 
+    public WorldParameter name(String name) {
+        this.name = name;
+        return this;
+    }
+
     @Override
     public EventParameter getType() {
         return EventParameters.WORLD;
@@ -23,5 +29,10 @@ public class WorldParameter implements EventParameter {
     @Override
     public EventParameter getFromJson(JsonObject object, String name) {
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

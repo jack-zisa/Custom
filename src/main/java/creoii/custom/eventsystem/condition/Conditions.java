@@ -3,11 +3,7 @@ package creoii.custom.eventsystem.condition;
 import creoii.custom.Custom;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.*;
 
 public class Conditions {
     public static Condition EMPTY;

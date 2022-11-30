@@ -5,10 +5,16 @@ import creoii.custom.eventsystem.condition.Condition;
 import net.minecraft.util.Identifier;
 
 public class ConditionParameter implements EventParameter {
+    private String name;
     private Condition condition;
 
     public Condition getCondition() {
         return condition;
+    }
+
+    public ConditionParameter name(String name) {
+        this.name = name;
+        return this;
     }
 
     @Override
@@ -20,5 +26,10 @@ public class ConditionParameter implements EventParameter {
     public EventParameter getFromJson(JsonObject object, String name) {
         condition = Condition.getCondition(object, Identifier.tryParse(object.get(name).getAsString()));
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

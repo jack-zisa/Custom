@@ -1,7 +1,7 @@
 package creoii.custom.objects;
 
 import com.google.gson.*;
-import creoii.custom.data.Identifiable;
+import creoii.custom.loaders.Identifiable;
 import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;

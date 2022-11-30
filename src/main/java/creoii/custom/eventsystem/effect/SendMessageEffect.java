@@ -1,9 +1,10 @@
 package creoii.custom.eventsystem.effect;
 
 import com.google.gson.JsonObject;
-import creoii.custom.eventsystem.parameter.*;
+import creoii.custom.eventsystem.parameter.EventParameter;
+import creoii.custom.eventsystem.parameter.EventParameters;
+import creoii.custom.eventsystem.parameter.WorldParameter;
 import creoii.custom.util.json.CustomJsonObjects;
-import creoii.custom.util.json.JsonHelper2;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.MutableText;
@@ -12,18 +13,19 @@ import net.minecraft.util.JsonHelper;
 
 import java.util.List;
 
-public class SendMessageEffect extends Effect {
+public class SendMessageEffect extends AbstractEffect {
     public MutableText text;
     private boolean actionBar;
 
     public SendMessageEffect getFromJson(JsonObject object) {
+        SendMessageEffect effect = new SendMessageEffect();
         CustomJsonObjects.TextFormatting formatting = CustomJsonObjects.TextFormatting.get(object, "formatting");
-        text = MutableText.of(new LiteralTextContent(JsonHelper.getString(object, "text", ""))).formatted(formatting.formatting());
+        effect.text = MutableText.of(new LiteralTextContent(JsonHelper.getString(object, "text", ""))).formatted(formatting.formatting());
         for (Formatting formatting1 : formatting.formatting()) {
-            text.formatted(formatting1);
+            effect.text.formatted(formatting1);
         }
-        actionBar = JsonHelper.getBoolean(object, "action_bar", false);
-        return this;
+        effect.actionBar = JsonHelper.getBoolean(object, "action_bar", false);
+        return effect;
     }
 
     @Override
@@ -36,9 +38,7 @@ public class SendMessageEffect extends Effect {
         WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, EventParameters.WORLD);
         if (worldParameter != null) {
             if (!worldParameter.getWorld().isClient) {
-                ((ServerWorld) worldParameter.getWorld()).getPlayers().forEach(player -> {
-                    player.sendMessage(text, actionBar);
-                });
+                ((ServerWorld) worldParameter.getWorld()).getPlayers().forEach(player -> player.sendMessage(text, actionBar));
             }
         }
     }

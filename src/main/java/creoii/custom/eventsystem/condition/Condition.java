@@ -2,8 +2,8 @@ package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
 import creoii.custom.Custom;
-import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.parameter.EventParameter;
+import creoii.custom.loaders.Identifiable;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;

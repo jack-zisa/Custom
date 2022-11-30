@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import creoii.custom.objects.CustomMaterial;
-import creoii.custom.util.Constants;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
@@ -22,12 +21,39 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static creoii.custom.util.StringToObject.*;
 
 public class CustomJsonHelper {
+    /**
+     * Gets a string from a JsonObject, allowing multiple element names
+     */
+    public static String getString(JsonObject object, String[] elements, @Nullable String defaultStr) {
+        for (String element : elements) {
+            if (object.has(element)) {
+                return object.get(element).getAsString();
+            }
+        }
+
+        if (defaultStr != null) {
+            return defaultStr;
+        }
+        throw new JsonSyntaxException("Missing " + Arrays.toString(elements) + ", expected to find a string");
+    }
+
+    public static String getString(JsonObject object, String[] elements) {
+        for (String element : elements) {
+            if (object.has(element)) {
+                return object.get(element).getAsString();
+            }
+        }
+        throw new JsonSyntaxException("Missing " + Arrays.toString(elements) + ", expected to find a string");
+    }
+
     public static AbstractBlock.Settings getBlockSettings(JsonElement element, String name) {
         if (element.isJsonObject()) {
             JsonObject object = JsonHelper.asObject(element, "block settings");

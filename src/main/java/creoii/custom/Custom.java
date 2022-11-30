@@ -1,14 +1,15 @@
 package creoii.custom;
 
-import creoii.custom.data.*;
 import creoii.custom.eventsystem.condition.Condition;
-import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.condition.Conditions;
-import creoii.custom.eventsystem.effect.Effect;
+import creoii.custom.eventsystem.effect.AbstractEffect;
 import creoii.custom.eventsystem.effect.Effects;
 import creoii.custom.eventsystem.event.AbstractEvent;
+import creoii.custom.eventsystem.event.BlockEvents;
 import creoii.custom.eventsystem.event.Events;
+import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
+import creoii.custom.loaders.*;
 import creoii.custom.objects.block.CustomBlock;
 import creoii.custom.registry.AttributeRegistry;
 import creoii.custom.util.provider.ValueProvider;
@@ -39,7 +40,7 @@ public class Custom implements ModInitializer, ClientModInitializer {
 
     public static final SimpleRegistry<AbstractEvent> EVENT = FabricRegistryBuilder.createSimple(AbstractEvent.class, new Identifier(NAMESPACE, "event")).buildAndRegister();
     public static final SimpleRegistry<Condition> CONDITION = FabricRegistryBuilder.createSimple(Condition.class, new Identifier(NAMESPACE, "condition")).buildAndRegister();
-    public static final SimpleRegistry<Effect> EFFECT = FabricRegistryBuilder.createSimple(Effect.class, new Identifier(NAMESPACE, "effect")).buildAndRegister();
+    public static final SimpleRegistry<AbstractEffect> EFFECT = FabricRegistryBuilder.createSimple(AbstractEffect.class, new Identifier(NAMESPACE, "effect")).buildAndRegister();
     public static final SimpleRegistry<ValueProvider> VALUE_PROVIDER = FabricRegistryBuilder.createSimple(ValueProvider.class, new Identifier(NAMESPACE, "value_provider")).buildAndRegister();
     public static final SimpleRegistry<EventParameter> EVENT_PARAMETER = FabricRegistryBuilder.createSimple(EventParameter.class, new Identifier(NAMESPACE, "event_parameter")).buildAndRegister();
 

@@ -2,7 +2,7 @@ package creoii.custom.eventsystem.event;
 
 import creoii.custom.Custom;
 import creoii.custom.eventsystem.condition.Condition;
-import creoii.custom.eventsystem.effect.Effect;
+import creoii.custom.eventsystem.effect.AbstractEffect;
 import creoii.custom.eventsystem.parameter.EventParameter;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class BasicEvent extends AbstractEvent {
         }
 
         if (applied) {
-            for (Effect effect : effects) {
+            for (AbstractEffect effect : effects) {
                 effect.run(parameters);
             }
         }

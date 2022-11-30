@@ -1,10 +1,10 @@
 package creoii.custom.eventsystem.global;
 
 import com.google.gson.*;
-import creoii.custom.data.Identifiable;
 import creoii.custom.eventsystem.condition.Condition;
-import creoii.custom.eventsystem.effect.Effect;
+import creoii.custom.eventsystem.effect.AbstractEffect;
 import creoii.custom.eventsystem.event.AbstractEvent;
+import creoii.custom.loaders.Identifiable;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.util.Identifier;
@@ -13,11 +13,11 @@ import net.minecraft.world.World;
 
 import java.lang.reflect.Type;
 
-public record GlobalEvent(Identifier identifier, String type, Condition[] conditions, Effect[] effects) implements Identifiable {
+public record GlobalEvent(Identifier identifier, String type, Condition[] conditions, AbstractEffect[] effects) implements Identifiable {
     public static final String CLIENT_WORLD_TICK = "client_world_tick";
     public static final String SERVER_WORLD_TICK = "server_world_tick";
 
-    public GlobalEvent(Identifier identifier, String type, Condition[] conditions, Effect[] effects) {
+    public GlobalEvent(Identifier identifier, String type, Condition[] conditions, AbstractEffect[] effects) {
         this.identifier = identifier;
         this.type = type;
         this.conditions = conditions;
@@ -45,7 +45,7 @@ public record GlobalEvent(Identifier identifier, String type, Condition[] condit
             Identifier identifier = Identifier.tryParse(JsonHelper.getString(object, "identifier"));
             String type = JsonHelper.getString(object, "type", "client_world_tick");
             Condition[] conditions = AbstractEvent.getConditions(object);
-            Effect[] effects = AbstractEvent.getEffects(object);
+            AbstractEffect[] effects = AbstractEvent.getEffects(object);
             return new GlobalEvent(identifier, type, conditions, effects);
         }
 
