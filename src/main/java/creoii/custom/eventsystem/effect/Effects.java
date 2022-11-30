@@ -16,6 +16,7 @@ public class Effects {
     public static AbstractEffect SPAWN_ENTITY;
     public static AbstractEffect SPAWN_PARTICLE;
     public static AbstractEffect WEIGHTED_LIST;
+    public static AbstractEffect COMPOSITE;
 
     public static void register() {
         EMPTY = AbstractEffect.register(new Identifier(Custom.NAMESPACE, "empty"), new EmptyEffect());
@@ -30,5 +31,6 @@ public class Effects {
         SPAWN_ENTITY = AbstractEffect.register(new Identifier(Custom.NAMESPACE, "spawn_entity"), new SpawnEntityEffect());
         SPAWN_PARTICLE = AbstractEffect.register(new Identifier(Custom.NAMESPACE, "spawn_particle"), new SpawnParticleEffect());
         WEIGHTED_LIST = AbstractEffect.register(new Identifier(Custom.NAMESPACE, "weighted_list"), new WeightedListEffect());
+        COMPOSITE = AbstractEffect.register(new Identifier(Custom.NAMESPACE, "composite"), new CompositeEffect());
     }
 }
