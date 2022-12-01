@@ -24,7 +24,7 @@ public class GenerateFeatureEffect extends AbstractEffect {
     private boolean removeBlock;
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of(EventParameters.WORLD, EventParameters.BLOCK_POS);
     }
 

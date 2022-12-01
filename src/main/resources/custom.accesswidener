@@ -1,11 +1,12 @@
 accessWidener v1 named
-accessible method net/minecraft/block/FireBlock registerFlammableBlock (Lnet/minecraft/block/Block;II)V
-mutable field net/minecraft/item/ItemGroup GROUPS [Lnet/minecraft/item/ItemGroup;
-accessible method net/minecraft/village/VillagerProfession <init> (Ljava/lang/String;Lnet/minecraft/world/poi/PointOfInterestType;Lcom/google/common/collect/ImmutableSet;Lcom/google/common/collect/ImmutableSet;Lnet/minecraft/sound/SoundEvent;)V
 extendable class net/minecraft/village/VillagerType
+accessible method net/minecraft/block/FireBlock registerFlammableBlock (Lnet/minecraft/block/Block;II)V
+accessible method net/minecraft/village/VillagerProfession <init> (Ljava/lang/String;Lnet/minecraft/world/poi/PointOfInterestType;Lcom/google/common/collect/ImmutableSet;Lcom/google/common/collect/ImmutableSet;Lnet/minecraft/sound/SoundEvent;)V
 accessible method net/minecraft/entity/FallingBlockEntity <init> (Lnet/minecraft/world/World;DDDLnet/minecraft/block/BlockState;)V
 accessible method net/minecraft/village/VillagerType <init> (Ljava/lang/String;)V
 accessible method net/minecraft/advancement/criterion/AbstractCriterion trigger (Lnet/minecraft/server/network/ServerPlayerEntity;Ljava/util/function/Predicate;)V
+accessible method net/minecraft/entity/Entity getRotationVector (FF)Lnet/minecraft/util/math/Vec3d;
+mutable field net/minecraft/item/ItemGroup GROUPS [Lnet/minecraft/item/ItemGroup;
 accessible field net/minecraft/entity/LivingEntity jumping Z
 accessible field net/minecraft/world/explosion/Explosion createFire Z
 accessible field net/minecraft/world/explosion/Explosion destructionType Lnet/minecraft/world/explosion/Explosion$DestructionType;

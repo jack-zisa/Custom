@@ -208,8 +208,8 @@ public class CustomBlock extends Block implements Identifiable {
             float bounceVelocity = JsonHelper.getFloat(object, "bounce_velocity_multiplier", 0f);
             float slideVelocity = JsonHelper.getFloat(object, "slide_velocity_multiplier", 1f);
             RenderLayer renderLayer = StringToObject.renderLayer(JsonHelper.getString(object, "render_layer", "solid"));
-            PathNodeType pathNodeType = PathNodeType.valueOf(JsonHelper.getString(object, "pathing_type", "walkable"));
-            OffsetType offsetType = OffsetType.valueOf(JsonHelper.getString(object, "offset_type", "none"));
+            PathNodeType pathNodeType = PathNodeType.valueOf(JsonHelper.getString(object, "pathing_type", PathNodeType.WALKABLE.name()));
+            OffsetType offsetType = OffsetType.valueOf(JsonHelper.getString(object, "offset_type", OffsetType.NONE.name()));
             Shape shape = Shape.get(object);
             int flammability = JsonHelper.getInt(object, "flammability", 0);
             int fireSpread = JsonHelper.getInt(object, "fire_spread", 0);
@@ -331,7 +331,7 @@ public class CustomBlock extends Block implements Identifiable {
             if (object.has("shape")) {
                 JsonObject shapeObj = object.getAsJsonObject("shape");
                 if (shapeObj.has("preset")) {
-                    return new Shape(PresetShape.valueOf(JsonHelper.getString(shapeObj, "preset", "CUBE").toUpperCase()));
+                    return new Shape(PresetShape.valueOf(JsonHelper.getString(shapeObj, "preset", PresetShape.CUBE.name()).toUpperCase()));
                 } else {
                     float minX;
                     float minY;

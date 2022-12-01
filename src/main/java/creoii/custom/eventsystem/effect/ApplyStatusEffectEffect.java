@@ -24,7 +24,7 @@ public class ApplyStatusEffectEffect extends AbstractEffect {
     private boolean showIcon;
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of(EventParameters.WORLD, EventParameters.ENTITY);
     }
 

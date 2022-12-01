@@ -15,7 +15,7 @@ public class RunFunctionEffect extends AbstractEffect {
     private Identifier functionId;
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of(EventParameters.ENTITY);
     }
 

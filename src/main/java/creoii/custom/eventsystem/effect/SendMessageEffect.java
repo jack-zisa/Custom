@@ -29,7 +29,7 @@ public class SendMessageEffect extends AbstractEffect {
     }
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of(EventParameters.WORLD);
     }
 

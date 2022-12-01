@@ -21,13 +21,13 @@ public class SpawnEntityEffect extends AbstractEffect {
     private BlockPos offset;
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of(EventParameters.WORLD, EventParameters.BLOCK_POS);
     }
 
     public SpawnEntityEffect getFromJson(JsonObject object) {
         SpawnEntityEffect effect = new SpawnEntityEffect();
-        effect.entityType = Registry.ENTITY_TYPE.get(Identifier.tryParse(object.get("entity_type").getAsString()));
+        effect.entityType = Registry.ENTITY_TYPE.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"entity", "entity_type"})));
         effect.offset = CustomJsonHelper.getBlockPos(object, "offset");
         return effect;
     }

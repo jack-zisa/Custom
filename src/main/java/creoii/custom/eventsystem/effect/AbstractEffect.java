@@ -29,6 +29,10 @@ public abstract class AbstractEffect implements Identifiable {
         return null;
     }
 
+    public void createModifications() {
+        modifications = new ParameterModifications();
+    }
+
     public static AbstractEffect register(Identifier id, AbstractEffect effect) {
         return Registry.register(Custom.EFFECT, id, effect);
     }
@@ -39,17 +43,17 @@ public abstract class AbstractEffect implements Identifiable {
     }
 
     public AbstractEffect getWithModifications(JsonArray array) {
-        ParameterModifications.Builder builder = new ParameterModifications.Builder();
+        ParameterModifications modifications = new ParameterModifications();
         for (int i = 0; i < array.size(); ++i) {
             JsonElement element = array.get(i);
             if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();
                 String type = JsonHelper.getString(object, "type");
                 String name = JsonHelper.getString(object, "name");
-                builder.add(StringToObject.eventParameter(type), name);
+                modifications.add(StringToObject.eventParameter(type), name);
             }
         }
-        modifications = builder.build();
+        this.modifications = modifications;
         return this;
     }
 
@@ -57,7 +61,7 @@ public abstract class AbstractEffect implements Identifiable {
         return modifications;
     }
 
-    public abstract List<EventParameter> getParameters();
+    public abstract List<EventParameter> getRequiredParameters();
 
     public abstract AbstractEffect getFromJson(JsonObject object);
 

@@ -1,4 +1,6 @@
 {
+  "block.custom.lucky_block": "Custom Lucky Block",
+
   "attribute.name.generic.gravity": "Gravity",
   "attribute.name.generic.swim_speed": "Swim Speed",
   "attribute.name.generic.jump_height": "Jump Height"

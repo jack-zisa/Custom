@@ -29,7 +29,7 @@ public class GenerateStructureEffect extends AbstractEffect {
     private BlockPos offset;
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of(EventParameters.WORLD, EventParameters.BLOCK_POS);
     }
 

@@ -17,7 +17,7 @@ public class CompleteAdvancementEffect extends AbstractEffect {
     private Identifier advancementId;
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of(EventParameters.WORLD, EventParameters.ENTITY);
     }
 

@@ -15,7 +15,7 @@ public class CustomJsonObjects {
         public static AttributeModifier get(JsonObject object) {
             String name = JsonHelper.getString(object, "name", "");
             double amount = JsonHelper.getDouble(object, "amount", 0d);
-            EntityAttributeModifier.Operation operation = EntityAttributeModifier.Operation.valueOf(JsonHelper.getString(object, "operation", "addition"));
+            EntityAttributeModifier.Operation operation = EntityAttributeModifier.Operation.valueOf(JsonHelper.getString(object, "operation", EntityAttributeModifier.Operation.ADDITION.name()));
             EntityAttributeModifier modifier = new EntityAttributeModifier(name, amount, operation);
             EntityAttribute attribute = Registry.ATTRIBUTE.get(Identifier.tryParse(JsonHelper.getString(object, "attribute")));
             return new AttributeModifier(attribute, modifier, amount);

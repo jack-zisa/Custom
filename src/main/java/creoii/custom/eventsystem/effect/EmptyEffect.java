@@ -11,7 +11,7 @@ public class EmptyEffect extends AbstractEffect {
     }
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of();
     }
 

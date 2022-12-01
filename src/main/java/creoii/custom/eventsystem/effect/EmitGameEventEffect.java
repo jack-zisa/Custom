@@ -26,8 +26,8 @@ public class EmitGameEventEffect extends AbstractEffect {
     }
 
     @Override
-    public List<EventParameter> getParameters() {
-        return List.of(EventParameters.WORLD);
+    public List<EventParameter> getRequiredParameters() {
+        return List.of(EventParameters.WORLD, EventParameters.BLOCK_POS);
     }
 
     @Override

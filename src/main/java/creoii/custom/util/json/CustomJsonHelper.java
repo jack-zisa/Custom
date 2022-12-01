@@ -56,10 +56,46 @@ public class CustomJsonHelper {
         throw new JsonSyntaxException("Missing " + Arrays.toString(elements) + ", expected to find a string");
     }
 
+    public static int getInt(JsonObject object, String[] elements, int defaultInt) {
+        for (String element : elements) {
+            if (object.has(element)) {
+                return object.get(element).getAsInt();
+            }
+        }
+        return defaultInt;
+    }
+
+    public static int getInt(JsonObject object, String[] elements) {
+        for (String element : elements) {
+            if (object.has(element)) {
+                return object.get(element).getAsInt();
+            }
+        }
+        throw new JsonSyntaxException("Missing " + Arrays.toString(elements) + ", expected to find an integer");
+    }
+
+    public static float getFloat(JsonObject object, String[] elements, float defaultFloat) {
+        for (String element : elements) {
+            if (object.has(element)) {
+                return object.get(element).getAsFloat();
+            }
+        }
+        return defaultFloat;
+    }
+
+    public static float getFloat(JsonObject object, String[] elements) {
+        for (String element : elements) {
+            if (object.has(element)) {
+                return object.get(element).getAsFloat();
+            }
+        }
+        throw new JsonSyntaxException("Missing " + Arrays.toString(elements) + ", expected to find a float");
+    }
+
     public static AbstractBlock.Settings getBlockSettings(JsonElement element, String name) {
         if (element.isJsonObject()) {
             JsonObject object = JsonHelper.asObject(element, "block settings");
-            if (JsonHelper.getString(object, "type").equals("copy")) {
+            if (object.has("type") && JsonHelper.getString(object, "type").equals("copy")) {
                 return FabricBlockSettings.copy(block(JsonHelper.getString(object, "block")));
             }
             else {
@@ -77,7 +113,7 @@ public class CustomJsonHelper {
                         .luminance((state) -> JsonHelper.getInt(object, "luminance", 0))
                         .strength(
                                 JsonHelper.getFloat(object, "hardness", 0f),
-                                JsonHelper.getFloat(object, "blast_resistance", 0f)
+                                CustomJsonHelper.getFloat(object, new String[]{"resistance", "blast_resistance"}, 0f)
                         )
                         .emissiveLighting((state, world, pos) -> JsonHelper.getBoolean(object, "emissive", false))
                         .postProcess((state, world, pos) -> JsonHelper.getBoolean(object, "post_process", false))
@@ -107,7 +143,7 @@ public class CustomJsonHelper {
             Item.Settings settings = new FabricItemSettings();
             settings.maxCount(JsonHelper.getInt(object, "max_count", 64));
             settings.group(itemGroup(JsonHelper.getString(object, "item_group", "search")));
-            settings.rarity(Rarity.valueOf(JsonHelper.getString(object, "rarity", "common")));
+            settings.rarity(Rarity.valueOf(JsonHelper.getString(object, "rarity", Rarity.COMMON.name())));
             if (JsonHelper.getBoolean(object, "fireproof", false)) settings.fireproof();
             if (object.has("food")) {
                 settings.food(getFood(object.get("food"), "food"));
@@ -152,7 +188,7 @@ public class CustomJsonHelper {
                     JsonHelper.getBoolean(object, "blocks_light", true),
                     JsonHelper.getBoolean(object, "burnable", false),
                     JsonHelper.getBoolean(object, "replaceable", false),
-                    PistonBehavior.valueOf(JsonHelper.getString(object, "piston_behavior", "normal"))
+                    PistonBehavior.valueOf(JsonHelper.getString(object, "piston_behavior", PistonBehavior.NORMAL.name()))
             );
         }
         throw new JsonSyntaxException("Expected " + name + " to be block material, was " + JsonHelper.getType(element));

@@ -14,7 +14,7 @@ public class WeightedListEffect extends AbstractEffect {
     private DataPool<AbstractEffect> effects;
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of();
     }
 
