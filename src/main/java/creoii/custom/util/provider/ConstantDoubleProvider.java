@@ -11,7 +11,7 @@ public class ConstantDoubleProvider extends DoubleProvider {
     private final double value;
 
     public static ConstantDoubleProvider create(double value) {
-        return value == 0f ? ZERO : new ConstantDoubleProvider(value);
+        return value == 0d ? ZERO : new ConstantDoubleProvider(value);
     }
 
     private ConstantDoubleProvider(double value) {
@@ -44,15 +44,9 @@ public class ConstantDoubleProvider extends DoubleProvider {
 
     static {
         CODEC = Codec.either(Codec.DOUBLE, RecordCodecBuilder.create(instance -> {
-            return instance.group(Codec.DOUBLE.fieldOf("value").forGetter(provider -> {
-                return provider.value;
-            })).apply(instance, ConstantDoubleProvider::new);
+            return instance.group(Codec.DOUBLE.fieldOf("value").orElse(0d).forGetter(provider -> provider.value)).apply(instance, ConstantDoubleProvider::new);
         })).xmap(either -> {
-            return (ConstantDoubleProvider)either.map(ConstantDoubleProvider::create, provider -> {
-                return provider;
-            });
-        }, provider -> {
-            return Either.left(provider.value);
-        });
+            return (ConstantDoubleProvider)either.map(ConstantDoubleProvider::create, provider -> provider);
+        }, provider -> Either.left(provider.value));
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.util.registry.Registry;
 
 public interface DoubleProviderType<P extends DoubleProvider> {
     DoubleProviderType<ConstantDoubleProvider> CONSTANT = register("constant", ConstantDoubleProvider.CODEC);
+    DoubleProviderType<UniformDoubleProvider> UNIFORM = register("uniform", UniformDoubleProvider.CODEC);
 
     Codec<P> codec();
 
