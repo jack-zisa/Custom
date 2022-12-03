@@ -5,18 +5,10 @@ import creoii.custom.eventsystem.parameter.BlockPosParameter;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
-import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 
 import java.util.List;
 

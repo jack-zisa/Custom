@@ -3,7 +3,6 @@ package creoii.custom.objects;
 import com.google.gson.*;
 import creoii.custom.eventsystem.event.AbstractEvent;
 import creoii.custom.loaders.Identifiable;
-import creoii.custom.util.StringToObject;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;

@@ -5,7 +5,6 @@ import creoii.custom.eventsystem.parameter.EntityParameter;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
-import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.Vec3d;

@@ -5,7 +5,6 @@ import creoii.custom.eventsystem.event.AbstractEvent;
 import creoii.custom.eventsystem.event.Events;
 import creoii.custom.eventsystem.parameter.*;
 import creoii.custom.loaders.Identifiable;
-import creoii.custom.util.StringToObject;
 import creoii.custom.util.json.CustomJsonObjects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

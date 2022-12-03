@@ -5,7 +5,6 @@ import creoii.custom.eventsystem.parameter.BlockPosParameter;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
-import creoii.custom.util.StringToObject;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
