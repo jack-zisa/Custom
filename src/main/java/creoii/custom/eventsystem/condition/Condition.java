@@ -13,12 +13,22 @@ import java.util.List;
 
 public abstract class Condition implements Identifiable {
     @Nullable
-    public static Condition getCondition(JsonObject object, Identifier id) {
-        Condition condition = Custom.CONDITION.get(id);
-        if (condition != null) {
-            return condition.getFromJson(object);
+    public static Condition getCondition(JsonObject object, String id) {
+        Condition condition;
+        if (id.startsWith("!")) {
+            condition = Custom.CONDITION.get(Identifier.tryParse(id.substring(1)));
+            if (condition != null) {
+                NegateCondition negateCondition = new NegateCondition();
+                negateCondition.setCondition(condition.getFromJson(object));
+                return negateCondition;
+            }
+        } else {
+            condition = Custom.CONDITION.get(Identifier.tryParse(id));
+            if (condition != null) {
+                return condition.getFromJson(object);
+            }
         }
-        throw new JsonParseException("Unable to parse condition " + id.toString());
+        throw new JsonParseException("Unable to parse condition " + id);
     }
 
     public static Condition register(Identifier id, Condition condition) {
@@ -34,7 +44,7 @@ public abstract class Condition implements Identifiable {
      * Ensure that we are provided the correct parameters to check the condition
      */
     public boolean validate(List<EventParameter> parameters) {
-        List<EventParameter> validatee = getParameters();
+        List<EventParameter> validatee = getRequiredParameters();
         for (int i = 0; i < validatee.size(); ++i) {
             if (validatee.get(i) == parameters.get(i)) {
                 validatee.remove(validatee.get(i));
@@ -47,7 +57,7 @@ public abstract class Condition implements Identifiable {
     /**
      * List of the parameters needed to check the condition
      */
-    public abstract List<EventParameter> getParameters();
+    public abstract List<EventParameter> getRequiredParameters();
 
     public abstract Condition getFromJson(JsonObject object);
 

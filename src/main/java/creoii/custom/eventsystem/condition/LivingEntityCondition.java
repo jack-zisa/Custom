@@ -29,7 +29,7 @@ public class LivingEntityCondition extends Condition {
     }
 
     @Override
-    public List<EventParameter> getParameters() {
+    public List<EventParameter> getRequiredParameters() {
         return List.of(EventParameters.ENTITY);
     }
 

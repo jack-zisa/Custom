@@ -1,5 +1,7 @@
 package creoii.custom.eventsystem.effect;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.parameter.EntityParameter;
 import creoii.custom.eventsystem.parameter.EventParameter;
@@ -12,6 +14,7 @@ import net.minecraft.util.Identifier;
 import java.util.List;
 
 public class RunFunctionEffect extends AbstractEffect {
+    private Identifier[] entries;
     private Identifier functionId;
 
     @Override
@@ -21,7 +24,17 @@ public class RunFunctionEffect extends AbstractEffect {
 
     public RunFunctionEffect getFromJson(JsonObject object) {
         RunFunctionEffect effect = new RunFunctionEffect();
-        effect.functionId = Identifier.tryParse(object.get("function").getAsString());
+        if (object.has("entries")) {
+            JsonArray array = object.get("entries").getAsJsonArray();
+            Identifier[] entries = new Identifier[array.size()];
+            for (int i = 0; i < array.size(); ++i) {
+                JsonElement element = array.get(i);
+                if (element.isJsonPrimitive()) {
+                    entries[i] = Identifier.tryParse(element.getAsString());
+                }
+            }
+            effect.entries = entries;
+        } else effect.functionId = Identifier.tryParse(object.get("function").getAsString());
         return effect;
     }
 
@@ -31,7 +44,11 @@ public class RunFunctionEffect extends AbstractEffect {
             if (entityParameter.getEntity() instanceof PlayerEntity playerEntity) {
                 ServerCommandSource source = playerEntity.getCommandSource();
                 CommandFunctionManager manager = source.getServer().getCommandFunctionManager();
-                manager.getFunction(functionId).ifPresent(commandFunction -> manager.execute(commandFunction, source));
+                if (entries != null) {
+                    for (Identifier entry : entries) {
+                        manager.getFunction(entry).ifPresent(commandFunction -> manager.execute(commandFunction, source));
+                    }
+                } else manager.getFunction(functionId).ifPresent(commandFunction -> manager.execute(commandFunction, source));
             }
         }
     }
