@@ -11,7 +11,6 @@ import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.loaders.*;
 import creoii.custom.objects.block.CustomBlock;
 import creoii.custom.registry.AttributeRegistry;
-import creoii.custom.util.provider.DoubleProviderType;
 import creoii.custom.util.provider.ValueProvider;
 import creoii.custom.util.provider.ValueProviders;
 import net.fabricmc.api.ClientModInitializer;
@@ -43,7 +42,6 @@ public class Custom implements ModInitializer, ClientModInitializer {
     public static final SimpleRegistry<AbstractEffect> EFFECT = FabricRegistryBuilder.createSimple(AbstractEffect.class, new Identifier(NAMESPACE, "effect")).buildAndRegister();
     public static final SimpleRegistry<ValueProvider> VALUE_PROVIDER = FabricRegistryBuilder.createSimple(ValueProvider.class, new Identifier(NAMESPACE, "value_provider")).buildAndRegister();
     public static final SimpleRegistry<EventParameter> EVENT_PARAMETER = FabricRegistryBuilder.createSimple(EventParameter.class, new Identifier(NAMESPACE, "event_parameter")).buildAndRegister();
-    public static final SimpleRegistry<DoubleProviderType> DOUBLE_PROVIDER_TYPE = FabricRegistryBuilder.createSimple(DoubleProviderType.class, new Identifier(NAMESPACE, "value_provider")).buildAndRegister();
 
     public static BlocksLoader BLOCKS_LOADER;
     public static ItemsLoader ITEMS_LOADER;

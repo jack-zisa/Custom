@@ -6,10 +6,10 @@ import com.google.gson.JsonSyntaxException;
 import creoii.custom.Custom;
 import net.minecraft.util.Identifier;
 
-public class BooleanValueProvider extends ValueProvider<Boolean> {
+public class BooleanProvider extends ValueProvider<Boolean> {
     private Boolean value;
 
-    public BooleanValueProvider withValue(boolean value) {
+    public BooleanProvider withValue(boolean value) {
         this.value = value;
         return this;
     }
@@ -22,7 +22,7 @@ public class BooleanValueProvider extends ValueProvider<Boolean> {
     public static ValueProvider<Boolean> getFromJson(JsonObject object) {
         if (object.has("value")) {
             ValueProvider<?> provider = Custom.VALUE_PROVIDER.get(Identifier.tryParse(object.get("type").getAsString()));
-            if (provider instanceof BooleanValueProvider booleanValueProvider) {
+            if (provider instanceof BooleanProvider booleanValueProvider) {
                 JsonElement element = object.get("value");
                 if (element.isJsonPrimitive()) {
                     return booleanValueProvider.withValue(element.getAsBoolean());

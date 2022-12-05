@@ -28,8 +28,8 @@ public class WorldCondition extends Condition {
 
     @Override
     public boolean test(List<EventParameter> parameters) {
-        if (validate(parameters)) {
-            WorldParameter worldParameter = (WorldParameter) parameters.get(0);
+        WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, EventParameters.WORLD);
+        if (worldParameter != null) {
             return predicate.test(worldParameter.getWorld());
         }
         return false;

@@ -4,7 +4,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import creoii.custom.Custom;
+import creoii.custom.eventsystem.effect.AbstractEffect;
 import creoii.custom.objects.CustomMaterial;
+import creoii.custom.util.provider.ConstantDoubleProvider;
+import creoii.custom.util.provider.DoubleProvider;
+import creoii.custom.util.provider.UniformDoubleProvider;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.AbstractBlock;
@@ -18,10 +23,20 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.*;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.Rarity;
+import net.minecraft.util.collection.DataPool;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.floatprovider.ConstantFloatProvider;
+import net.minecraft.util.math.floatprovider.FloatProvider;
+import net.minecraft.util.math.floatprovider.UniformFloatProvider;
+import net.minecraft.util.math.intprovider.ConstantIntProvider;
+import net.minecraft.util.math.intprovider.IntProvider;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.util.math.intprovider.WeightedListIntProvider;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,6 +69,24 @@ public class CustomJsonHelper {
             }
         }
         throw new JsonSyntaxException("Missing " + Arrays.toString(elements) + ", expected to find a string");
+    }
+
+    public static boolean getBoolean(JsonObject object, String[] elements, boolean defaultBool) {
+        for (String element : elements) {
+            if (object.has(element)) {
+                return object.get(element).getAsBoolean();
+            }
+        }
+        return defaultBool;
+    }
+
+    public static boolean getBoolean(JsonObject object, String[] elements) {
+        for (String element : elements) {
+            if (object.has(element)) {
+                return object.get(element).getAsBoolean();
+            }
+        }
+        throw new JsonSyntaxException("Missing " + Arrays.toString(elements) + ", expected to find a boolean");
     }
 
     public static int getInt(JsonObject object, String[] elements, int defaultInt) {
@@ -90,6 +123,110 @@ public class CustomJsonHelper {
             }
         }
         throw new JsonSyntaxException("Missing " + Arrays.toString(elements) + ", expected to find a float");
+    }
+
+    public static DoubleProvider getDoubleProvider(JsonObject object, String name, double defaultDouble) {
+        if (object.has(name)) {
+            return getDoubleProvider(object.get(name));
+        } return ConstantDoubleProvider.create(defaultDouble);
+    }
+
+    public static DoubleProvider getDoubleProvider(JsonObject object, String[] names, double defaultDouble) {
+        for (String name : names) {
+            if (object.has(name)) {
+                return getDoubleProvider(object.get(name));
+            }
+        }
+        return ConstantDoubleProvider.create(defaultDouble);
+    }
+
+    public static DoubleProvider getDoubleProvider(JsonElement element) {
+        if (element.isJsonObject()) {
+            JsonObject object = element.getAsJsonObject();
+            if (object.has("type")) {
+                return switch (object.get("type").getAsString()) {
+                    case "constant", "minecraft:constant" -> ConstantDoubleProvider.create(object.get("value").getAsDouble());
+                    case "uniform", "minecraft:uniform" -> UniformDoubleProvider.create(object.get("min_inclusive").getAsDouble(), object.get("max_exclusive").getAsDouble());
+                    default -> ConstantDoubleProvider.ZERO;
+                };
+            }
+        } else if (element.isJsonPrimitive()) {
+            return ConstantDoubleProvider.create(element.getAsDouble());
+        }
+        return null;
+    }
+
+    public static FloatProvider getFloatProvider(JsonObject object, String name, float defaultFloat) {
+        if (object.has(name)) {
+            return getFloatProvider(object.get(name));
+        } return ConstantFloatProvider.create(defaultFloat);
+    }
+
+    public static FloatProvider getFloatProvider(JsonObject object, String[] names, float defaultFloat) {
+        for (String name : names) {
+            if (object.has(name)) {
+                return getFloatProvider(object.get(name));
+            }
+        }
+        return ConstantFloatProvider.create(defaultFloat);
+    }
+
+    public static FloatProvider getFloatProvider(JsonElement element) {
+        if (element.isJsonObject()) {
+            JsonObject object = element.getAsJsonObject();
+            if (object.has("type")) {
+                return switch (object.get("type").getAsString()) {
+                    case "constant", "minecraft:constant" -> ConstantFloatProvider.create(object.get("value").getAsFloat());
+                    case "uniform", "minecraft:uniform" -> UniformFloatProvider.create(object.get("min_inclusive").getAsFloat(), object.get("max_exclusive").getAsFloat());
+                    default -> ConstantFloatProvider.ZERO;
+                };
+            }
+        } else if (element.isJsonPrimitive()) {
+            return ConstantFloatProvider.create(element.getAsFloat());
+        }
+        return null;
+    }
+
+    public static IntProvider getIntProvider(JsonObject object, String name, int defaultInt) {
+        if (object.has(name)) {
+            return getIntProvider(object.get(name));
+        } return ConstantIntProvider.create(defaultInt);
+    }
+
+    public static IntProvider getIntProvider(JsonObject object, String[] names, int defaultInt) {
+        for (String name : names) {
+            if (object.has(name)) {
+                return getIntProvider(object.get(name));
+            }
+        }
+        return ConstantIntProvider.create(defaultInt);
+    }
+
+    public static IntProvider getIntProvider(JsonElement element) {
+        if (element.isJsonObject()) {
+            JsonObject object = element.getAsJsonObject();
+            if (object.has("type")) {
+                switch (object.get("type").getAsString()) {
+                    case  "constant", "minecraft:constant" -> {
+                        return ConstantIntProvider.create(object.get("value").getAsInt());
+                    }
+                    case "uniform", "minecraft:uniform" -> {
+                        return UniformIntProvider.create(CustomJsonHelper.getInt(object, new String[]{"min_inclusive", "min"}), CustomJsonHelper.getInt(object, new String[]{"max_exclusive", "max"}));
+                    }
+                    case  "weighted_list", "minecraft:weighted_list" -> {
+                        DataPool.Builder<IntProvider> list = DataPool.builder();
+                        JsonHelper.getArray(object, "values").forEach(intElement -> {
+                            JsonObject object1 = intElement.getAsJsonObject();
+                            list.add(getIntProvider(object1), object1.get("weight").getAsInt());
+                        });
+                        return new WeightedListIntProvider(list.build());
+                    }
+                }
+            }
+        } else if (element.isJsonPrimitive()) {
+            return ConstantIntProvider.create(element.getAsInt());
+        }
+        return null;
     }
 
     public static AbstractBlock.Settings getBlockSettings(JsonElement element, String name) {
@@ -229,10 +366,10 @@ public class CustomJsonHelper {
     }
 
     public static BlockPos getBlockPos(JsonObject object) {
-        int x = JsonHelper.getInt(object, "x", 0);
-        int y = JsonHelper.getInt(object, "y", 0);
-        int z = JsonHelper.getInt(object, "z", 0);
-        return new BlockPos(x, y, z);
+        IntProvider x = getIntProvider(object, "x", 0);
+        IntProvider y = getIntProvider(object, "y", 0);
+        IntProvider z = getIntProvider(object, "z", 0);
+        return new BlockPos(x.get(Custom.RANDOM), y.get(Custom.RANDOM), z.get(Custom.RANDOM));
     }
 
     public static BlockPos getBlockPos(JsonObject object, String name) {
@@ -245,10 +382,10 @@ public class CustomJsonHelper {
         if (element.isJsonObject()) {
             JsonObject object = JsonHelper.asObject(element, "block pos");
             if (object.has(name)) {
-                int x = JsonHelper.getInt(object, "x", 0);
-                int y = JsonHelper.getInt(object, "y", 0);
-                int z = JsonHelper.getInt(object, "z", 0);
-                return new BlockPos(x, y, z);
+                IntProvider x = getIntProvider(object, "x", 0);
+                IntProvider y = getIntProvider(object, "y", 0);
+                IntProvider z = getIntProvider(object, "z", 0);
+                return new BlockPos(x.get(Custom.RANDOM), y.get(Custom.RANDOM), z.get(Custom.RANDOM));
             } else return BlockPos.ORIGIN;
         }
         throw new JsonSyntaxException("Expected " + name + " to be block pos, was " + JsonHelper.getType(element));
@@ -272,5 +409,22 @@ public class CustomJsonHelper {
             }
         }
         throw new JsonSyntaxException("Expected to find status effect instance, was " + JsonHelper.getType(element));
+    }
+
+    public static Text getText(JsonElement element) {
+        if (element.isJsonPrimitive()) {
+            return MutableText.of(new LiteralTextContent(element.getAsString()));
+        } else if (element.isJsonObject()) {
+            JsonObject object = element.getAsJsonObject();
+
+            MutableText mutableText = MutableText.of(new LiteralTextContent(CustomJsonHelper.getString(object, new String[]{"text", "message", "content"})));
+            if (object.has("formatting")) {
+                for (Formatting formatting : CustomJsonObjects.TextFormatting.get(object, "formatting").formatting()) {
+                    mutableText.formatted(formatting);
+                }
+            }
+            return mutableText;
+        }
+        return Text.empty();
     }
 }

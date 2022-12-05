@@ -12,16 +12,12 @@ public class ValueProviders {
         }
     };
     public static ValueProvider<?> BOOLEAN;
-    public static ValueProvider<?> DOUBLE;
-    public static ValueProvider<?> WORLD;
     public static ValueProvider<?> LIVING_ENTITY;
     public static ValueProvider<?> DIRECTION;
 
     public static void register() {
         ValueProvider.register(new Identifier(Custom.NAMESPACE, "empty"), EMPTY);
-        BOOLEAN = ValueProvider.register(new Identifier(Custom.NAMESPACE, "boolean"), new BooleanValueProvider());
-        DOUBLE = ValueProvider.register(new Identifier(Custom.NAMESPACE, "double"), new DoubleValueProvider());
-        WORLD = ValueProvider.register(new Identifier(Custom.NAMESPACE, "world"), new WorldValueProvider());
+        BOOLEAN = ValueProvider.register(new Identifier(Custom.NAMESPACE, "boolean"), new BooleanProvider());
         LIVING_ENTITY = ValueProvider.register(new Identifier(Custom.NAMESPACE, "living_entity"), new LivingEntityValueProvider());
         DIRECTION = ValueProvider.register(new Identifier(Custom.NAMESPACE, "direction"), new DirectionValueProvider());
         SingleFunctions.register();

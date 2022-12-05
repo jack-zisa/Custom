@@ -1,6 +1,7 @@
 package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import creoii.custom.Custom;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.loaders.Identifiable;
@@ -13,7 +14,11 @@ import java.util.List;
 public abstract class Condition implements Identifiable {
     @Nullable
     public static Condition getCondition(JsonObject object, Identifier id) {
-        return Custom.CONDITION.get(id).getFromJson(object);
+        Condition condition = Custom.CONDITION.get(id);
+        if (condition != null) {
+            return condition.getFromJson(object);
+        }
+        throw new JsonParseException("Unable to parse condition " + id.toString());
     }
 
     public static Condition register(Identifier id, Condition condition) {

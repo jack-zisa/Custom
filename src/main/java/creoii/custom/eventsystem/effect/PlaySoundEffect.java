@@ -5,19 +5,22 @@ import creoii.custom.eventsystem.parameter.BlockPosParameter;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
+import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.math.floatprovider.FloatProvider;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 
 import java.util.List;
 
 public class PlaySoundEffect extends AbstractEffect {
     private SoundEvent soundEvent;
     private SoundCategory soundCategory;
-    private float volume;
-    private float pitch;
+    private FloatProvider volume;
+    private FloatProvider pitch;
 
     @Override
     public List<EventParameter> getRequiredParameters() {
@@ -28,8 +31,8 @@ public class PlaySoundEffect extends AbstractEffect {
         PlaySoundEffect effect = new PlaySoundEffect();
         effect.soundEvent = Registry.SOUND_EVENT.get(Identifier.tryParse(object.get("sound").getAsString()));
         effect.soundCategory = SoundCategory.valueOf(JsonHelper.getString(object, "category"));
-        effect.volume = JsonHelper.getFloat(object, "volume", 0f);
-        effect.pitch = JsonHelper.getFloat(object, "pitch", 0f);
+        effect.volume = CustomJsonHelper.getFloatProvider(object, "volume", 0f);
+        effect.pitch = CustomJsonHelper.getFloatProvider(object, "pitch", 0f);
         return effect;
     }
 
@@ -38,7 +41,8 @@ public class PlaySoundEffect extends AbstractEffect {
         if (worldParameter != null) {
             BlockPosParameter blockPosParameter = (BlockPosParameter) EventParameter.find(parameters, getModifications(), EventParameters.BLOCK_POS);
             if (blockPosParameter != null) {
-                worldParameter.getWorld().playSound(null, blockPosParameter.getPos().getX(), blockPosParameter.getPos().getY(), blockPosParameter.getPos().getZ(), soundEvent, soundCategory, volume, pitch);
+                World world = worldParameter.getWorld();
+                world.playSound(null, blockPosParameter.getPos().getX(), blockPosParameter.getPos().getY(), blockPosParameter.getPos().getZ(), soundEvent, soundCategory, volume.get(world.getRandom()), pitch.get(world.getRandom()));
             }
         }
     }

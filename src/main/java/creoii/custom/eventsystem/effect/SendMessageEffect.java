@@ -4,26 +4,24 @@ import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
+import creoii.custom.util.json.CustomJsonHelper;
 import creoii.custom.util.json.CustomJsonObjects;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.JsonHelper;
 
 import java.util.List;
 
 public class SendMessageEffect extends AbstractEffect {
-    public MutableText text;
+    public Text text;
     private boolean actionBar;
 
     public SendMessageEffect getFromJson(JsonObject object) {
         SendMessageEffect effect = new SendMessageEffect();
-        CustomJsonObjects.TextFormatting formatting = CustomJsonObjects.TextFormatting.get(object, "formatting");
-        effect.text = MutableText.of(new LiteralTextContent(JsonHelper.getString(object, "text", ""))).formatted(formatting.formatting());
-        for (Formatting formatting1 : formatting.formatting()) {
-            effect.text.formatted(formatting1);
-        }
+        effect.text = CustomJsonHelper.getText(object.get("text"));
         effect.actionBar = JsonHelper.getBoolean(object, "action_bar", false);
         return effect;
     }
