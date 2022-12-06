@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.parameter.EntityParameter;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
-import creoii.custom.eventsystem.parameter.WorldParameter;
 import net.minecraft.entity.Entity;
 
 import java.util.List;

@@ -2,9 +2,7 @@ package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import creoii.custom.eventsystem.effect.AbstractEffect;
 import creoii.custom.eventsystem.parameter.EventParameter;
-import net.minecraft.util.Identifier;
 
 import java.util.List;
 

@@ -6,7 +6,6 @@ import creoii.custom.Custom;
 import creoii.custom.eventsystem.parameter.EntityParameter;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 

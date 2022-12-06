@@ -55,7 +55,7 @@ public abstract class Condition implements Identifiable {
     }
 
     /**
-     * List of the parameters needed to check the condition
+     * List of the parameters required to check the condition
      */
     public abstract List<EventParameter> getRequiredParameters();
 

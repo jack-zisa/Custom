@@ -3,7 +3,6 @@ package creoii.custom.eventsystem.effect;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import creoii.custom.Custom;
 import creoii.custom.eventsystem.parameter.BlockPosParameter;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;

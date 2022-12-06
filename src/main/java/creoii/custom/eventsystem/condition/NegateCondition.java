@@ -2,8 +2,6 @@ package creoii.custom.eventsystem.condition;
 
 import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.parameter.EventParameter;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 
 import java.util.List;
 

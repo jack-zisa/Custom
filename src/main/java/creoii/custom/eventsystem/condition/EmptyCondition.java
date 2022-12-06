@@ -12,12 +12,12 @@ public class EmptyCondition extends Condition {
     }
 
     @Override
-    public boolean test(List<EventParameter> parameters) {
-        return false;
+    public List<EventParameter> getRequiredParameters() {
+        return List.of();
     }
 
     @Override
-    public List<EventParameter> getRequiredParameters() {
-        return List.of();
+    public boolean test(List<EventParameter> parameters) {
+        return false;
     }
 }

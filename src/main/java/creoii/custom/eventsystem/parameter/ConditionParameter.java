@@ -2,7 +2,6 @@ package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
 import creoii.custom.eventsystem.condition.Condition;
-import net.minecraft.util.Identifier;
 
 public class ConditionParameter implements EventParameter {
     private String name;
