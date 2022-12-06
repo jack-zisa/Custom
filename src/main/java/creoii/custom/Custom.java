@@ -17,8 +17,15 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,6 +66,8 @@ public class Custom implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitialize() {
+        Block blueprint = Registry.register(Registry.BLOCK, new Identifier(NAMESPACE, "blueprint"), new Block(FabricBlockSettings.copy(Blocks.BARRIER)));
+        Registry.register(Registry.ITEM, new Identifier(NAMESPACE, "blueprint"), new BlockItem(blueprint, new FabricItemSettings().rarity(Rarity.EPIC)));
         AttributeRegistry.register();
         EventParameters.register();
         Events.register();
