@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractDataLoader<T extends Identifiable> {
-    private static final boolean useMinecraftDir = true;
+    private static final boolean USE_MINECRAFT_DIR = true;
 
     private Map<Identifier, T> values;
     private final String name;
@@ -27,28 +27,31 @@ public abstract class AbstractDataLoader<T extends Identifiable> {
         this.name = name;
         prettyName = GeneralUtil.capitalizeAfterAll(StringUtils.replaceChars(StringUtils.replaceChars(StringUtils.removeEnd(name, "s"), '/', ' '), '_', ' '), ' ');
         failedLoadNames = new ArrayList<>();
-        if (useMinecraftDir) {
+        values = Map.of();
+        ImmutableMap.Builder<Identifier, T> builder = ImmutableMap.builder();
+        if (USE_MINECRAFT_DIR) {
             File data = new File("./data/custom/" + name);
             if (!data.exists()) return;
-            ImmutableMap.Builder<Identifier, T> builder = ImmutableMap.builder();
-            for (File file : data.listFiles()) {
-                if (file.getName().endsWith(".json")) {
-                    String fileName = file.getName();
-                    try {
-                        T obj = createCustomObject(Files.newBufferedReader(Paths.get(data + "/" + fileName)), gson);
-                        builder.put(obj.getIdentifier(), obj);
-                    } catch (Exception e) {
-                        failedLoadNames.add(fileName);
-                        e.printStackTrace();
+            File[] files = data.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.getName().endsWith(".json")) {
+                        String fileName = file.getName();
+                        try {
+                            T obj = createCustomObject(Files.newBufferedReader(Paths.get(data + "/" + fileName)), gson);
+                            builder.put(obj.getIdentifier(), obj);
+                        } catch (Exception e) {
+                            failedLoadNames.add(fileName);
+                            Custom.LOGGER.error("Couldn't parse {}", fileName, e);
+                        }
                     }
                 }
+                values = builder.build();
             }
-            values = builder.build();
         } else {
             try {
                 String dataPath = "/data/custom/" + name;
                 if (Main.class.getResource(dataPath) == null) return;
-                ImmutableMap.Builder<Identifier, T> builder = ImmutableMap.builder();
                 String resource;
                 InputStream stream = Main.class.getResourceAsStream(dataPath);
                 if (stream != null) {
@@ -58,9 +61,9 @@ public abstract class AbstractDataLoader<T extends Identifiable> {
                             try {
                                 T obj = createCustomObject(Files.newBufferedReader(new File(Main.class.getResource(dataPath).getPath() + "/".concat(resource)).toPath()), gson);
                                 builder.put(obj.getIdentifier(), obj);
-                            } catch (Exception block) {
+                            } catch (Exception e) {
                                 failedLoadNames.add(resource);
-                                Custom.LOGGER.error("Couldn't parse {}", resource, block);
+                                Custom.LOGGER.error("Couldn't parse {}", resource, e);
                             }
                         }
                     }
@@ -97,10 +100,8 @@ public abstract class AbstractDataLoader<T extends Identifiable> {
             }
         }
 
-        if (values != null) {
-            if (values.size() > 0) {
-                Custom.LOGGER.info("Successful " + getPrettyName() + " Loads: " + (values.size() - getFailedLoads().size()));
-            }
+        if (values != null && values.size() > 0) {
+            Custom.LOGGER.info("Successful " + getPrettyName() + " Loads: " + (values.size() - getFailedLoads().size()));
         }
     }
 

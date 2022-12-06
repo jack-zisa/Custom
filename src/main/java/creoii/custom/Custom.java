@@ -107,8 +107,10 @@ public class Custom implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        for (CustomBlock block : BLOCKS_LOADER.getValues().values()) {
-            BlockRenderLayerMap.INSTANCE.putBlock(block, block.getRenderLayer());
+        if (BLOCKS_LOADER.getValues() != null) {
+            for (CustomBlock block : BLOCKS_LOADER.getValues().values()) {
+                BlockRenderLayerMap.INSTANCE.putBlock(block, block.getRenderLayer());
+            }
         }
     }
 }
