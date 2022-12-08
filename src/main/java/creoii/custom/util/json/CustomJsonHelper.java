@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import creoii.custom.Custom;
-import creoii.custom.eventsystem.effect.AbstractEffect;
 import creoii.custom.objects.CustomMaterial;
 import creoii.custom.util.provider.ConstantDoubleProvider;
 import creoii.custom.util.provider.DoubleProvider;
@@ -22,6 +21,7 @@ import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
@@ -37,7 +37,6 @@ import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.math.intprovider.WeightedListIntProvider;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -62,7 +61,7 @@ public class CustomJsonHelper {
         throw new JsonSyntaxException("Missing " + Arrays.toString(elements) + ", expected to find a string");
     }
 
-    public static String getString(JsonObject object, String[] elements) {
+    public static String getString(JsonObject object, String... elements) {
         for (String element : elements) {
             if (object.has(element)) {
                 return object.get(element).getAsString();
@@ -80,7 +79,7 @@ public class CustomJsonHelper {
         return defaultBool;
     }
 
-    public static boolean getBoolean(JsonObject object, String[] elements) {
+    public static boolean getBoolean(JsonObject object, String... elements) {
         for (String element : elements) {
             if (object.has(element)) {
                 return object.get(element).getAsBoolean();
@@ -98,7 +97,7 @@ public class CustomJsonHelper {
         return defaultInt;
     }
 
-    public static int getInt(JsonObject object, String[] elements) {
+    public static int getInt(JsonObject object, String... elements) {
         for (String element : elements) {
             if (object.has(element)) {
                 return object.get(element).getAsInt();
@@ -116,7 +115,7 @@ public class CustomJsonHelper {
         return defaultFloat;
     }
 
-    public static float getFloat(JsonObject object, String[] elements) {
+    public static float getFloat(JsonObject object, String... elements) {
         for (String element : elements) {
             if (object.has(element)) {
                 return object.get(element).getAsFloat();
@@ -279,7 +278,6 @@ public class CustomJsonHelper {
             JsonObject object = JsonHelper.asObject(element, "item settings");
             Item.Settings settings = new FabricItemSettings();
             settings.maxCount(JsonHelper.getInt(object, "max_count", 64));
-            settings.group(itemGroup(JsonHelper.getString(object, "item_group", "search")));
             settings.rarity(Rarity.valueOf(JsonHelper.getString(object, "rarity", Rarity.COMMON.name())));
             if (JsonHelper.getBoolean(object, "fireproof", false)) settings.fireproof();
             if (object.has("food")) {
@@ -394,7 +392,7 @@ public class CustomJsonHelper {
     public static StatusEffectInstance getStatusEffectInstance(JsonElement element) {
         if (element.isJsonObject()) {
             JsonObject object = element.getAsJsonObject();
-            StatusEffect effect = Registry.STATUS_EFFECT.get(Identifier.tryParse(object.get("effect").getAsString()));
+            StatusEffect effect = Registries.STATUS_EFFECT.get(Identifier.tryParse(object.get("effect").getAsString()));
             if (effect != null) {
                 int duration = JsonHelper.getInt(object, "duration", 0);
                 int amplifier = JsonHelper.getInt(object, "amplifier", 0);

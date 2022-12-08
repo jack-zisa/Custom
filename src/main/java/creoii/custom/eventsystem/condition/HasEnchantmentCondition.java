@@ -10,8 +10,8 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class HasEnchantmentCondition extends Condition {
     @Override
     public HasEnchantmentCondition getFromJson(JsonObject object) {
         HasEnchantmentCondition condition = new HasEnchantmentCondition();
-        condition.enchantment = Registry.ENCHANTMENT.get(Identifier.tryParse(object.get("enchantment").getAsString()));
+        condition.enchantment = Registries.ENCHANTMENT.get(Identifier.tryParse(object.get("enchantment").getAsString()));
         if (object.has("slots")) {
             JsonArray array = object.get("slots").getAsJsonArray();
             EquipmentSlot[] slots = new EquipmentSlot[array.size()];

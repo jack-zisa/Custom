@@ -3,9 +3,10 @@ package creoii.custom.objects;
 import com.google.gson.*;
 import creoii.custom.loaders.Identifiable;
 import net.minecraft.block.entity.BannerPattern;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 import java.lang.reflect.Type;
 
@@ -15,7 +16,7 @@ public class CustomBannerPattern extends BannerPattern implements Identifiable {
     public CustomBannerPattern(Identifier identifier) {
         super(identifier.getPath());
         this.identifier = identifier;
-        Registry.register(Registry.BANNER_PATTERN, this.getIdentifier(), this);
+        Registry.register(Registries.BANNER_PATTERN, this.getIdentifier(), this);
     }
 
     @Override

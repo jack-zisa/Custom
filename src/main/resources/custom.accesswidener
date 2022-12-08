@@ -11,3 +11,4 @@ accessible field net/minecraft/world/explosion/Explosion createFire Z
 accessible field net/minecraft/world/explosion/Explosion destructionType Lnet/minecraft/world/explosion/Explosion$DestructionType;
 accessible field net/minecraft/world/explosion/Explosion damageSource Lnet/minecraft/entity/damage/DamageSource;
 accessible field net/minecraft/world/explosion/Explosion power F
+accessible field net/minecraft/item/ItemGroups GROUPS Ljava/util/List;

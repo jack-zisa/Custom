@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import creoii.custom.Custom;
+import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 

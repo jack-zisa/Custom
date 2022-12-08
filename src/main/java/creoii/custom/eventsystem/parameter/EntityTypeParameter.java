@@ -2,8 +2,8 @@ package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
 import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class EntityTypeParameter implements EventParameter {
     private String name = "entity_type";
@@ -30,7 +30,7 @@ public class EntityTypeParameter implements EventParameter {
 
     @Override
     public EventParameter getFromJson(JsonObject object, String name) {
-        entityType = Registry.ENTITY_TYPE.get(Identifier.tryParse(object.get(name).getAsString()));
+        entityType = Registries.ENTITY_TYPE.get(Identifier.tryParse(object.get(name).getAsString()));
         return this;
     }
 

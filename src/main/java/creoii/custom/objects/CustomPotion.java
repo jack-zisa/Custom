@@ -7,9 +7,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.recipe.BrewingRecipeRegistry;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
 
 public class CustomPotion extends Potion implements Identifiable {
     private final Identifier identifier;
@@ -40,8 +40,8 @@ public class CustomPotion extends Potion implements Identifiable {
             CustomPotion potion = new CustomPotion(identifier, color, effects);
             if (object.has("recipe")) {
                 JsonObject recipeObj = JsonHelper.getObject(object, "recipe");
-                Potion input = Registry.POTION.get(Identifier.tryParse(JsonHelper.getString(recipeObj, "input")));
-                Item catalyst = Registry.ITEM.get(Identifier.tryParse(JsonHelper.getString(object, "catalyst")));
+                Potion input = Registries.POTION.get(Identifier.tryParse(JsonHelper.getString(recipeObj, "input")));
+                Item catalyst = Registries.ITEM.get(Identifier.tryParse(JsonHelper.getString(object, "catalyst")));
                 BrewingRecipeRegistry.registerPotionRecipe(input, catalyst, potion);
             }
             return potion;

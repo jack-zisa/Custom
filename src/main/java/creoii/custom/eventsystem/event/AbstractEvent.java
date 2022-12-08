@@ -7,9 +7,9 @@ import creoii.custom.eventsystem.condition.Condition;
 import creoii.custom.eventsystem.effect.AbstractEffect;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.loaders.Identifiable;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;

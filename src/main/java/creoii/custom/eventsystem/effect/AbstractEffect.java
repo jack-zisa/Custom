@@ -8,9 +8,9 @@ import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.ParameterModifications;
 import creoii.custom.loaders.Identifiable;
 import creoii.custom.util.StringToObject;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

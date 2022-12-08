@@ -20,11 +20,6 @@ public class AddVelocityEffect extends AbstractEffect {
     private Type type;
 
     @Override
-    public List<EventParameter> getRequiredParameters() {
-        return List.of(EventParameters.WORLD, EventParameters.ENTITY);
-    }
-
-    @Override
     public AbstractEffect getFromJson(JsonObject object) {
         AddVelocityEffect effect = new AddVelocityEffect();
         effect.power = JsonHelper.getDouble(object, "power", 0d);
@@ -36,6 +31,11 @@ public class AddVelocityEffect extends AbstractEffect {
     }
 
     @Override
+    public List<EventParameter> getRequiredParameters() {
+        return List.of(EventParameters.WORLD, EventParameters.ENTITY);
+    }
+
+    @Override
     public void run(List<EventParameter> parameters) {
         WorldParameter worldParameter = (WorldParameter) EventParameter.find(parameters, getModifications(), EventParameters.WORLD);
         if (worldParameter != null) {
@@ -44,7 +44,7 @@ public class AddVelocityEffect extends AbstractEffect {
                 World world = worldParameter.getWorld();
                 if (!world.isClient) {
                     Entity entity = entityParameter.getEntity();
-                    Vec3d vec3d = entity.getRotationVector(pitch, yaw);
+                    Vec3d vec3d = entity.getRotationVector(pitch, yaw).multiply(power);
                     if (negate) vec3d = vec3d.negate();
                     switch (type) {
                         case SET -> entity.setVelocity(vec3d);

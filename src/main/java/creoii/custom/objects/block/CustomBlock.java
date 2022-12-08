@@ -16,11 +16,15 @@ import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -79,8 +83,8 @@ public class CustomBlock extends Block implements Identifiable {
         this.fireSpread = fireSpread;
         this.compostChance = compostChance;
 
-        Registry.register(Registry.BLOCK, this.getIdentifier(), this);
-        Registry.register(Registry.ITEM, this.getIdentifier(), new BlockItem(this, this.getItemSettings()));
+        Registry.register(Registries.BLOCK, this.getIdentifier(), this);
+        Registry.register(Registries.ITEM, this.getIdentifier(), new BlockItem(this, this.getItemSettings()));
         FuelRegistry.INSTANCE.add(this, this.getFuelPower());
         ((FireBlock) Blocks.FIRE).registerFlammableBlock(this, this.getFlammability(), this.getFireSpread());
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(this, this.getCompostChance());
@@ -136,6 +140,15 @@ public class CustomBlock extends Block implements Identifiable {
 
     public float getCompostChance() {
         return compostChance;
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack stack, boolean dropExperience) {
+        super.onStacksDropped(state, world, pos, stack, dropExperience);
+        if (dropExperience) {
+            dropExperienceWhenMined(world, pos, stack, ConstantIntProvider.create(droppedXp));
+        }
     }
 
     @Override

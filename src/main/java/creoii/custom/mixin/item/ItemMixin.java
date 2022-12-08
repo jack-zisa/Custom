@@ -4,8 +4,8 @@ import creoii.custom.util.Constants;
 import creoii.custom.util.tags.ItemTags;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,7 +31,7 @@ public abstract class ItemMixin {
     @Inject(method = "getMaxUseTime", at = @At(value = "RETURN", ordinal = 0), cancellable = true)
     private void custom_applyFoodEatingSpeeds(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         if (stack.getItem().isFood()) {
-            Identifier identifier = Registry.ITEM.getId(stack.getItem());
+            Identifier identifier = Registries.ITEM.getId(stack.getItem());
             if (Constants.FOOD_EATING_SPEEDS.containsKey(identifier)) {
                 cir.setReturnValue(Constants.FOOD_EATING_SPEEDS.get(identifier));
             }

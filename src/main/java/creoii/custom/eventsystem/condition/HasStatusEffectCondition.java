@@ -7,8 +7,8 @@ import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class HasStatusEffectCondition extends Condition {
     @Override
     public HasStatusEffectCondition getFromJson(JsonObject object) {
         HasStatusEffectCondition condition = new HasStatusEffectCondition();
-        condition.statusEffect = Registry.STATUS_EFFECT.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"effect", "status_effect"})));
+        condition.statusEffect = Registries.STATUS_EFFECT.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"effect", "status_effect"})));
         return condition;
     }
 

@@ -6,9 +6,9 @@ import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class HoldingItemCondition extends Condition {
     @Override
     public HoldingItemCondition getFromJson(JsonObject object) {
         HoldingItemCondition condition = new HoldingItemCondition();
-        condition.item = Registry.ITEM.get(Identifier.tryParse(object.get("item").getAsString()));
+        condition.item = Registries.ITEM.get(Identifier.tryParse(object.get("item").getAsString()));
         condition.hand = Hand.valueOf(object.get("hand").getAsString().toUpperCase());
         return condition;
     }

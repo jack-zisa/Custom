@@ -8,10 +8,10 @@ import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
 import creoii.custom.util.json.CustomJsonHelper;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
@@ -32,14 +32,14 @@ public class EmitGameEventEffect extends AbstractEffect {
                 if (element.isJsonObject()) {
                     JsonObject elementObj = element.getAsJsonObject();
                     entries[i] = new GameEventEntry(
-                            Registry.GAME_EVENT.get(Identifier.tryParse(JsonHelper.getString(elementObj, "game_event"))),
+                            Registries.GAME_EVENT.get(Identifier.tryParse(JsonHelper.getString(elementObj, "game_event"))),
                             CustomJsonHelper.getBlockPos(element, "offset")
                     );
                 }
             }
             effect.entries = entries;
         } else {
-            effect.gameEvent = Registry.GAME_EVENT.get(Identifier.tryParse(JsonHelper.getString(object, "game_event")));
+            effect.gameEvent = Registries.GAME_EVENT.get(Identifier.tryParse(JsonHelper.getString(object, "game_event")));
             effect.offset = CustomJsonHelper.getBlockPos(object, "offset");
         }
         return effect;

@@ -6,20 +6,18 @@ import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
 import creoii.custom.util.json.CustomJsonHelper;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public class GenerateFeatureEffect extends AbstractEffect {
-    private Supplier<RegistryEntry<ConfiguredFeature<?, ?>>> configuredFeature;
+    private Identifier configuredFeatureId;
     private BlockPos offset;
     private boolean removeBlock;
 
@@ -30,7 +28,7 @@ public class GenerateFeatureEffect extends AbstractEffect {
 
     public AbstractEffect getFromJson(JsonObject object) {
         GenerateFeatureEffect effect = new GenerateFeatureEffect();
-        effect.configuredFeature = () -> RegistryEntry.of(BuiltinRegistries.CONFIGURED_FEATURE.get(Identifier.tryParse(object.get("feature").getAsString())));
+        effect.configuredFeatureId = Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"feature", "feature_id"}));
         effect.offset = CustomJsonHelper.getBlockPos(object, "offset");
         effect.removeBlock = JsonHelper.getBoolean(object, "remove_block", true);
         return effect;
@@ -42,9 +40,12 @@ public class GenerateFeatureEffect extends AbstractEffect {
             World world = worldParameter.getWorld();
             BlockPosParameter blockPosParameter = (BlockPosParameter) EventParameter.find(parameters, getModifications(), EventParameters.BLOCK_POS);
             if (blockPosParameter != null) {
-                if (!world.isClient && configuredFeature.get().hasKeyAndValue()) {
-                    if (removeBlock) world.removeBlock(blockPosParameter.getPos(), false);
-                    configuredFeature.get().value().generate((ServerWorld) world, ((ServerWorld) world).getChunkManager().getChunkGenerator(), world.getRandom(), blockPosParameter.getPos().add(offset));
+                if (!world.isClient) {
+                    ConfiguredFeature<?, ?> feature = world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE).get(configuredFeatureId);
+                    if (feature != null) {
+                        if (removeBlock) world.removeBlock(blockPosParameter.getPos(), false);
+                        feature.generate((ServerWorld) world, ((ServerWorld) world).getChunkManager().getChunkGenerator(), world.getRandom(), blockPosParameter.getPos().add(offset));
+                    }
                 }
             }
         }

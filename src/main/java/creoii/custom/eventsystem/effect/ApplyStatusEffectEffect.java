@@ -11,10 +11,10 @@ import creoii.custom.util.json.CustomJsonHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.intprovider.IntProvider;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class ApplyStatusEffectEffect extends AbstractEffect {
                 if (element.isJsonObject()) {
                     JsonObject elementObj = element.getAsJsonObject();
                     entries[i] = new StatusEffectEntry(
-                            Registry.STATUS_EFFECT.get(Identifier.tryParse(CustomJsonHelper.getString(elementObj, new String[]{"status_effect", "effect"}))),
+                            Registries.STATUS_EFFECT.get(Identifier.tryParse(CustomJsonHelper.getString(elementObj, new String[]{"status_effect", "effect"}))),
                             CustomJsonHelper.getIntProvider(elementObj, "amplifier", 0),
                             CustomJsonHelper.getIntProvider(elementObj, "duration", 0),
                             JsonHelper.getBoolean(elementObj, "ambient", false),
@@ -54,7 +54,7 @@ public class ApplyStatusEffectEffect extends AbstractEffect {
             }
             effect.entries = entries;
         } else {
-            effect.statusEffect = Registry.STATUS_EFFECT.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"status_effect", "effect"})));
+            effect.statusEffect = Registries.STATUS_EFFECT.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"status_effect", "effect"})));
             effect.amplifier = CustomJsonHelper.getIntProvider(object, "amplifier", 0);
             effect.duration = CustomJsonHelper.getIntProvider(object, "duration", 0);
             effect.ambient = JsonHelper.getBoolean(object, "ambient", false);

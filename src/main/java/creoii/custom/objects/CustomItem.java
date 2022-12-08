@@ -9,10 +9,11 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +31,7 @@ public class CustomItem extends Item implements Identifiable {
         this.identifier = identifier;
         this.tooltipText = tooltipText;
 
-        Registry.register(Registry.ITEM, identifier, this);
+        Registry.register(Registries.ITEM, identifier, this);
     }
 
     public CustomItem setFood(FoodComponent food) {

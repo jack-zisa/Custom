@@ -6,9 +6,9 @@ import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
 import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class SetBlockEffect extends AbstractEffect {
 
     public SetBlockEffect getFromJson(JsonObject object) {
         SetBlockEffect effect = new SetBlockEffect();
-        effect.block = Registry.BLOCK.get(Identifier.tryParse(JsonHelper.getString(object, "block")));
+        effect.block = Registries.BLOCK.get(Identifier.tryParse(JsonHelper.getString(object, "block")));
         effect.flags = JsonHelper.getInt(object, "flags", 3);
         return effect;
     }

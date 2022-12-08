@@ -11,9 +11,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
@@ -35,7 +36,7 @@ public class CustomStatusEffect extends StatusEffect implements Identifiable {
         }
         this.events = events;
 
-        Registry.register(Registry.STATUS_EFFECT, identifier, this);
+        Registry.register(Registries.STATUS_EFFECT, identifier, this);
     }
 
     @Override

@@ -8,13 +8,13 @@ import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
 import creoii.custom.util.json.CustomJsonHelper;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.floatprovider.FloatProvider;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class PlaySoundEffect extends AbstractEffect {
                 if (element.isJsonObject()) {
                     JsonObject entryObj = element.getAsJsonObject();
                     entries[i] = new SoundEntry(
-                            Registry.SOUND_EVENT.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"sound", "sound_event"}))),
+                            Registries.SOUND_EVENT.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"sound", "sound_event"}))),
                             SoundCategory.valueOf(JsonHelper.getString(object, "category")),
                             CustomJsonHelper.getFloatProvider(entryObj, "volume", 0f),
                             CustomJsonHelper.getFloatProvider(entryObj, "pitch", 0f)
@@ -50,7 +50,7 @@ public class PlaySoundEffect extends AbstractEffect {
             }
             effect.entries = entries;
         } else {
-            effect.soundEvent = Registry.SOUND_EVENT.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"sound", "sound_event"})));
+            effect.soundEvent = Registries.SOUND_EVENT.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"sound", "sound_event"})));
             effect.soundCategory = SoundCategory.valueOf(JsonHelper.getString(object, "category"));
             effect.volume = CustomJsonHelper.getFloatProvider(object, "volume", 0f);
             effect.pitch = CustomJsonHelper.getFloatProvider(object, "pitch", 0f);

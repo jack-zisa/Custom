@@ -2,8 +2,8 @@ package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class EnchantmentParameter implements EventParameter {
     private String name;
@@ -30,7 +30,7 @@ public class EnchantmentParameter implements EventParameter {
 
     @Override
     public EventParameter getFromJson(JsonObject object, String name) {
-        this.enchantment = Registry.ENCHANTMENT.get(Identifier.tryParse(object.get(name).getAsString()));
+        this.enchantment = Registries.ENCHANTMENT.get(Identifier.tryParse(object.get(name).getAsString()));
         return this;
     }
 

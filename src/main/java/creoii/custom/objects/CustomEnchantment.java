@@ -6,9 +6,10 @@ import creoii.custom.loaders.Identifiable;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class CustomEnchantment extends Enchantment implements Identifiable {
         this.minLevel = minLevel;
         this.blacklist = blacklist;
 
-        Registry.register(Registry.ENCHANTMENT, identifier, this);
+        Registry.register(Registries.ENCHANTMENT, identifier, this);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class CustomEnchantment extends Enchantment implements Identifiable {
     @Override
     protected boolean canAccept(Enchantment other) {
         for (Identifier id : blacklist) {
-            if (Registry.ENCHANTMENT.get(id) == other) {
+            if (Registries.ENCHANTMENT.get(id) == other) {
                 return false;
             }
         }

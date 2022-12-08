@@ -2,8 +2,6 @@ package creoii.custom.objects;
 
 import com.google.gson.*;
 import creoii.custom.loaders.Identifiable;
-import net.fabricmc.fabric.impl.item.group.ItemGroupExtensions;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
@@ -23,23 +21,6 @@ public class CustomItemGroup implements Identifiable {
         this.icon = icon;
         this.hasScrollbar = hasScrollbar;
         this.renderName = renderName;
-        ((ItemGroupExtensions) ItemGroup.BUILDING_BLOCKS).fabric_expandArray();
-        new ItemGroup(ItemGroup.GROUPS.length - 1, String.format("%s.%s", identifier.getNamespace(), identifier.getPath())) {
-            @Override
-            public ItemStack createIcon() {
-                return icon;
-            }
-
-            @Override
-            public boolean shouldRenderName() {
-                return renderName;
-            }
-
-            @Override
-            public boolean hasScrollbar() {
-                return hasScrollbar;
-            }
-        };
     }
 
     @Override

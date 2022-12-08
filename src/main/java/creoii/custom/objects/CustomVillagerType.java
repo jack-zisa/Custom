@@ -2,10 +2,11 @@ package creoii.custom.objects;
 
 import com.google.gson.*;
 import creoii.custom.loaders.Identifiable;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.BuiltinRegistries;
+import net.minecraft.registry.Registry;
 import net.minecraft.village.VillagerType;
 import net.minecraft.world.biome.Biome;
 
@@ -20,7 +21,7 @@ public class CustomVillagerType extends VillagerType implements Identifiable {
         this.identifier = identifier;
         this.biomes = biomes;
 
-        Registry.register(Registry.VILLAGER_TYPE, identifier, this);
+        Registry.register(Registries.VILLAGER_TYPE, identifier, this);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class CustomVillagerType extends VillagerType implements Identifiable {
                 biomes = new Biome[array.size()];
                 for (int i = 0; i < array.size(); ++i) {
                     if (array.get(i).isJsonPrimitive()) {
-                        biomes[i] = BuiltinRegistries.BIOME.get(Identifier.tryParse(array.get(i).getAsString()));
+                        //biomes[i] = BuiltinRegistries.BIOME.get(Identifier.tryParse(array.get(i).getAsString()));
                     }
                 }
             } else biomes = new Biome[0];

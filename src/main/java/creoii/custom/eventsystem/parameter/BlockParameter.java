@@ -2,8 +2,8 @@ package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class BlockParameter implements EventParameter {
     private String name = "block";
@@ -30,7 +30,7 @@ public class BlockParameter implements EventParameter {
 
     @Override
     public EventParameter getFromJson(JsonObject object, String name) {
-        block = Registry.BLOCK.get(Identifier.tryParse(object.get(name).getAsString()));
+        block = Registries.BLOCK.get(Identifier.tryParse(object.get(name).getAsString()));
         return this;
     }
 

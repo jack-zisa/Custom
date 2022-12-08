@@ -13,12 +13,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.IntProvider;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class DropItemEffect extends AbstractEffect {
                 if (element.isJsonObject()) {
                     JsonObject entryObj = element.getAsJsonObject();
                     entries[i] = new DropEntry(
-                            Registry.ITEM.get(Identifier.tryParse(JsonHelper.getString(entryObj, "item"))),
+                            Registries.ITEM.get(Identifier.tryParse(JsonHelper.getString(entryObj, "item"))),
                             CustomJsonHelper.getIntProvider(entryObj, new String[]{"count", "amount"}, 1),
                             CustomJsonHelper.getDoubleProvider(entryObj, "pos_offset", .25d),
                             CustomJsonHelper.getDoubleProvider(entryObj, "scatter_amount", .1d)
@@ -53,7 +53,7 @@ public class DropItemEffect extends AbstractEffect {
             }
             effect.entries = entries;
         } else {
-            effect.item = Registry.ITEM.get(Identifier.tryParse(JsonHelper.getString(object, "item")));
+            effect.item = Registries.ITEM.get(Identifier.tryParse(JsonHelper.getString(object, "item")));
             effect.count = CustomJsonHelper.getIntProvider(object, new String[]{"count", "amount"}, 1);
             effect.posOffset = CustomJsonHelper.getDoubleProvider(object, "pos_offset", .25d);
             effect.scatterAmount = CustomJsonHelper.getDoubleProvider(object, "scatter_amount", .1d);
@@ -73,12 +73,13 @@ public class DropItemEffect extends AbstractEffect {
             BlockPosParameter blockPosParameter = (BlockPosParameter) EventParameter.find(parameters, getModifications(), EventParameters.BLOCK_POS);
             if (blockPosParameter != null) {
                 World world = worldParameter.getWorld();
+                BlockPos pos = blockPosParameter.getPos();
                 int count;
                 if (entries != null) {
                     for (DropEntry entry : entries) {
                         count = entry.count.get(world.getRandom());
                         if (count > 0) {
-                            dropItem(world, blockPosParameter.getPos(), new ItemStack(
+                            dropItem(world, pos, new ItemStack(
                                             entry.item,
                                             count),
                                     entry.posOffset.get(world.getRandom()),
@@ -89,7 +90,7 @@ public class DropItemEffect extends AbstractEffect {
                 } else {
                     count = this.count.get(world.getRandom());
                     if (count > 0) {
-                        dropItem(world, blockPosParameter.getPos(), new ItemStack(
+                        dropItem(world, pos, new ItemStack(
                                         item,
                                         count),
                                 posOffset.get(world.getRandom()),
@@ -101,7 +102,7 @@ public class DropItemEffect extends AbstractEffect {
         }
     }
 
-    private static void dropItem(World world, BlockPos pos, ItemStack stack, double posOffset, double scatterAmount) {
+    public static void dropItem(World world, BlockPos pos, ItemStack stack, double posOffset, double scatterAmount) {
         if (!world.isClient && !stack.isEmpty()) {
             float h = EntityType.ITEM.getHeight() / 2f;
             float w = EntityType.ITEM.getWidth() / 2f;

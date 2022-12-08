@@ -5,8 +5,8 @@ import com.google.gson.JsonParseException;
 import creoii.custom.Custom;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.loaders.Identifiable;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

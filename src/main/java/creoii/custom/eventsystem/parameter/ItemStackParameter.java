@@ -2,8 +2,8 @@ package creoii.custom.eventsystem.parameter;
 
 import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ItemStackParameter implements EventParameter {
     private String name;
@@ -30,7 +30,7 @@ public class ItemStackParameter implements EventParameter {
 
     @Override
     public ItemStackParameter getFromJson(JsonObject object, String name) {
-        stack = Registry.ITEM.get(Identifier.tryParse(object.get(name).getAsString())).getDefaultStack();
+        stack = Registries.ITEM.get(Identifier.tryParse(object.get(name).getAsString())).getDefaultStack();
         return this;
     }
 

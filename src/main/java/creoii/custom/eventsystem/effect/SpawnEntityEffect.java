@@ -3,20 +3,24 @@ package creoii.custom.eventsystem.effect;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import creoii.custom.eventsystem.parameter.BlockPosParameter;
 import creoii.custom.eventsystem.parameter.EventParameter;
 import creoii.custom.eventsystem.parameter.EventParameters;
 import creoii.custom.eventsystem.parameter.WorldParameter;
 import creoii.custom.util.json.CustomJsonHelper;
+import net.minecraft.command.argument.NbtCompoundArgumentType;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.IntProvider;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,11 +29,11 @@ import java.util.List;
 public class SpawnEntityEffect extends AbstractEffect {
     private SpawnEntry[] entries;
     private EntityType<?> entityType;
-    @Nullable private Text name;
     private SpawnReason reason;
     private boolean alignPosition;
     private BlockPos offset;
     private IntProvider count;
+    private String nbt;
 
     @Override
     public List<EventParameter> getRequiredParameters() {
@@ -46,23 +50,23 @@ public class SpawnEntityEffect extends AbstractEffect {
                 if (element.isJsonObject()) {
                     JsonObject entryObj = element.getAsJsonObject();
                     entries[i] = new SpawnEntry(
-                            Registry.ENTITY_TYPE.get(Identifier.tryParse(JsonHelper.getString(entryObj, "entity_type"))),
+                            Registries.ENTITY_TYPE.get(Identifier.tryParse(JsonHelper.getString(entryObj, "entity_type"))),
                             CustomJsonHelper.getBlockPos(entryObj, "offset"),
-                            CustomJsonHelper.getText(entryObj.get("name")),
                             CustomJsonHelper.getBoolean(entryObj, new String[]{"align", "align_position"}, false),
                             SpawnReason.valueOf(CustomJsonHelper.getString(entryObj, new String[]{"reason", "spawn_reason"}, "NATURAL")),
-                            CustomJsonHelper.getIntProvider(entryObj, new String[]{"count", "amount"}, 1)
+                            CustomJsonHelper.getIntProvider(entryObj, new String[]{"count", "amount"}, 1),
+                            entryObj.get("nbt").getAsString()
                     );
                 }
             }
             effect.entries = entries;
         } else {
-            effect.entityType = Registry.ENTITY_TYPE.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"entity", "entity_type"})));
-            effect.name = CustomJsonHelper.getText(object.get("text"));
+            effect.entityType = Registries.ENTITY_TYPE.get(Identifier.tryParse(CustomJsonHelper.getString(object, new String[]{"entity", "entity_type"})));
             effect.reason = SpawnReason.valueOf(CustomJsonHelper.getString(object, new String[]{"reason", "spawn_reason"}, "NATURAL"));
             effect.alignPosition = CustomJsonHelper.getBoolean(object, new String[]{"align", "align_position"}, false);
             effect.offset = CustomJsonHelper.getBlockPos(object, "offset");
             effect.count = CustomJsonHelper.getIntProvider(object, new String[]{"count", "amount"}, 1);
+            effect.nbt = object.get("nbt").getAsString();
         }
         return effect;
     }
@@ -77,13 +81,37 @@ public class SpawnEntityEffect extends AbstractEffect {
                 if (blockPosParameter != null) {
                     if (entries != null) {
                         for (SpawnEntry entry : entries) {
+                            NbtCompound nbt = null;
+                            if (entry.nbt != null) {
+                                try {
+                                    nbt = NbtCompoundArgumentType.nbtCompound().parse(new StringReader(entry.nbt));
+                                } catch (CommandSyntaxException ignored) {}
+                            }
+                            Entity entity;
                             for (int i = 0; i < entry.count.get(world.getRandom()); ++i) {
-                                world.spawnEntity(entry.entityType.create((ServerWorld) world, null, entry.name, null, blockPosParameter.getPos().add(entry.offset), entry.reason, entry.align, false));
+                                entity = entry.entityType.create((ServerWorld) world, null, null, blockPosParameter.getPos().add(entry.offset), entry.reason, entry.align, false);
+                                if (entity != null) {
+                                    if (nbt != null) entity.writeNbt(nbt);
+                                    world.spawnEntity(entity);
+                                }
                             }
                         }
                     } else {
+                        NbtCompound nbt = null;
+                        if (this.nbt != null) {
+                            try {
+                                nbt = NbtCompoundArgumentType.nbtCompound().parse(new StringReader(this.nbt));
+                            } catch (CommandSyntaxException ignored) {}
+                        }
+                        Entity entity;
                         for (int i = 0; i < count.get(world.getRandom()); ++i) {
-                            world.spawnEntity(entityType.create((ServerWorld) world, null, name, null, blockPosParameter.getPos().add(offset), reason, alignPosition, false));
+                            entity = entityType.create((ServerWorld) world, null, null, blockPosParameter.getPos().add(offset), reason, alignPosition, false);
+                            if (entity != null) {
+                                if (nbt != null) {
+                                    entity.writeNbt(nbt);
+                                }
+                                world.spawnEntity(entity);
+                            }
                         }
                     }
                 }
@@ -91,5 +119,5 @@ public class SpawnEntityEffect extends AbstractEffect {
         }
     }
 
-    public static record SpawnEntry(EntityType<?> entityType, BlockPos offset, Text name, boolean align, SpawnReason reason, IntProvider count) {}
+    public static record SpawnEntry(EntityType<?> entityType, BlockPos offset, boolean align, SpawnReason reason, IntProvider count, @Nullable String nbt) {}
 }

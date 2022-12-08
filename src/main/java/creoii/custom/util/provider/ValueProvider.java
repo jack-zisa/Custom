@@ -6,7 +6,7 @@ import creoii.custom.util.provider.function.DoubleFunction;
 import creoii.custom.util.provider.function.SingleFunction;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 public abstract class ValueProvider<T> {
     public static ValueProvider<?> getFromJson(JsonObject object, String name) {

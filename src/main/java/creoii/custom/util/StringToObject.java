@@ -9,16 +9,17 @@ import net.minecraft.block.Material;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 
 public class StringToObject {
     public static Block block(String str) {
-        return Registry.BLOCK.get(Identifier.tryParse(str));
+        return Registries.BLOCK.get(Identifier.tryParse(str));
     }
 
     public static Material material(String str) {
@@ -250,10 +251,10 @@ public class StringToObject {
     }
 
     public static ItemGroup itemGroup(String str) {
-        for (ItemGroup group : ItemGroup.GROUPS) {
-            if (str.equals(group.getName())) return group;
+        for (ItemGroup group : ItemGroups.GROUPS) {
+            if (str.equals(group.getDisplayName().getString())) return group;
         }
-        return ItemGroup.SEARCH;
+        return ItemGroups.SEARCH;
     }
 
     public static SoundEvent equipSoundEvent(String str) {
@@ -290,14 +291,11 @@ public class StringToObject {
     public static DamageSource damageSource(String str) {
         return switch (str) {
             case "all" -> DamageSource.FALL;
-            case "anvil" -> DamageSource.ANVIL;
             case "cactus" -> DamageSource.CACTUS;
             case "cramming" -> DamageSource.CRAMMING;
             case "dragon_breath" -> DamageSource.DRAGON_BREATH;
             case "drown" -> DamageSource.DROWN;
             case "dryout" -> DamageSource.DRYOUT;
-            case "falling_block" -> DamageSource.FALLING_BLOCK;
-            case "falling_stalactite" -> DamageSource.FALLING_STALACTITE;
             case "fly_into_wall" -> DamageSource.FLY_INTO_WALL;
             case "freeze" -> DamageSource.FREEZE;
             case "generic" -> DamageSource.GENERIC;

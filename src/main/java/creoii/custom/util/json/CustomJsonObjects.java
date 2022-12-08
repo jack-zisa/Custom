@@ -4,10 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-import net.minecraft.util.registry.Registry;
 
 public class CustomJsonObjects {
     public record AttributeModifier(EntityAttribute attribute, EntityAttributeModifier modifier, double amount) {
@@ -16,7 +16,7 @@ public class CustomJsonObjects {
             double amount = JsonHelper.getDouble(object, "amount", 0d);
             EntityAttributeModifier.Operation operation = EntityAttributeModifier.Operation.valueOf(JsonHelper.getString(object, "operation", EntityAttributeModifier.Operation.ADDITION.name()));
             EntityAttributeModifier modifier = new EntityAttributeModifier(name, amount, operation);
-            EntityAttribute attribute = Registry.ATTRIBUTE.get(Identifier.tryParse(JsonHelper.getString(object, "attribute")));
+            EntityAttribute attribute = Registries.ATTRIBUTE.get(Identifier.tryParse(JsonHelper.getString(object, "attribute")));
             return new AttributeModifier(attribute, modifier, amount);
         }
     }
